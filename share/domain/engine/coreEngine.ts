@@ -55,13 +55,19 @@ async function evalMethod(
   } else if (method instanceof RenderElementMethod) {
     await registerElement(method.element, coreEngine);
   } else if (method instanceof UpdateElementMethod) {
-    await registerElement(method.element, coreEngine);
-    coreEngine.dispatch(
-      actions.replaceElement({
-        oldId: method.id,
-        id: method.element.id,
-      })
-    );
+    await coreEngine.dispatch(async (__, getState) => {
+      const parentElement = selectors.getParentElement(getState(), method.id);
+
+      await registerElement(method.element, coreEngine);
+
+      coreEngine.dispatch(
+        actions.replaceElement({
+          parentId: parentElement.id,
+          oldId: method.id,
+          id: method.element.id,
+        })
+      );
+    });
   } else if (method instanceof UpdateInListElementMethod) {
     await Promise.all(
       method.elements.map((element) => registerElement(element, coreEngine))

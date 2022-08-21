@@ -5,7 +5,6 @@ import produce, {
   enablePatches,
   setAutoFreeze,
 } from "immer";
-import * as _ from "lodash";
 import { DefaultRootState } from "react-redux";
 import actionCreatorFactory from "typescript-fsa";
 import { reducerWithInitialState } from "typescript-fsa-reducers";
@@ -16,6 +15,7 @@ import {
   ElementState,
   HttpMethod,
   Id,
+  Node,
   StateHolderElement,
 } from "../interfaces";
 import { engineDispatch } from "./coreEngine";
@@ -25,14 +25,8 @@ enableMapSet();
 enablePatches();
 setAutoFreeze(false);
 
-export interface Container {
-  parent?: Id;
-  element?: Element;
-  childs?: Id[];
-}
-
 export type State = {
-  [key: Id]: Container;
+  [key: Id]: Node;
 };
 
 export const mountPoint = "templateEngine";
@@ -40,13 +34,28 @@ export const mountPoint = "templateEngine";
 export const selectors = {
   getState: (state: DefaultRootState): State => state[mountPoint],
   getElement: (state: DefaultRootState, id: Id): Element | undefined => {
-    const node = state[mountPoint][id];
+    const node: Node = state[mountPoint][id];
 
-    if (!node) {
-      throw new Error(`Cannot find state for ${id}`);
+    if (node === undefined) {
+      throw new Error(`Cannot find element with ${id}`);
     }
 
     return node.element;
+  },
+  getParentElement: (state: DefaultRootState, id: Id): Element | undefined => {
+    const childNode: Node = state[mountPoint][id];
+
+    if (childNode === undefined) {
+      throw new Error(`Cannot find element with ${id}`);
+    }
+
+    const parentNode: Node = state[mountPoint][childNode.parent];
+
+    if (parentNode === undefined) {
+      throw new Error(`Cannot find parent element of ${id}`);
+    }
+
+    return parentNode.element;
   },
   getElementState: <T extends ElementState<any>>(
     state: DefaultRootState,
@@ -96,6 +105,7 @@ export const actions = {
     ActionType.REGISTER_PARENT
   ),
   replaceElement: actionCreator<{
+    parentId: Id;
     oldId: Id;
     id: Id;
   }>(ActionType.REPLACE_ELEMENT),
@@ -109,60 +119,26 @@ export const actions = {
   }>(ActionType.UPDATE_STATE_ELEMENT),
 };
 
-function replaceElement(
-  oldId: string,
-  element: Element,
-  parentElement: Element
-): void {
-  for (const [key, value] of Object.entries(parentElement)) {
-    if (value instanceof Element && value.id === oldId) {
-      parentElement[key] = element;
-      return;
-    } else if (_.isArray(value)) {
-      for (let index = 0, len = value.length; index < len; index++) {
-        if (value[index] instanceof Element && value[index].id === oldId) {
-          value[index] = element;
-          return;
-        }
-      }
-    }
-  }
-}
-
-function replaceElementInList(
-  oldId: string,
-  elements: Element[],
-  parentElement: Element
-): void {
-  for (const value of Object.values(parentElement)) {
-    if (_.isArray(value)) {
-      for (let index = 0, len = value.length; index < len; index++) {
-        if (value[index] instanceof Element && value[index].id === oldId) {
-          value.splice(index, 1, ...elements);
-
-          return;
-        }
-      }
-    }
-  }
-}
-
-const EMPTY_ARRAY = [];
-
-function getChilds(state: State, id: Id): Id[] {
-  return state[id].childs !== undefined ? state[id].childs : EMPTY_ARRAY;
-}
-
 function deleteAllChildElements(state: State, id: Id): void {
-  if (!(id in state)) {
+  const childs = state[id]?.childs;
+
+  if (childs === undefined) {
     return;
   }
 
-  for (const child of getChilds(state, id)) {
+  for (const child of childs) {
     deleteAllChildElements(state, child);
   }
 
   delete state[id];
+}
+
+function createNodeIfNotExist(state: State, id: Id) {
+  if (id in state) {
+    return;
+  }
+
+  state[id] = new Node();
 }
 
 export const reducer = reducerWithInitialState<State>({})
@@ -170,28 +146,25 @@ export const reducer = reducerWithInitialState<State>({})
     produce(state, (draft) => {
       const element = action.element;
 
-      if (!(element.id in draft)) {
-        draft[element.id] = {};
-      }
+      createNodeIfNotExist(draft, element.id);
 
       draft[element.id].element = element;
 
-      const parentId = draft[element.id].parent;
+      const parentNode = draft[draft[element.id]?.parent];
 
-      if (parentId === undefined) {
+      if (parentNode === undefined) {
         return;
       }
 
-      const parentElement = draft[parentId].element;
-
-      replaceElement(
+      // do inplace update and convert the current child interface to element interface
+      parentNode.replaceChildElement(
         element.id,
         Element.builder()
           .id(element.id)
           .interfaceName(element.interfaceName)
-          .build(),
-        parentElement
+          .build()
       );
+      draft[element.id].removeAllChild();
     })
   )
   .case(actions.delElement, (state, action) =>
@@ -204,13 +177,13 @@ export const reducer = reducerWithInitialState<State>({})
         let pointer = draft[id];
 
         while (pointer.parent !== undefined) {
-          const currentId = id;
+          const childId = id;
 
           id = pointer.parent;
           pointer = draft[id];
 
-          if (!_.find(getChilds(draft, id), (child) => child === currentId)) {
-            deleteAllChildElements(draft, currentId);
+          if (!pointer.hasChild(childId)) {
+            deleteAllChildElements(draft, childId);
             return;
           }
         }
@@ -223,98 +196,75 @@ export const reducer = reducerWithInitialState<State>({})
   )
   .case(actions.registerParent, (state, action) =>
     produce(state, (draft) => {
-      if (!(action.parentId in draft)) {
-        draft[action.parentId] = {};
-      }
-
-      draft[action.parentId].childs = [];
+      createNodeIfNotExist(draft, action.parentId);
 
       for (const id of action.ids) {
-        if (
-          !_.find(getChilds(draft, action.parentId), (child) => child === id)
-        ) {
-          if (draft[action.parentId].childs === undefined) {
-            draft[action.parentId].childs = [];
-          }
+        if (!draft[action.parentId].hasChild(id)) {
+          createNodeIfNotExist(draft, id);
 
-          draft[action.parentId].childs.push(id);
-
-          if (!(id in draft)) {
-            draft[id] = {};
-          }
-
-          draft[id].parent = action.parentId;
+          draft[id].setParent(action.parentId);
+          draft[action.parentId].addChild(id);
         }
       }
     })
   )
   .case(actions.replaceElement, (state, action) =>
     produce(state, (draft) => {
-      const parentId = draft[action.oldId].parent;
+      const oldNode = draft[action.oldId];
+      const parentNode = draft[action.parentId];
 
-      if (parentId === undefined) {
+      if (parentNode === undefined) {
         return;
       }
 
-      const parentElement = draft[parentId].element;
-      const newElement = draft[action.id].element;
+      const newNode = draft[action.id];
 
-      replaceElement(
+      if (oldNode.parent === parentNode.element.id) {
+        oldNode.setParent(undefined);
+      }
+      newNode.setParent(parentNode.element.id);
+
+      parentNode.replaceChildElement(
         action.oldId,
         Element.builder()
-          .id(newElement.id)
-          .interfaceName(newElement.interfaceName)
-          .build(),
-        parentElement
+          .id(newNode.element.id)
+          .interfaceName(newNode.element.interfaceName)
+          .build()
       );
-
-      draft[action.oldId].parent = undefined;
-
-      const childs = getChilds(state, parentId);
-      if (childs.length > 0) {
-        draft[parentId].childs = childs.filter(
-          (child) => child !== action.oldId
-        );
-      }
-
-      draft[action.id].parent = parentId;
-      draft[parentId].childs.push(action.id);
+      parentNode.removeChild(action.oldId);
+      parentNode.addChild(newNode.element.id);
     })
   )
   .case(actions.replaceElementInList, (state, action) =>
     produce(state, (draft) => {
-      const parentId = draft[action.oldId].parent;
+      const oldNode = draft[action.oldId];
+      const parentNode = draft[oldNode?.parent];
 
-      if (parentId === undefined) {
+      if (parentNode === undefined) {
         return;
       }
 
-      const parentElement = draft[parentId].element;
-      const newElements = action.ids.map((id) => draft[id].element);
+      const newNodes = action.ids.map((id) => draft[id]);
 
-      replaceElementInList(
-        action.oldId,
-        newElements.map((newElement) =>
-          Element.builder()
-            .id(newElement.id)
-            .interfaceName(newElement.interfaceName)
-            .build()
-        ),
-        parentElement
-      );
-
-      draft[action.oldId].parent = undefined;
-
-      const childs = getChilds(state, parentId);
-      if (childs.length > 0) {
-        draft[parentId].childs = childs.filter(
-          (child) => child !== action.oldId
-        );
+      if (oldNode.parent === parentNode.element.id) {
+        oldNode.setParent(undefined);
       }
 
-      for (const id of action.ids) {
-        draft[id].parent = parentId;
-        draft[parentId].childs.push(id);
+      parentNode.replaceChildElementInList(
+        action.oldId,
+        newNodes.map((newNode) =>
+          Element.builder()
+            .id(newNode.element.id)
+            .interfaceName(newNode.element.interfaceName)
+            .build()
+        )
+      );
+
+      parentNode.removeChild(action.oldId);
+
+      for (const newNode of newNodes) {
+        parentNode.addChild(newNode.element.id);
+        newNode.setParent(parentNode.element.id);
       }
     })
   )

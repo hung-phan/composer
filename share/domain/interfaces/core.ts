@@ -1,5 +1,7 @@
-import { Builder, IBuilder } from "builder-pattern";
+import _ from "lodash";
 import { immerable } from "immer";
+import { Builder, IBuilder } from "builder-pattern";
+
 import getNewId from "../../library/idGenerator";
 
 export abstract class Serializable {
@@ -39,6 +41,99 @@ export class Element extends Serializable {
 
   static builder(): IBuilder<Element> {
     return Builder(Element);
+  }
+}
+
+export class Node extends Serializable {
+  interfaceName = "Node";
+
+  parent?: Id;
+  childs?: Id[];
+  element?: Element;
+
+  setParent(id?: Id): void {
+    if (id === undefined) {
+      delete this.parent;
+      return;
+    }
+
+    this.parent = id;
+  }
+
+  hasChild(id: Id): boolean {
+    if (this.childs === undefined) {
+      return false;
+    }
+
+    return this.childs.find(child => child === id) !== undefined;
+  }
+
+  addChild(id: Id): void {
+    if (this.childs === undefined) {
+      this.childs = [];
+    }
+
+    this.childs.push(id);
+  }
+
+  removeChild(id: Id): void {
+    if (this.childs === undefined) {
+      return;
+    }
+
+    const childIndex = this.childs.findIndex(child => child === id);
+
+    if (childIndex === -1) {
+      return;
+    }
+
+    this.childs.splice(childIndex, 1);
+
+    if (this.childs.length === 0) {
+      delete this.childs;
+    }
+  }
+
+  removeAllChild(): void {
+    delete this.childs;
+  }
+
+  replaceChildElement(oldChildId: Id, childElement: Element) {
+    for (const [key, value] of Object.entries(this.element)) {
+      if (value instanceof Element && value.id === oldChildId) {
+        this.element[key] = childElement;
+        return;
+      } else if (_.isArray(value)) {
+        for (let index = 0, len = value.length; index < len; index++) {
+          if (value[index] instanceof Element && value[index].id === oldChildId) {
+            value[index] = childElement;
+            return;
+          }
+        }
+      }
+    }
+  }
+
+  replaceChildElementInList(oldChildId: Id, childElements: Element[]) {
+    for (const value of Object.values(this.element)) {
+      if (_.isArray(value)) {
+        for (let index = 0, len = value.length; index < len; index++) {
+          if (value[index] instanceof Element && value[index].id === oldChildId) {
+            value.splice(index, 1, ...childElements);
+
+            return;
+          }
+        }
+      }
+    }
+  }
+
+  static getInterfaceName() {
+    return this.builder().build().interfaceName;
+  }
+
+  static builder(): IBuilder<Method> {
+    return Builder(Method);
   }
 }
 

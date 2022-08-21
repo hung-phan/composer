@@ -18,7 +18,7 @@ import {
   reducer as templateEngineReducer,
 } from "./domain/engine/coreEngineStateStore";
 import { convertToClass, encode } from "./domain/engine/serializers";
-import { Element } from "./domain/interfaces";
+import { Element, Node } from "./domain/interfaces";
 
 export const middlewares = [
   thunkMiddleware as ThunkMiddleware<DefaultRootState, AnyAction>,
@@ -71,6 +71,7 @@ export const wrapper = createWrapper<Store<RootState>>(makeStore, {
 
     for (const [key, value] of Object.entries(templateEngineState)) {
       templateEngineState[key].element = convertToClass<Element>(value.element);
+      templateEngineState[key] = convertToClass<Node>(value);
     }
 
     return state;
