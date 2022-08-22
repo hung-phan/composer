@@ -61,10 +61,16 @@ export const selectors = {
     state: DefaultRootState,
     id: Id
   ): T | undefined => {
-    const element = state[mountPoint][id].element;
+    const node: Node = state[mountPoint][id];
+
+    if (node === undefined) {
+      throw new Error(`Cannot find element with ${id}`);
+    }
+
+    const element = node.element;
 
     if (element === undefined) {
-      return undefined;
+      throw new Error(`StateHolderElement is undefined for ${id}`);
     }
 
     if (!(element instanceof StateHolderElement)) {

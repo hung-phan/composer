@@ -12,7 +12,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     await (store.dispatch as ThunkDispatch<DefaultRootState, any, AnyAction>)(
       actions.callEndpoint.action(
         HttpMethod.builder()
-          .url("/api/skill/home/showHome")
+          .url("/api/skills/home/showHome")
           .requestType("GET")
           .build()
       )
