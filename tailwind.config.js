@@ -4,7 +4,6 @@ module.exports = {
   content: [
     "./pages/**/*.{tsx,ts}",
     "./share/elements/**/*.{tsx,ts}",
-    "./server/application/**/*.{tsx,ts}",
   ],
   theme: {
     extend: {},
