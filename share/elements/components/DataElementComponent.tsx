@@ -1,9 +1,9 @@
-import { DataElement } from "../../domain/interfaces";
-import { FuzzyComponentProps } from "../elementRegistry";
+import { EngineComponentProps } from "../registry";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
+import { DataElement } from "./widgets";
 
-export default function DataElementComponent(props: FuzzyComponentProps) {
+export default function DataElementComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, DataElement);
 
   useElementEvent(element);

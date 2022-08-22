@@ -1,12 +1,14 @@
-import { makeStore } from "../../store";
 import {
   ButtonElement,
   ImageElement,
   LayoutElement,
+  TextElement,
+} from "../../elements/components/widgets";
+import { makeStore } from "../../store";
+import {
   PlaceholderElement,
   RenderElementMethod,
   StateHolderElement,
-  TextElement,
   UpdateElementMethod,
   UpdateInListElementMethod,
 } from "../interfaces";

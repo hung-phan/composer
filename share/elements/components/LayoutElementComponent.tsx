@@ -1,10 +1,10 @@
-import { LayoutElement } from "../../domain/interfaces";
-import { FuzzyComponentProps } from "../elementRegistry";
+import { EngineComponentProps } from "../registry";
 import renderElementInterface from "../renderElementInterface";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
+import { LayoutElement } from "./widgets";
 
-export default function LayoutElementComponent(props: FuzzyComponentProps) {
+export default function LayoutElementComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, LayoutElement);
 
   useElementEvent(element);

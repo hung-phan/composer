@@ -4,13 +4,13 @@ import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { actions, engineDispatch } from "../../domain/engine";
-import { SelectElement, SelectElementState } from "../../domain/interfaces";
-import { FuzzyComponentProps } from "../elementRegistry";
+import { EngineComponentProps } from "../registry";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import useElementState from "../useElementState";
+import { SelectElement, SelectElementState } from "./widgets";
 
-export default function SelectElementComponent(props: FuzzyComponentProps) {
+export default function SelectElementComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, SelectElement);
 
   useElementEvent(element);

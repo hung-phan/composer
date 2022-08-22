@@ -1,16 +1,16 @@
-import { DefaultTemplate } from "../../domain/interfaces";
-import { FuzzyComponentProps } from "../elementRegistry";
+import { EngineComponentProps } from "../registry";
 import renderElementInterface from "../renderElementInterface";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
+import { DefaultTemplate } from "./templates";
 
-export default function DefaultTemplateElement(props: FuzzyComponentProps) {
+export default function DefaultTemplateElement(props: EngineComponentProps) {
   const element = useElementData(props.elementId, DefaultTemplate);
 
   useElementEvent(element);
 
   return (
-    <div className="flex flex-col gap-6 w-full min-h-screen items-center">
+    <div>
       {element.widgets.map((widget) => renderElementInterface(widget, element))}
     </div>
   );

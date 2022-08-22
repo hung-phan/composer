@@ -132,8 +132,8 @@ export class Node extends Serializable {
     return this.builder().build().interfaceName;
   }
 
-  static builder(): IBuilder<Method> {
-    return Builder(Method);
+  static builder(): IBuilder<Node> {
+    return Builder(Node);
   }
 }
 

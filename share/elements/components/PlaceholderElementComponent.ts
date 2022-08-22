@@ -1,10 +1,10 @@
 import { PlaceholderElement } from "../../domain/interfaces";
-import { FuzzyComponentProps } from "../elementRegistry";
+import { EngineComponentProps } from "../registry";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 
 export default function PlaceholderElementComponent(
-  props: FuzzyComponentProps
+  props: EngineComponentProps
 ) {
   const element = useElementData(props.elementId, PlaceholderElement);
 

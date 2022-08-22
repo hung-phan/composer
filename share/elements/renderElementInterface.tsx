@@ -1,6 +1,6 @@
 import { Element } from "share/domain/interfaces";
 
-import getComponentClass from "./elementRegistry";
+import { getComponentClass } from "./registry";
 
 export default function renderElementInterface<
   T extends Record<string, unknown>

@@ -1,10 +1,10 @@
 import { Builder } from "builder-pattern";
 import _ from "lodash";
 
+import { getInterfaceByName } from "../../elements/registry";
 import { Serializable } from "../interfaces";
-import getInterfaceByName from "../interfaces/registry";
 
-export function convertToClass<T>(obj: any): T {
+export function convertToClass<T extends Serializable>(obj: any): T {
   if (_.isArray(obj)) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -38,7 +38,7 @@ export function encode(
   return JSON.stringify(response, replacer, space);
 }
 
-export function decode<T>(jsonResp: string): T {
+export function decode<T extends Serializable>(jsonResp: string): T {
   try {
     return convertToClass<T>(JSON.parse(jsonResp));
   } catch (e) {

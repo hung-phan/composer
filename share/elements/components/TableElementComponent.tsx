@@ -1,9 +1,9 @@
-import { TableElement } from "../../domain/interfaces";
-import { FuzzyComponentProps } from "../elementRegistry";
+import { EngineComponentProps } from "../registry";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
+import { TableElement } from "./widgets";
 
-export default function TableElementComponent(props: FuzzyComponentProps) {
+export default function TableElementComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, TableElement);
 
   useElementEvent(element);

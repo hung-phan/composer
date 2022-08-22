@@ -1,6 +1,6 @@
 import { Builder, IBuilder } from "builder-pattern";
 
-import { Element, ElementState, Method } from "./core";
+import { Element, ElementState, Method } from "../../domain/interfaces";
 
 // LAYOUT elements
 export class LayoutElement extends Element {
@@ -105,14 +105,3 @@ export class TableElement extends Element {
 }
 
 export type DialogElementState = ElementState<boolean>;
-
-// TEMPLATE element
-export class DefaultTemplate extends Element {
-  interfaceName = "DefaultTemplate";
-
-  widgets: Element[];
-
-  static builder(): IBuilder<DefaultTemplate> {
-    return Builder(DefaultTemplate);
-  }
-}
