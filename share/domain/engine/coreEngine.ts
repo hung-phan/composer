@@ -104,7 +104,8 @@ async function makeHttpCall(
   }
 
   if (method.before) {
-    await engineDispatch(
+    await dispatchTask(
+      coreEngine.taskQueue,
       coreEngine.dispatch,
       method.before,
       coreEngine.clientInfo
@@ -141,20 +142,23 @@ async function makeHttpCall(
       const responseObj = decode<Response>(await response.text());
 
       if (method.onSuccess) {
-        await engineDispatch(
+        await dispatchTask(
+          coreEngine.taskQueue,
           coreEngine.dispatch,
           method.onSuccess,
           coreEngine.clientInfo
         );
       }
 
-      await engineDispatch(
+      await dispatchTask(
+        coreEngine.taskQueue,
         coreEngine.dispatch,
         responseObj.methods,
         coreEngine.clientInfo
       );
     } else if (method.onError) {
-      await engineDispatch(
+      await dispatchTask(
+        coreEngine.taskQueue,
         coreEngine.dispatch,
         method.onError,
         coreEngine.clientInfo
@@ -164,7 +168,8 @@ async function makeHttpCall(
     console.error(e);
 
     if (method.onError) {
-      await engineDispatch(
+      await dispatchTask(
+        coreEngine.taskQueue,
         coreEngine.dispatch,
         method.onError,
         coreEngine.clientInfo
@@ -173,7 +178,8 @@ async function makeHttpCall(
   }
 
   if (method.after) {
-    await engineDispatch(
+    await dispatchTask(
+      coreEngine.taskQueue,
       coreEngine.dispatch,
       method.after,
       coreEngine.clientInfo
@@ -235,17 +241,18 @@ async function registerElement(
   }
 }
 
-export async function engineDispatch(
+async function dispatchTask(
+  taskQueue: TaskQueue,
   dispatch: ThunkDispatch<DefaultRootState, unknown, AnyAction>,
   methods?: Method[],
   clientInfo?: ClientInfo<any>
-): Promise<void> {
+) {
   if (_.isEmpty(methods)) {
     return;
   }
 
   const coreEngine = Builder(CoreEngine)
-    .taskQueue(getTaskQueue())
+    .taskQueue(taskQueue)
     .dispatch(dispatch)
     .clientInfo(clientInfo)
     .build();
@@ -255,4 +262,16 @@ export async function engineDispatch(
   } catch (e) {
     console.error(e);
   }
+}
+
+export function engineDispatch(
+  dispatch: ThunkDispatch<DefaultRootState, unknown, AnyAction>,
+  methods?: Method[],
+  clientInfo?: ClientInfo<any>
+): Promise<void> {
+  if (_.isEmpty(methods)) {
+    return;
+  }
+
+  return dispatchTask(getTaskQueue(), dispatch, methods, clientInfo);
 }
