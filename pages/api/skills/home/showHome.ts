@@ -38,7 +38,9 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
     .build();
 
   const imageLayout = LayoutElement.builder()
-    .elements([ImageElement.builder().src("/static/logo.png").build()])
+    .elements([
+      ImageElement.builder().src("https://picsum.photos/200/300").build(),
+    ])
     .build();
 
   const pageLayout = LayoutElement.builder()

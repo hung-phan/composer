@@ -9,7 +9,6 @@ if (process.env.ENVIRONMENT === "client") {
   require("./../styles/globals.css");
 }
 
-
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
   <>
     <Head>
