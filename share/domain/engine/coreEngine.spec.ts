@@ -82,6 +82,43 @@ describe("coreEngine", () => {
     expect(store.getState()).toMatchSnapshot();
   });
 
+  test("should remove element with RenderElementMethod", async () => {
+    const store = makeStore({});
+
+    await engineDispatch(store.dispatch, [
+      RenderElementMethod.builder()
+        .element(
+          LayoutElement.builder()
+            .id(ROOT_ID)
+            .elements([
+              ImageElement.builder()
+                .id("image_element")
+                .src("https://google.com")
+                .build(),
+              LayoutElement.builder()
+                .id("placeholder_element")
+                .elements([
+                  TextElement.builder().id("text_element").build(),
+                  ButtonElement.builder().id("button_element").build(),
+                ])
+                .build()
+            ])
+            .build()
+        )
+        .build(),
+    ]);
+
+    await engineDispatch(store.dispatch, [
+      RenderElementMethod.builder()
+        .element(
+          PlaceholderElement.builder().id("placeholder_element").build(),
+        )
+        .build(),
+    ]);
+
+    expect(store.getState()).toMatchSnapshot();
+  });
+
   test("should support list replacement with same id", async () => {
     const store = makeStore({});
 

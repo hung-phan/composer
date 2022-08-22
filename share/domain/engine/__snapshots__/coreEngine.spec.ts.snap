@@ -1,5 +1,77 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`coreEngine should remove element with RenderElementMethod 1`] = `
+Object {
+  "templateEngine": Object {
+    "@@ENGINE_ROOT_ID": Node {
+      "childs": Array [
+        "image_element",
+        "placeholder_element",
+      ],
+      "element": LayoutElement {
+        "elements": Array [
+          Element {
+            "id": "image_element",
+            "interfaceName": "ImageElement",
+            Symbol(immer-draftable): true,
+          },
+          Element {
+            "id": "placeholder_element",
+            "interfaceName": "PlaceholderElement",
+            Symbol(immer-draftable): true,
+          },
+        ],
+        "id": "@@ENGINE_ROOT_ID",
+        "interfaceName": "LayoutElement",
+        Symbol(immer-draftable): true,
+      },
+      "interfaceName": "Node",
+      Symbol(immer-draftable): true,
+    },
+    "button_element": Node {
+      "element": ButtonElement {
+        "id": "button_element",
+        "interfaceName": "ButtonElement",
+        "size": "lg",
+        Symbol(immer-draftable): true,
+      },
+      "interfaceName": "Node",
+      Symbol(immer-draftable): true,
+    },
+    "image_element": Node {
+      "element": ImageElement {
+        "id": "image_element",
+        "interfaceName": "ImageElement",
+        "src": "https://google.com",
+        Symbol(immer-draftable): true,
+      },
+      "interfaceName": "Node",
+      "parent": "@@ENGINE_ROOT_ID",
+      Symbol(immer-draftable): true,
+    },
+    "placeholder_element": Node {
+      "element": PlaceholderElement {
+        "id": "placeholder_element",
+        "interfaceName": "PlaceholderElement",
+        Symbol(immer-draftable): true,
+      },
+      "interfaceName": "Node",
+      "parent": "@@ENGINE_ROOT_ID",
+      Symbol(immer-draftable): true,
+    },
+    "text_element": Node {
+      "element": TextElement {
+        "id": "text_element",
+        "interfaceName": "TextElement",
+        Symbol(immer-draftable): true,
+      },
+      "interfaceName": "Node",
+      Symbol(immer-draftable): true,
+    },
+  },
+}
+`;
+
 exports[`coreEngine should support list replacement with same id 1`] = `
 Object {
   "templateEngine": Object {

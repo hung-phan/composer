@@ -170,7 +170,14 @@ export const reducer = reducerWithInitialState<State>({})
           .interfaceName(element.interfaceName)
           .build()
       );
-      draft[element.id].removeAllChild();
+
+      if (draft[element.id].childs !== undefined) {
+        for (const child of draft[element.id].childs) {
+          draft[child].setParent(undefined);
+        }
+
+        draft[element.id].removeAllChild();
+      }
     })
   )
   .case(actions.delElement, (state, action) =>
