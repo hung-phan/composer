@@ -8,7 +8,7 @@ async function HandleHomeSearchSkill(
 ) {
   const data: SearchFormInput = req.body;
 
-  res.redirect(`/search=${data.search}`);
+  res.redirect(`/search?query=${encodeURIComponent(data.search)}`);
 }
 
 export default async function handler(
