@@ -36,8 +36,8 @@ export default function InputElementComponent(props: EngineComponentProps) {
       }
 
       setValue(currentValue);
-    }, 300),
-    [setValue]
+    }, 150),
+    []
   );
   const sendInputOnEnterKeyPress = useCallback(
     _.debounce((currentValue: string) => {
@@ -58,7 +58,7 @@ export default function InputElementComponent(props: EngineComponentProps) {
 
       setValue(currentValue);
     }, 300),
-    [setValue]
+    []
   );
 
   return (
