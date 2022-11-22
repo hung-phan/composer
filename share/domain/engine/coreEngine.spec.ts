@@ -101,7 +101,7 @@ describe("coreEngine", () => {
                   TextElement.builder().id("text_element").build(),
                   ButtonElement.builder().id("button_element").build(),
                 ])
-                .build()
+                .build(),
             ])
             .build()
         )
@@ -110,9 +110,7 @@ describe("coreEngine", () => {
 
     await engineDispatch(store.dispatch, [
       RenderElementMethod.builder()
-        .element(
-          PlaceholderElement.builder().id("placeholder_element").build(),
-        )
+        .element(PlaceholderElement.builder().id("placeholder_element").build())
         .build(),
     ]);
 

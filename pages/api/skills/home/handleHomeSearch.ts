@@ -1,10 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { SearchFormInput } from "./showHome";
+
 async function HandleHomeSearchSkill(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  res.redirect(`/search=${req.body.search}`);
+  const data: SearchFormInput = req.body;
+
+  res.redirect(`/search=${data.search}`);
 }
 
 export default async function handler(

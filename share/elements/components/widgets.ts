@@ -66,12 +66,11 @@ export type InputElementState = ElementState<string>;
 export class InputElement extends Element {
   interfaceName = "InputElement";
 
+  name?: string;
   defaultValue = "";
   placeholder?: string;
   onInputChange?: Method[];
   onEnterKeyPressed?: Method[];
-  formId?: string;
-  formName?: string;
 
   static builder(): IBuilder<InputElement> {
     return Builder(InputElement);
@@ -123,9 +122,8 @@ export class FormElement extends Element {
 export class FormFieldElement extends Element {
   interfaceName = "FormFieldElement";
 
-  regexValidator?: string;
   fieldName: string;
-  element: InputElement;
+  fieldElement: InputElement;
 
   static builder(): IBuilder<FormFieldElement> {
     return Builder(FormFieldElement);

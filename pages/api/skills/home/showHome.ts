@@ -20,6 +20,12 @@ import {
 import { DefaultTemplate } from "../../../../share/elements/templateComponents/templates";
 import getNewId from "../../../../share/library/idGenerator";
 
+const searchInputName = "search";
+
+export interface SearchFormInput {
+  [searchInputName]: string;
+}
+
 async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
   const imageLayout = LayoutElement.builder()
     .elements([
@@ -35,25 +41,28 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
       .elementState({ data: "" })
       .build();
 
-  const inputElement = InputElement.builder()
-    .stateId(INPUT_BOX_STATE_HOLDER)
-    .formId("search")
-    .formName("search")
-    .placeholder("Search any music here")
-    .onEnterKeyPressed([
-      HttpMethod.builder()
-        .url("/api/skills/home/handleHomeSearch")
-        .requestType("POST")
-        .clientStateId(INPUT_BOX_STATE_HOLDER)
-        .build(),
-    ])
-    .build();
-
   const formElement = FormElement.builder()
     .formId("searchForm")
     .action("/api/skills/home/handleHomeSearch")
     .method("post")
-    .fields([FormFieldElement.builder().element(inputElement).build()])
+    .fields([
+      FormFieldElement.builder()
+        .fieldElement(
+          InputElement.builder()
+            .stateId(INPUT_BOX_STATE_HOLDER)
+            .name(searchInputName)
+            .placeholder("Search any music here")
+            .onEnterKeyPressed([
+              HttpMethod.builder()
+                .url("/api/skills/home/handleHomeSearch")
+                .requestType("POST")
+                .clientStateId(INPUT_BOX_STATE_HOLDER)
+                .build(),
+            ])
+            .build()
+        )
+        .build(),
+    ])
     .submitButton(
       ButtonElement.builder().type("submit").label("Search").build()
     )

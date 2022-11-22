@@ -12,7 +12,7 @@ export default function FormElementComponent(props: EngineComponentProps) {
   return (
     <>
       {element.fieldName && <label>{element.fieldName}</label>}
-      {renderElementInterface(element.element, element)}
+      {renderElementInterface(element.fieldElement, element)}
     </>
   );
 }
