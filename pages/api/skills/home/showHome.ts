@@ -39,7 +39,7 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
     .stateId(INPUT_BOX_STATE_HOLDER)
     .formId("search")
     .formName("search")
-    .placeholder("Search any community here")
+    .placeholder("Search any music here")
     .onEnterKeyPressed([
       HttpMethod.builder()
         .url("/api/skills/home/handleHomeSearch")
