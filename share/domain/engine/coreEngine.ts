@@ -5,7 +5,6 @@ import { DefaultRootState } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { initializeEngine } from "../../elements/registry";
 import fetch from "../../library/fetch";
 import {
   ClientInfo,
@@ -30,8 +29,6 @@ class CoreEngine {
   readonly dispatch: ThunkDispatch<DefaultRootState, unknown, AnyAction>;
   readonly clientInfo?: ClientInfo<any>;
 }
-
-initializeEngine();
 
 async function evalMethod(
   method: Method,

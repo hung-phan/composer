@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ROOT_ID } from "../../../../share/domain/engine";
 import { encode } from "../../../../share/domain/engine/serializers";
 import {
+  HttpMethod,
   RenderElementMethod,
   Response,
   StateHolderElement,
@@ -29,9 +30,25 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
   const inputElement = InputElement.builder()
     .stateId(INPUT_BOX_STATE_HOLDER)
     .placeholder("Search any community here")
+    .onEnterKeyPressed([
+      HttpMethod.builder()
+        .url("/api/skills/home/handleHomeSearch")
+        .requestType("POST")
+        .clientStateId(INPUT_BOX_STATE_HOLDER)
+        .build(),
+    ])
     .build();
 
-  const searchButton = ButtonElement.builder().label("Search").build();
+  const searchButton = ButtonElement.builder()
+    .label("Search")
+    .onSelected([
+      HttpMethod.builder()
+        .url("/api/skills/home/handleHomeSearch")
+        .requestType("POST")
+        .clientStateId(INPUT_BOX_STATE_HOLDER)
+        .build(),
+    ])
+    .build();
 
   const inputLayout = LayoutElement.builder()
     .elements([inputElementStateHolder, inputElement, searchButton])
