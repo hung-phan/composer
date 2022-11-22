@@ -27,27 +27,21 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
       .elementState({ data: "" })
       .build();
 
+  const handleHomeSearchMethod = HttpMethod.builder()
+    .url("/api/skills/home/handleHomeSearch")
+    .requestType("POST")
+    .clientStateId(INPUT_BOX_STATE_HOLDER)
+    .build();
+
   const inputElement = InputElement.builder()
     .stateId(INPUT_BOX_STATE_HOLDER)
     .placeholder("Search any community here")
-    .onEnterKeyPressed([
-      HttpMethod.builder()
-        .url("/api/skills/home/handleHomeSearch")
-        .requestType("POST")
-        .clientStateId(INPUT_BOX_STATE_HOLDER)
-        .build(),
-    ])
+    .onEnterKeyPressed([handleHomeSearchMethod])
     .build();
 
   const searchButton = ButtonElement.builder()
     .label("Search")
-    .onSelected([
-      HttpMethod.builder()
-        .url("/api/skills/home/handleHomeSearch")
-        .requestType("POST")
-        .clientStateId(INPUT_BOX_STATE_HOLDER)
-        .build(),
-    ])
+    .onSelected([handleHomeSearchMethod])
     .build();
 
   const inputLayout = LayoutElement.builder()

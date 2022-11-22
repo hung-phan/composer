@@ -18,7 +18,9 @@ async function HandleHomeSearchSkill(
   res.status(200).send(
     encode(
       Response.builder()
-        .methods([NavigateMethod.builder().url(`/search=${elementState.data}`).build()])
+        .methods([
+          NavigateMethod.builder().url(`/search=${elementState.data}`).build(),
+        ])
         .build()
     )
   );
