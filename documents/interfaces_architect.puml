@@ -1,0 +1,71 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface DataContainer<T> {
+  data: T;
+}
+
+interface ElementState<T> extends DataContainer
+interface RequestData<T> extends DataContainer {}
+
+abstract class Serializable {
+  interfaceName: string
+}
+
+class Response extends Serializable {
+  methods: Method[]
+}
+
+class Element extends Serializable {
+  id: string;
+  class?: string;
+  stateId?: string;
+
+  onCreate?: Method[];
+  onUpdate?: Method[];
+  onDestroy?: Method[];
+}
+
+class StateHolderElement<T> extends Element {
+  elementState: ElementState<T>
+}
+
+class PlaceholderElement extends Element {}
+
+class Method extends Serializable {}
+
+class InvokeExternalMethod extends Method {
+  type: string;
+  payload: any;
+}
+
+class RenderElementMethod extends Method {
+  element: Element;
+}
+
+class UpdateElementMethod extends Method {
+  id: Id;
+  element: Element;
+}
+
+class UpdateInListElementMethod extends Method {
+  id: Id;
+  elements: Element[];
+}
+
+class HttpMethod<T> extends Method {
+  before?: Method[];
+  after?: Method[];
+  url: string;
+  requestType: RequestType;
+  requestData?: RequestData<T>;
+  clientStateId?: string;
+  onError?: Method[];
+  onSuccess?: Method[];
+}
+
+class NavigateMethod extends Method {
+  url: string
+}
+
+@enduml

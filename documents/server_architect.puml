@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant Client as A
+
+box share
+    participant CoreEngine as C
+    participant CoreEngineStateStore as D
+end box
+
+box server
+    participant ServerPage as E
+    participant ServerApi as F
+end box
+
+participant DataModel as G
+
+A -> E: request to show QueryPage
+
+activate E
+    E -> F: request for QueryPage interfaces
+
+    activate F
+        F -> G: query data model
+
+        activate G
+            G --> F: query data model
+        deactivate G
+
+        F -> F: construct client interfaces
+        F --> E: return interfaces
+
+        E -> C: dispatch interfaces methods
+        activate C
+            loop all methods
+                C -> C: evaluate method
+                C -> D: dispatch to state store
+
+                D -> D: update state store
+            end
+            C --> E: finish evaluating template
+        deactivate C
+
+        E -> D: get component states
+
+        activate D
+            D --> E: return states
+        deactivate D
+
+        E -> E: flush out all components
+
+        E --> A: return template and json data
+    deactivate F
+
+deactivate E
+
+@enduml
