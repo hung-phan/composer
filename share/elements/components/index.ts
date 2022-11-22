@@ -8,3 +8,5 @@ export { default as LayoutElementComponent } from "./LayoutElementComponent";
 export { default as PlaceholderElementComponent } from "./PlaceholderElementComponent";
 export { default as StateHolderElementComponent } from "./StateHolderElementComponent";
 export { default as TableElementComponent } from "./TableElementComponent";
+export { default as FormElementComponent } from "./FormElementComponent";
+export { default as FormFieldElementComponent } from "./FormFieldElementComponent";

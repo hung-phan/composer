@@ -10,6 +10,8 @@ import {
 } from "../../../../share/domain/interfaces";
 import {
   ButtonElement,
+  FormElement,
+  FormFieldElement,
   ImageElement,
   InputElement,
   InputElementState,
@@ -19,43 +21,50 @@ import { DefaultTemplate } from "../../../../share/elements/templateComponents/t
 import getNewId from "../../../../share/library/idGenerator";
 
 async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
-  const INPUT_BOX_STATE_HOLDER = getNewId();
-
-  const inputElementStateHolder =
-    StateHolderElement.builder<InputElementState>()
-      .id(INPUT_BOX_STATE_HOLDER)
-      .elementState({ data: "" })
-      .build();
-
-  const handleHomeSearchMethod = HttpMethod.builder()
-    .url("/api/skills/home/handleHomeSearch")
-    .requestType("POST")
-    .clientStateId(INPUT_BOX_STATE_HOLDER)
-    .build();
-
-  const inputElement = InputElement.builder()
-    .stateId(INPUT_BOX_STATE_HOLDER)
-    .placeholder("Search any community here")
-    .onEnterKeyPressed([handleHomeSearchMethod])
-    .build();
-
-  const searchButton = ButtonElement.builder()
-    .label("Search")
-    .onSelected([handleHomeSearchMethod])
-    .build();
-
-  const inputLayout = LayoutElement.builder()
-    .elements([inputElementStateHolder, inputElement, searchButton])
-    .build();
-
   const imageLayout = LayoutElement.builder()
     .elements([
       ImageElement.builder().src("https://picsum.photos/200/300").build(),
     ])
     .build();
 
+  const INPUT_BOX_STATE_HOLDER = getNewId();
+
+  const searchElementStateHolderElement =
+    StateHolderElement.builder<InputElementState>()
+      .id(INPUT_BOX_STATE_HOLDER)
+      .elementState({ data: "" })
+      .build();
+
+  const inputElement = InputElement.builder()
+    .stateId(INPUT_BOX_STATE_HOLDER)
+    .formId("search")
+    .formName("search")
+    .placeholder("Search any community here")
+    .onEnterKeyPressed([
+      HttpMethod.builder()
+        .url("/api/skills/home/handleHomeSearch")
+        .requestType("POST")
+        .clientStateId(INPUT_BOX_STATE_HOLDER)
+        .build(),
+    ])
+    .build();
+
+  const formElement = FormElement.builder()
+    .formId("searchForm")
+    .action("/api/skills/home/handleHomeSearch")
+    .method("post")
+    .fields([FormFieldElement.builder().element(inputElement).build()])
+    .submitButton(
+      ButtonElement.builder().type("submit").label("Search").build()
+    )
+    .build();
+
+  const formLayout = LayoutElement.builder()
+    .elements([formElement, searchElementStateHolderElement])
+    .build();
+
   const pageLayout = LayoutElement.builder()
-    .elements([imageLayout, inputLayout])
+    .elements([imageLayout, formLayout])
     .build();
 
   const template = DefaultTemplate.builder()

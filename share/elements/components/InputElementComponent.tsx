@@ -65,6 +65,8 @@ export default function InputElementComponent(props: EngineComponentProps) {
     <input
       key={element.id}
       value={value}
+      id={element.formId}
+      name={element.formName}
       placeholder={element.placeholder}
       onChange={(event) => {
         setValue(event.target.value);

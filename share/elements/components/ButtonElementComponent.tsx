@@ -17,8 +17,9 @@ export default function ButtonElementComponent(props: EngineComponentProps) {
     <button
       key={element.id}
       onClick={() => engineDispatch(dispatch, element.onSelected)}
+      type={element.type}
     >
-      {element.label && <span>{element.label}</span>}
+      {element.label !== undefined && element.label}
     </button>
   );
 }

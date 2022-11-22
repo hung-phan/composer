@@ -65,6 +65,14 @@ registerElements([
     interfaceClass: widgets.SelectElement,
     elementClass: components.SelectElementComponent,
   },
+  {
+    interfaceClass: widgets.FormElement,
+    elementClass: components.FormElementComponent,
+  },
+  {
+    interfaceClass: widgets.FormFieldElement,
+    elementClass: components.FormFieldElementComponent,
+  },
 ]);
 
 export * from "./interfaceRegistry";

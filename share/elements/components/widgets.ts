@@ -38,7 +38,7 @@ export class TextElement extends Element {
 export class ButtonElement extends Element {
   interfaceName = "ButtonElement";
 
-  type?: string;
+  type?: "button" | "submit" | "reset";
   size: "xs" | "sm" | "md" | "lg" | "xl" | "xxl" = "lg";
   color?: string;
 
@@ -70,6 +70,8 @@ export class InputElement extends Element {
   placeholder?: string;
   onInputChange?: Method[];
   onEnterKeyPressed?: Method[];
+  formId?: string;
+  formName?: string;
 
   static builder(): IBuilder<InputElement> {
     return Builder(InputElement);
@@ -104,4 +106,28 @@ export class TableElement extends Element {
   }
 }
 
-export type DialogElementState = ElementState<boolean>;
+export class FormElement extends Element {
+  interfaceName = "FormElement";
+
+  formId: string;
+  action: string;
+  method?: "get" | "post";
+  fields: FormFieldElement[];
+  submitButton: ButtonElement;
+
+  static builder(): IBuilder<FormElement> {
+    return Builder(FormElement);
+  }
+}
+
+export class FormFieldElement extends Element {
+  interfaceName = "FormFieldElement";
+
+  regexValidator?: string;
+  fieldName: string;
+  element: InputElement;
+
+  static builder(): IBuilder<FormFieldElement> {
+    return Builder(FormFieldElement);
+  }
+}
