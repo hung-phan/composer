@@ -144,7 +144,7 @@ function createNodeIfNotExist(state: State, id: Id) {
     return;
   }
 
-  state[id] = new Node();
+  state[id] = Node.builder().build();
 }
 
 export const reducer = reducerWithInitialState<State>({})
