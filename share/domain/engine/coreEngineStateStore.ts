@@ -86,7 +86,7 @@ function deleteAllChildElements(state: State, id: Id): void {
     return;
   }
 
-  for (const child of childs) {
+  for (const child of Object.keys(childs)) {
     deleteAllChildElements(state, child);
   }
 
@@ -130,7 +130,7 @@ const slice = createSlice({
       );
 
       if (state[element.id].childs !== undefined) {
-        for (const child of state[element.id].childs) {
+        for (const child of Object.keys(state[element.id].childs)) {
           state[child].setParent(undefined);
         }
 
