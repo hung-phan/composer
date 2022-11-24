@@ -48,7 +48,7 @@ export class Node extends Serializable {
   interfaceName = "Node";
 
   parent?: Id;
-  childs?: Id[];
+  childs?: { [key: Id]: boolean };
   element?: Element;
 
   setParent(id?: Id): void {
@@ -65,15 +65,15 @@ export class Node extends Serializable {
       return false;
     }
 
-    return this.childs.find(child => child === id) !== undefined;
+    return id in this.childs;
   }
 
   addChild(id: Id): void {
     if (this.childs === undefined) {
-      this.childs = [];
+      this.childs = {};
     }
 
-    this.childs.push(id);
+    this.childs[id] = true;
   }
 
   removeChild(id: Id): void {
@@ -81,17 +81,7 @@ export class Node extends Serializable {
       return;
     }
 
-    const childIndex = this.childs.findIndex(child => child === id);
-
-    if (childIndex === -1) {
-      return;
-    }
-
-    this.childs.splice(childIndex, 1);
-
-    if (this.childs.length === 0) {
-      delete this.childs;
-    }
+    delete this.childs[id];
   }
 
   removeAllChild(): void {
