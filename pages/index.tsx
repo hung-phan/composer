@@ -10,7 +10,7 @@ import { wrapper } from "../share/store";
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
     await (store.dispatch as ThunkDispatch<DefaultRootState, any, AnyAction>)(
-      actions.callEndpoint.action(
+      actions.callEndpoint(
         HttpMethod.builder()
           .url("/api/skills/home/showHome")
           .requestType("GET")

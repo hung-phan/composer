@@ -11,7 +11,7 @@ import { wrapper } from "../share/store";
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (ctx) => {
     await (store.dispatch as ThunkDispatch<DefaultRootState, any, AnyAction>)(
-      actions.callEndpoint.action(
+      actions.callEndpoint(
         HttpMethod.builder()
           .url(transferQueryData("/api/skills/search/showSearch", ctx))
           .requestType("GET")

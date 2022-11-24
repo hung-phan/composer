@@ -1,4 +1,5 @@
-import produce, {
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
   Patch,
   applyPatches,
   enableMapSet,
@@ -6,15 +7,12 @@ import produce, {
   setAutoFreeze,
 } from "immer";
 import { DefaultRootState } from "react-redux";
-import actionCreatorFactory from "typescript-fsa";
-import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { asyncFactory } from "typescript-fsa-redux-thunk";
 
 import {
   Element,
   ElementState,
-  HttpMethod,
   Id,
+  Method,
   Node,
   StateHolderElement,
 } from "../interfaces";
@@ -81,50 +79,6 @@ export const selectors = {
   },
 };
 
-const actionCreator = actionCreatorFactory(mountPoint);
-const asyncActionCreator = asyncFactory<DefaultRootState>(actionCreator);
-
-export enum ActionType {
-  CALL_ENDPOINT = "CALL_ENDPOINT",
-  SET_ELEMENT = "SET_ELEMENT",
-  DEL_ELEMENT = "DEL_ELEMENT",
-  REGISTER_PARENT = "REGISTER_PARENT",
-  REPLACE_ELEMENT = "REPLACE_ELEMENT",
-  REPLACE_ELEMENT_IN_LIST = "REPLACE_ELEMENT_IN_LIST",
-  UPDATE_STATE_ELEMENT = "UPDATE_STATE_ELEMENT",
-}
-
-export const actions = {
-  callEndpoint: asyncActionCreator<HttpMethod<any>, State>(
-    ActionType.CALL_ENDPOINT,
-    async (method, dispatch, getRootState) => {
-      await engineDispatch(dispatch, [method]);
-
-      return selectors.getState(getRootState());
-    }
-  ),
-  setElement: actionCreator<{ element: Element }>(ActionType.SET_ELEMENT),
-  delElement: actionCreator<{ id: Id; interfaceName: string }>(
-    ActionType.DEL_ELEMENT
-  ),
-  registerParent: actionCreator<{ ids: Id[]; parentId: Id }>(
-    ActionType.REGISTER_PARENT
-  ),
-  replaceElement: actionCreator<{
-    parentId: Id;
-    oldId: Id;
-    id: Id;
-  }>(ActionType.REPLACE_ELEMENT),
-  replaceElementInList: actionCreator<{
-    oldId: Id;
-    ids: Id[];
-  }>(ActionType.REPLACE_ELEMENT_IN_LIST),
-  updateStateElement: actionCreator<{
-    stateElementId: string;
-    patches: Patch[];
-  }>(ActionType.UPDATE_STATE_ELEMENT),
-};
-
 function deleteAllChildElements(state: State, id: Id): void {
   const childs = state[id]?.childs;
 
@@ -147,16 +101,20 @@ function createNodeIfNotExist(state: State, id: Id) {
   state[id] = Node.builder().build();
 }
 
-export const reducer = reducerWithInitialState<State>({})
-  .case(actions.setElement, (state, action) =>
-    produce(state, (draft) => {
-      const element = action.element;
+const initialState: State = {};
 
-      createNodeIfNotExist(draft, element.id);
+const slice = createSlice({
+  name: mountPoint,
+  initialState,
+  reducers: {
+    setElement: (state, action: PayloadAction<{ element: Element }>) => {
+      const element = action.payload.element;
 
-      draft[element.id].element = element;
+      createNodeIfNotExist(state, element.id);
 
-      const parentNode = draft[draft[element.id]?.parent];
+      state[element.id].element = element;
+
+      const parentNode = state[state[element.id]?.parent];
 
       if (parentNode === undefined) {
         return;
@@ -171,66 +129,74 @@ export const reducer = reducerWithInitialState<State>({})
           .build()
       );
 
-      if (draft[element.id].childs !== undefined) {
-        for (const child of draft[element.id].childs) {
-          draft[child].setParent(undefined);
+      if (state[element.id].childs !== undefined) {
+        for (const child of state[element.id].childs) {
+          state[child].setParent(undefined);
         }
 
-        draft[element.id].removeAllChild();
+        state[element.id].removeAllChild();
       }
-    })
-  )
-  .case(actions.delElement, (state, action) =>
-    produce(state, (draft) => {
+    },
+    delElement: (
+      state: State,
+      action: PayloadAction<{ id: Id; interfaceName: string }>
+    ) => {
       if (
-        action.id in draft &&
-        action.interfaceName === draft[action.id].element.interfaceName
+        action.payload.id in state &&
+        action.payload.interfaceName ===
+          state[action.payload.id].element.interfaceName
       ) {
-        let id = action.id;
-        let pointer = draft[id];
+        let id = action.payload.id;
+        let pointer = state[id];
 
         while (pointer.parent !== undefined) {
           const childId = id;
 
           id = pointer.parent;
-          pointer = draft[id];
+          pointer = state[id];
 
           if (!pointer.hasChild(childId)) {
-            deleteAllChildElements(draft, childId);
+            deleteAllChildElements(state, childId);
             return;
           }
         }
 
         if (id !== ROOT_ID) {
-          delete draft[action.id];
+          delete state[action.payload.id];
         }
       }
-    })
-  )
-  .case(actions.registerParent, (state, action) =>
-    produce(state, (draft) => {
-      createNodeIfNotExist(draft, action.parentId);
+    },
+    registerParent: (
+      state: State,
+      action: PayloadAction<{ ids: Id[]; parentId: Id }>
+    ) => {
+      createNodeIfNotExist(state, action.payload.parentId);
 
-      for (const id of action.ids) {
-        if (!draft[action.parentId].hasChild(id)) {
-          createNodeIfNotExist(draft, id);
+      for (const id of action.payload.ids) {
+        if (!state[action.payload.parentId].hasChild(id)) {
+          createNodeIfNotExist(state, id);
 
-          draft[id].setParent(action.parentId);
-          draft[action.parentId].addChild(id);
+          state[id].setParent(action.payload.parentId);
+          state[action.payload.parentId].addChild(id);
         }
       }
-    })
-  )
-  .case(actions.replaceElement, (state, action) =>
-    produce(state, (draft) => {
-      const oldNode = draft[action.oldId];
-      const parentNode = draft[action.parentId];
+    },
+    replaceElement: (
+      state: State,
+      action: PayloadAction<{
+        parentId: Id;
+        oldId: Id;
+        id: Id;
+      }>
+    ) => {
+      const oldNode = state[action.payload.oldId];
+      const parentNode = state[action.payload.parentId];
 
       if (parentNode === undefined) {
         return;
       }
 
-      const newNode = draft[action.id];
+      const newNode = state[action.payload.id];
 
       if (oldNode.parent === parentNode.element.id) {
         oldNode.setParent(undefined);
@@ -238,33 +204,38 @@ export const reducer = reducerWithInitialState<State>({})
       newNode.setParent(parentNode.element.id);
 
       parentNode.replaceChildElement(
-        action.oldId,
+        action.payload.oldId,
         Element.builder()
           .id(newNode.element.id)
           .interfaceName(newNode.element.interfaceName)
           .build()
       );
-      parentNode.removeChild(action.oldId);
+      parentNode.removeChild(action.payload.oldId);
       parentNode.addChild(newNode.element.id);
-    })
-  )
-  .case(actions.replaceElementInList, (state, action) =>
-    produce(state, (draft) => {
-      const oldNode = draft[action.oldId];
-      const parentNode = draft[oldNode?.parent];
+    },
+
+    replaceElementInList: (
+      state: State,
+      action: PayloadAction<{
+        oldId: Id;
+        ids: Id[];
+      }>
+    ) => {
+      const oldNode = state[action.payload.oldId];
+      const parentNode = state[oldNode?.parent];
 
       if (parentNode === undefined) {
         return;
       }
 
-      const newNodes = action.ids.map((id) => draft[id]);
+      const newNodes = action.payload.ids.map((id) => state[id]);
 
       if (oldNode.parent === parentNode.element.id) {
         oldNode.setParent(undefined);
       }
 
       parentNode.replaceChildElementInList(
-        action.oldId,
+        action.payload.oldId,
         newNodes.map((newNode) =>
           Element.builder()
             .id(newNode.element.id)
@@ -273,22 +244,42 @@ export const reducer = reducerWithInitialState<State>({})
         )
       );
 
-      parentNode.removeChild(action.oldId);
+      parentNode.removeChild(action.payload.oldId);
 
       for (const newNode of newNodes) {
         parentNode.addChild(newNode.element.id);
         newNode.setParent(parentNode.element.id);
       }
-    })
-  )
-  .case(actions.updateStateElement, (state, action) =>
-    produce(state, (draft) => {
-      const element = draft[action.stateElementId].element;
+    },
+
+    updateStateElement: (
+      state: State,
+      action: PayloadAction<{
+        stateElementId: string;
+        patches: Patch[];
+      }>
+    ) => {
+      const element = state[action.payload.stateElementId].element;
 
       if (!(element instanceof StateHolderElement)) {
         throw new Error("Can only update state of StateHolderElement");
       }
 
-      applyPatches(element.elementState, action.patches);
-    })
-  );
+      applyPatches(element.elementState, action.payload.patches);
+    },
+  },
+});
+
+export const reducer = slice.reducer;
+
+export const actions = {
+  callEndpoint: createAsyncThunk(
+    "CALL_ENDPOINT",
+    async (method: Method, { dispatch, getState }) => {
+      await engineDispatch(dispatch, [method]);
+
+      return selectors.getState(getState());
+    }
+  ),
+  ...slice.actions,
+};
