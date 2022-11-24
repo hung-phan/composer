@@ -4,10 +4,10 @@ exports[`coreEngine should remove element with RenderElementMethod 1`] = `
 Object {
   "templateEngine": Object {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Array [
-        "image_element",
-        "placeholder_element",
-      ],
+      "childs": Object {
+        "image_element": true,
+        "placeholder_element": true,
+      },
       "element": LayoutElement {
         "elements": Array [
           Element {
@@ -76,11 +76,11 @@ exports[`coreEngine should support list replacement with same id 1`] = `
 Object {
   "templateEngine": Object {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Array [
-        "text_element_1",
-        "text_element_2",
-        "placeholder_element",
-      ],
+      "childs": Object {
+        "placeholder_element": true,
+        "text_element_1": true,
+        "text_element_2": true,
+      },
       "element": LayoutElement {
         "elements": Array [
           Element {
@@ -144,10 +144,10 @@ exports[`coreEngine should support nested element update with same id 1`] = `
 Object {
   "templateEngine": Object {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Array [
-        "image_element_1",
-        "nested_layout_element",
-      ],
+      "childs": Object {
+        "image_element_1": true,
+        "nested_layout_element": true,
+      },
       "element": LayoutElement {
         "elements": Array [
           Element {
@@ -189,10 +189,10 @@ Object {
       Symbol(immer-draftable): true,
     },
     "nested_layout_element": Node {
-      "childs": Array [
-        "image_element_2",
-        "placeholder_element",
-      ],
+      "childs": Object {
+        "image_element_2": true,
+        "placeholder_element": true,
+      },
       "element": LayoutElement {
         "elements": Array [
           Element {
@@ -232,10 +232,10 @@ exports[`coreEngine should support override element with RenderElementMethod 1`]
 Object {
   "templateEngine": Object {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Array [
-        "image_element",
-        "placeholder_element",
-      ],
+      "childs": Object {
+        "image_element": true,
+        "placeholder_element": true,
+      },
       "element": LayoutElement {
         "elements": Array [
           Element {
@@ -279,10 +279,10 @@ Object {
       Symbol(immer-draftable): true,
     },
     "placeholder_element": Node {
-      "childs": Array [
-        "text_element",
-        "button_element",
-      ],
+      "childs": Object {
+        "button_element": true,
+        "text_element": true,
+      },
       "element": LayoutElement {
         "elements": Array [
           Element {
@@ -322,13 +322,13 @@ exports[`coreEngine should update the store correctly 1`] = `
 Object {
   "templateEngine": Object {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Array [
-        "text_element",
-        "image_element",
-        "button_element",
-        "placeholder_element",
-        "stateholder_element",
-      ],
+      "childs": Object {
+        "button_element": true,
+        "image_element": true,
+        "placeholder_element": true,
+        "stateholder_element": true,
+        "text_element": true,
+      },
       "element": LayoutElement {
         "elements": Array [
           Element {
