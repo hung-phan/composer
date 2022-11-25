@@ -46,6 +46,10 @@ registerElements([
     elementClass: components.TextElementComponent,
   },
   {
+    interfaceClass: widgets.LinkElement,
+    elementClass: components.LinkElementComponent,
+  },
+  {
     interfaceClass: widgets.ImageElement,
     elementClass: components.ImageElementComponent,
   },

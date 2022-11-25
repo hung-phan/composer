@@ -4,7 +4,7 @@ import RootElement from "../share/elements/RootElement";
 
 export const getServerSideProps = createServersidePropsForEndpoint(() =>
   HttpMethod.builder()
-    .url("/api/skills/home/showHome")
+    .url("/api/skills/examples/infiniteLoading")
     .requestType("GET")
     .build()
 );

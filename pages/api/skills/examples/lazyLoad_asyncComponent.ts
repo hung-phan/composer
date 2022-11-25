@@ -17,7 +17,7 @@ import {
   TextElement,
 } from "../../../../share/elements/components/widgets";
 
-async function LazyLoadComponentSkill(
+async function LazyLoadAsyncComponentSkill(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -37,7 +37,7 @@ async function LazyLoadComponentSkill(
         .label("Click me")
         .onSelected([
           HttpMethod.builder()
-            .url("/api/skills/search/updateSearchImage")
+            .url("/api/skills/examples/lazyLoad_updateImage")
             .requestType("POST")
             .requestData(
               Builder<RequestData<string>>()
@@ -71,7 +71,7 @@ export default async function handler(
 
   switch (method) {
     case "POST":
-      await LazyLoadComponentSkill(req, res);
+      await LazyLoadAsyncComponentSkill(req, res);
 
       break;
     default:

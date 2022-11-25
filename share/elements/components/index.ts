@@ -1,6 +1,7 @@
 export { default as ButtonElementComponent } from "./ButtonElementComponent";
 export { default as DataElementComponent } from "./DataElementComponent";
 export { default as TextElementComponent } from "./TextElementComponent";
+export { default as LinkElementComponent } from "./LinkElementComponent";
 export { default as ImageElementComponent } from "./ImageElementComponent";
 export { default as InputElementComponent } from "./InputElementComponent";
 export { default as SelectElementComponent } from "./SelectElementComponent";

@@ -16,6 +16,8 @@ import {
   InputElement,
   InputElementState,
   LayoutElement,
+  LinkElement,
+  TextElement,
 } from "../../../../share/elements/components/widgets";
 import { DefaultTemplate } from "../../../../share/elements/templateComponents/templates";
 import getNewId from "../../../../share/library/idGenerator";
@@ -72,8 +74,25 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
     .elements([formElement, searchElementStateHolderElement])
     .build();
 
+  const linkLayout = LayoutElement.builder()
+    .elements([
+      LinkElement.builder()
+        .url("/lazyLoad")
+        .element(
+          TextElement.builder().message("Lazy load example").build()
+        )
+        .build(),
+      LinkElement.builder()
+        .url("/infinite_loading_example")
+        .element(
+          TextElement.builder().message("Infinite loading example").build()
+        )
+        .build(),
+    ])
+    .build();
+
   const pageLayout = LayoutElement.builder()
-    .elements([imageLayout, formLayout])
+    .elements([imageLayout, formLayout, linkLayout])
     .build();
 
   const template = DefaultTemplate.builder()

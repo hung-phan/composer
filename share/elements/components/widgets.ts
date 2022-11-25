@@ -35,6 +35,17 @@ export class TextElement extends Element {
   }
 }
 
+export class LinkElement extends Element {
+  interfaceName = "LinkElement";
+
+  url: string;
+  element: Element;
+
+  static builder(): IBuilder<LinkElement> {
+    return Builder(LinkElement);
+  }
+}
+
 export class ButtonElement extends Element {
   interfaceName = "ButtonElement";
 

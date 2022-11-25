@@ -9,7 +9,7 @@ import {
 import { ImageElement } from "../../../../share/elements/components/widgets";
 import _ from "lodash";
 
-async function UpdateSearchImageSkill(
+async function LazyLoadUpdateImageSkill(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -41,7 +41,7 @@ export default async function handler(
 
   switch (method) {
     case "POST":
-      await UpdateSearchImageSkill(req, res);
+      await LazyLoadUpdateImageSkill(req, res);
 
       break;
     default:
