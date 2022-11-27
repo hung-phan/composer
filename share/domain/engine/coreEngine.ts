@@ -20,6 +20,7 @@ import {
   UpdateElementMethod,
   UpdateInListElementMethod,
 } from "../interfaces";
+import { getSimplifiedElement } from "./coreEngineHelpers";
 import getTaskQueue, { TaskQueue } from "./coreEngineQueue";
 import { actions, selectors } from "./coreEngineStateStore";
 import { decode } from "./serializers";
@@ -39,7 +40,7 @@ async function evalMethod(
   }
 
   if (method instanceof InvokeExternalMethod) {
-    coreEngine.dispatch({ type: method.type, payload: method.payload });
+    coreEngine.dispatch(method.data);
   } else if (method instanceof HttpMethod) {
     if (method.clientStateId !== undefined) {
       await coreEngine.dispatch((__, getState) =>
@@ -194,10 +195,7 @@ async function registerElement(
     if (value instanceof Element) {
       await coreEngine.taskQueue.run(registerElement, value, coreEngine);
 
-      element[key] = Element.builder()
-        .id(value.id)
-        .interfaceName(value.interfaceName)
-        .build();
+      element[key] = getSimplifiedElement(value);
 
       childElements.push(element[key]);
     }
@@ -213,10 +211,7 @@ async function registerElement(
       );
 
       element[key] = value.map((nestedElement) =>
-        Element.builder()
-          .id(nestedElement.id)
-          .interfaceName(nestedElement.interfaceName)
-          .build()
+        getSimplifiedElement(nestedElement)
       );
       childElements.push(...element[key]);
     }

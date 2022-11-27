@@ -51,8 +51,7 @@ class Response extends Serializable {
 class InvokeExternalMethod extends Method {
   interfaceName = "InvokeExternalMethod";
 
-  type: string;
-  payload: unknown;
+  data: Action;
 }
 
 class RenderElementMethod extends Method {

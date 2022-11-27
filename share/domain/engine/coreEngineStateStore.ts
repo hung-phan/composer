@@ -10,6 +10,7 @@ import { DefaultRootState } from "react-redux";
 
 import { DataContainer, Element, Id, Method, Node } from "../interfaces";
 import { engineDispatch } from "./coreEngine";
+import { getSimplifiedElement } from "./coreEngineHelpers";
 import { ROOT_ID } from "./index";
 
 enableMapSet();
@@ -104,13 +105,7 @@ const slice = createSlice({
       }
 
       // do inplace update and convert the current child interface to element interface
-      parentNode.replaceChildElement(
-        element.id,
-        Element.builder()
-          .id(element.id)
-          .interfaceName(element.interfaceName)
-          .build()
-      );
+      parentNode.replaceChildElement(element.id, getSimplifiedElement(element));
 
       if (state[element.id].childs !== undefined) {
         for (const child of Object.keys(state[element.id].childs)) {
@@ -188,10 +183,7 @@ const slice = createSlice({
 
       parentNode.replaceChildElement(
         action.payload.oldId,
-        Element.builder()
-          .id(newNode.element.id)
-          .interfaceName(newNode.element.interfaceName)
-          .build()
+        getSimplifiedElement(newNode.element)
       );
       parentNode.removeChild(action.payload.oldId);
       parentNode.addChild(newNode.element.id);
@@ -219,12 +211,7 @@ const slice = createSlice({
 
       parentNode.replaceChildElementInList(
         action.payload.oldId,
-        newNodes.map((newNode) =>
-          Element.builder()
-            .id(newNode.element.id)
-            .interfaceName(newNode.element.interfaceName)
-            .build()
-        )
+        newNodes.map((newNode) => getSimplifiedElement(newNode.element))
       );
 
       parentNode.removeChild(action.payload.oldId);

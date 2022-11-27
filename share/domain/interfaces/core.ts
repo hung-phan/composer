@@ -3,6 +3,7 @@ import { immerable } from "immer";
 import _ from "lodash";
 
 import getNewId from "../../library/idGenerator";
+import { Action } from "redux";
 
 export abstract class Serializable {
   [immerable] = true;
@@ -174,8 +175,7 @@ export type RequestType = "GET" | "POST";
 export class InvokeExternalMethod extends Method {
   interfaceName = "InvokeExternalMethod";
 
-  type: string;
-  payload: unknown;
+  data: Action;
 
   static getInterfaceName() {
     return this.builder().build().interfaceName;
