@@ -35,9 +35,7 @@ export default function SelectElementComponent(props: EngineComponentProps) {
         })
       );
 
-      if (element.onItemSelected) {
-        engineDispatch(dispatch, element.onItemSelected);
-      }
+      engineDispatch(dispatch, element.onItemSelected);
 
       setValue(itemValue);
     },

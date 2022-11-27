@@ -31,9 +31,7 @@ export default function InputElementComponent(props: EngineComponentProps) {
         })
       );
 
-      if (element.onInputChange) {
-        engineDispatch(dispatch, element.onInputChange);
-      }
+      engineDispatch(dispatch, element.onInputChange);
 
       setValue(currentValue);
     }, 150),
@@ -52,9 +50,7 @@ export default function InputElementComponent(props: EngineComponentProps) {
         })
       );
 
-      if (element.onEnterKeyPressed) {
-        engineDispatch(dispatch, element.onEnterKeyPressed);
-      }
+      engineDispatch(dispatch, element.onEnterKeyPressed);
 
       setValue(currentValue);
     }, 300),

@@ -8,15 +8,13 @@ export default function useElementEvent(element: Element): void {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (element && element.onCreate) {
+    if (element) {
       engineDispatch(dispatch, element.onCreate);
     }
 
     return () => {
       if (element) {
-        if (element.onDestroy) {
-          engineDispatch(dispatch, element.onDestroy);
-        }
+        engineDispatch(dispatch, element.onDestroy);
 
         dispatch(
           actions.delElement({

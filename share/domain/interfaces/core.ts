@@ -30,7 +30,7 @@ export class Element extends Serializable {
   id: Id = getNewId();
 
   class?: string;
-  stateId?: string;
+  stateId?: Id;
 
   onCreate?: Method[];
   onDestroy?: Method[];
