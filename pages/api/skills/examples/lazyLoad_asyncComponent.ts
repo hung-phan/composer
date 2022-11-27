@@ -32,6 +32,7 @@ async function LazyLoadAsyncComponentSkill(
       ImageElement.builder()
         .id(`${requestData.data}_IMAGE`)
         .src(`https://picsum.photos/400?random=${_.random(0, 1000, false)}`)
+        .class("w-48")
         .build(),
       ButtonElement.builder()
         .label("Click me")

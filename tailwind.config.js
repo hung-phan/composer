@@ -1,12 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 module.exports = {
-  content: [
-    "./pages/**/*.{tsx,ts}",
-    "./share/elements/**/*.{tsx,ts}",
-  ],
+  content: ["./pages/**/*.{tsx,ts}", "./share/elements/**/*.{tsx,ts}"],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("flowbite/plugin")],
 };

@@ -1,3 +1,4 @@
+import { getElementClassName } from "../elementHelpers";
 import { EngineComponentProps } from "../registry";
 import renderElementInterface from "../renderElementInterface";
 import useElementData from "../useElementData";
@@ -9,8 +10,13 @@ export default function LayoutElementComponent(props: EngineComponentProps) {
 
   useElementEvent(element);
 
+  const elementClass = getElementClassName(
+    element,
+    `flex ${element.direction === "horizontal" ? "flex-row" : "flex-col"} gap-6`
+  );
+
   return (
-    <div key={element.id}>
+    <div key={element.id} className={elementClass}>
       {element.elements.map((widget) =>
         renderElementInterface(widget, element)
       )}

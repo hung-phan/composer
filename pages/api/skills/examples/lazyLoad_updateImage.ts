@@ -24,6 +24,7 @@ async function LazyLoadUpdateImageSkill(
               ImageElement.builder()
                 .id(requestData.data)
                 .src(`https://picsum.photos/400?random=${_.random(0, 1000, false)}`)
+                .class("w-48")
                 .build()
             )
             .build(),

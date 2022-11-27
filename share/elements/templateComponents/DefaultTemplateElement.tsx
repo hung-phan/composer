@@ -10,8 +10,8 @@ export default function DefaultTemplateElement(props: EngineComponentProps) {
   useElementEvent(element);
 
   return (
-    <div>
+    <>
       {element.widgets.map((widget) => renderElementInterface(widget, element))}
-    </div>
+    </>
   );
 }

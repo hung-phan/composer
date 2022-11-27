@@ -30,7 +30,10 @@ export interface SearchFormInput {
 async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
   const imageLayout = LayoutElement.builder()
     .elements([
-      ImageElement.builder().src("https://picsum.photos/200/300").build(),
+      ImageElement.builder()
+        .src("https://picsum.photos/200/300")
+        .class("w-48")
+        .build(),
     ])
     .build();
 

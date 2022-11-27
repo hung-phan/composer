@@ -6,6 +6,8 @@ import { DataContainer, Element, Method } from "../../domain/interfaces";
 export class LayoutElement extends Element {
   interfaceName = "LayoutElement";
 
+  direction?: "vertical" | "horizontal";
+
   elements: Element[];
 
   static builder(): IBuilder<LayoutElement> {

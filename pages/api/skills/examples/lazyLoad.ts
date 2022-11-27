@@ -27,7 +27,10 @@ async function LazyLoadSkill(req: NextApiRequest, res: NextApiResponse) {
 
   const pageLayout = LayoutElement.builder()
     .elements([
-      ImageElement.builder().src("https://picsum.photos/200/300").build(),
+      ImageElement.builder()
+        .src("https://picsum.photos/200/300")
+        .class("w-48")
+        .build(),
       ...COMPONENT_IDS.map((id) =>
         PlaceholderElement.builder()
           .id(id)
