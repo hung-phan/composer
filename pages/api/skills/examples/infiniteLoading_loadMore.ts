@@ -7,7 +7,7 @@ import {
   Response,
   UpdateInListElementMethod,
 } from "../../../../share/domain/interfaces";
-import { TextElement } from "../../../../share/elements/components/widgets";
+import { ImageElement } from "../../../../share/elements/components/widgets";
 
 async function InfiniteLoadingLoadMoreSkill(
   _req: NextApiRequest,
@@ -28,8 +28,15 @@ async function InfiniteLoadingLoadMoreSkill(
             .id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID)
             .elements([
               ..._.range(0, 5).map(() =>
-                TextElement.builder()
-                  .message(`This is element ${Math.random()}`)
+                ImageElement.builder()
+                  .src(
+                    `https://picsum.photos/400?random=${_.random(
+                      0,
+                      1000,
+                      false
+                    )}`
+                  )
+                  .class("w-48")
                   .build()
               ),
               PlaceholderElement.builder()

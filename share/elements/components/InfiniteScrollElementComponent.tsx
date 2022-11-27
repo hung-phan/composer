@@ -50,7 +50,7 @@ export default function InfiniteScrollElementComponent(
       {({ onItemsRendered, ref }) => (
         <FixedSizeList
           height={800}
-          itemSize={100}
+          itemSize={200}
           itemCount={itemCount}
           onItemsRendered={onItemsRendered}
           ref={ref}
