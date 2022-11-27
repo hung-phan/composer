@@ -1,47 +1,41 @@
+import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { encode } from "../../../../share/domain/engine/serializers";
 import {
-  RenderElementMethod,
+  PlaceholderElement,
   Response,
+  UpdateInListElementMethod,
 } from "../../../../share/domain/interfaces";
-import {
-  InfiniteScrollElementState,
-  TextElement,
-} from "../../../../share/elements/components/widgets";
+import { TextElement } from "../../../../share/elements/components/widgets";
 
 async function InfiniteLoadingLoadMoreSkill(
-  _: NextApiRequest,
+  _req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const INFINITE_SCROLL_STATE_ID = "INFINITE_SCROLL_STATE_ID";
+  const INFINITE_SCROLL_ITEM_PLACEHOLDER_ID =
+    "INFINITE_SCROLL_ITEM_PLACEHOLDER_ID";
 
   await new Promise((resolve) => {
-    setTimeout(resolve, Math.random() * 10000);
+    setTimeout(resolve, Math.random() * 2000);
   });
 
   res.status(200).send(
     encode(
       Response.builder()
         .methods([
-          RenderElementMethod.builder()
-            .element(
-              InfiniteScrollElementState.builder()
-                .id(INFINITE_SCROLL_STATE_ID)
-                .hasMore(false)
-                .items([
-                  TextElement.builder()
-                    .message(`This is element ${Math.random()}`)
-                    .build(),
-                  TextElement.builder()
-                    .message(`This is element ${Math.random()}`)
-                    .build(),
-                  TextElement.builder()
-                    .message(`This is element ${Math.random()}`)
-                    .build(),
-                ])
-                .build()
-            )
+          UpdateInListElementMethod.builder()
+            .id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID)
+            .elements([
+              ..._.range(0, 5).map(() =>
+                TextElement.builder()
+                  .message(`This is element ${Math.random()}`)
+                  .build()
+              ),
+              PlaceholderElement.builder()
+                .id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID)
+                .build(),
+            ])
             .build(),
         ])
         .build()

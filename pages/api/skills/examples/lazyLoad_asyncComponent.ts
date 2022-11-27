@@ -21,7 +21,7 @@ async function LazyLoadAsyncComponentSkill(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { requestData }: HttpMethodRequestBody<string, any, any> = req.body;
+  const { requestData }: HttpMethodRequestBody<string, any> = req.body;
 
   const layoutElement = LayoutElement.builder()
     .id(requestData.data)

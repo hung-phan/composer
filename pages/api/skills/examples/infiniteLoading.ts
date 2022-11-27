@@ -4,6 +4,7 @@ import { ROOT_ID } from "../../../../share/domain/engine";
 import { encode } from "../../../../share/domain/engine/serializers";
 import {
   HttpMethod,
+  PlaceholderElement,
   RenderElementMethod,
   Response,
 } from "../../../../share/domain/interfaces";
@@ -18,13 +19,19 @@ import { DefaultTemplate } from "../../../../share/elements/templateComponents/t
 async function InfiniteLoadingSkill(_: NextApiRequest, res: NextApiResponse) {
   const INFINITE_SCROLL_ELEMENT_ID = "INFINITE_SCROLL_ELEMENT_ID";
   const INFINITE_SCROLL_STATE_ID = "INFINITE_SCROLL_STATE_ID";
+  const INFINITE_SCROLL_ITEM_PLACEHOLDER_ID =
+    "INFINITE_SCROLL_ITEM_PLACEHOLDER_ID";
 
   const pageLayout = LayoutElement.builder()
     .elements([
       InfiniteScrollElementState.builder()
         .id(INFINITE_SCROLL_STATE_ID)
         .hasMore(true)
-        .items([])
+        .items([
+          PlaceholderElement.builder()
+            .id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID)
+            .build(),
+        ])
         .build(),
       InfiniteScrollElement.builder()
         .id(INFINITE_SCROLL_ELEMENT_ID)

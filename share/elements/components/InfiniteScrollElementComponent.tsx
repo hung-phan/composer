@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import _ from "lodash";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { FixedSizeList } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
@@ -21,29 +22,18 @@ export default function InfiniteScrollElementComponent(
   const elementState = useElementState<InfiniteScrollElementState>(element);
   const dispatch = useDispatch();
 
-  const [isPageLoading, setIsPageLoading] = useState<boolean>();
-  const loadMore = useCallback(async () => {
-    if (isPageLoading) {
-      return;
-    }
-
-    setIsPageLoading(true);
-
-    try {
-      await engineDispatch(dispatch, element.loadMore);
-    } finally {
-      setIsPageLoading(false);
-    }
-  }, []);
-
+  const loadMore = useCallback(
+    _.throttle(() => engineDispatch(dispatch, element.loadMore), 100),
+    []
+  );
   const isItemLoaded = (index) =>
     !elementState.hasMore || index < elementState.items.length;
 
   const itemCount = (elementState.hasMore ? 1 : 0) + elementState.items.length;
 
-  const Item = ({ index }) => {
+  const Item = ({ index, style }) => {
     return (
-      <div>
+      <div style={style}>
         {isItemLoaded(index)
           ? renderElementInterface(elementState.items[index], element)
           : renderElementInterface(element.loader, element)}
@@ -59,8 +49,8 @@ export default function InfiniteScrollElementComponent(
     >
       {({ onItemsRendered, ref }) => (
         <FixedSizeList
-          height={150}
-          itemSize={35}
+          height={800}
+          itemSize={100}
           itemCount={itemCount}
           onItemsRendered={onItemsRendered}
           ref={ref}

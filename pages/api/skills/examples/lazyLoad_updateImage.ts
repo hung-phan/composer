@@ -13,7 +13,7 @@ async function LazyLoadUpdateImageSkill(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { requestData }: HttpMethodRequestBody<string, any, any> = req.body;
+  const { requestData }: HttpMethodRequestBody<string, any> = req.body;
 
   res.status(200).send(
     encode(
