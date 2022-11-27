@@ -111,7 +111,7 @@ export class Node extends Serializable {
   replaceChildElementInList(oldChildId: Id, childElements: Element[]) {
     for (const value of Object.values(this.element)) {
       if (_.isArray(value)) {
-        for (let index = 0, len = value.length; index < len; index++) {
+        for (let index = value.length - 1; index >= 0; index--) {
           if (
             value[index] instanceof Element &&
             value[index].id === oldChildId
