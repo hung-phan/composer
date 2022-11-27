@@ -353,7 +353,7 @@ Object {
           },
           Element {
             "id": "stateholder_element",
-            "interfaceName": "StateHolderElement",
+            "interfaceName": "InputElementState",
             Symbol(immer-draftable): true,
           },
         ],
@@ -397,14 +397,10 @@ Object {
       Symbol(immer-draftable): true,
     },
     "stateholder_element": Node {
-      "element": StateHolderElement {
-        "elementState": Object {
-          "data": Array [
-            "string_data",
-          ],
-        },
+      "element": InputElementState {
         "id": "stateholder_element",
-        "interfaceName": "StateHolderElement",
+        "interfaceName": "InputElementState",
+        "value": "string_data",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",

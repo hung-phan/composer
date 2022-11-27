@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 
 import { selectors } from "../domain/engine";
-import { Element, ElementState } from "../domain/interfaces";
+import { DataContainer, Element } from "../domain/interfaces";
 
-export default function useElementState<T extends ElementState<any>>(
+export default function useElementState<T extends DataContainer>(
   element: Element
 ): T | undefined {
   return useSelector((state) =>

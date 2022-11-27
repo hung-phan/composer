@@ -1,6 +1,7 @@
 import {
   ButtonElement,
   ImageElement,
+  InputElementState,
   LayoutElement,
   TextElement,
 } from "../../elements/components/widgets";
@@ -8,7 +9,6 @@ import { makeStore } from "../../store";
 import {
   PlaceholderElement,
   RenderElementMethod,
-  StateHolderElement,
   UpdateElementMethod,
   UpdateInListElementMethod,
 } from "../interfaces";
@@ -32,9 +32,9 @@ describe("coreEngine", () => {
                 .build(),
               ButtonElement.builder().id("button_element").build(),
               PlaceholderElement.builder().id("placeholder_element").build(),
-              StateHolderElement.builder()
+              InputElementState.builder()
                 .id("stateholder_element")
-                .elementState({ data: ["string_data"] })
+                .value("string_data")
                 .build(),
             ])
             .build()

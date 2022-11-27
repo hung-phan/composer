@@ -1,6 +1,6 @@
 import { Builder, IBuilder } from "builder-pattern";
 
-import { Element, ElementState, Method } from "../../domain/interfaces";
+import { DataContainer, Element, Method } from "../../domain/interfaces";
 
 // LAYOUT elements
 export class LayoutElement extends Element {
@@ -72,7 +72,15 @@ export class ImageElement extends Element {
   }
 }
 
-export type InputElementState = ElementState<string>;
+export class InputElementState extends DataContainer {
+  interfaceName = "InputElementState";
+
+  value: string;
+
+  static builder(): IBuilder<InputElementState> {
+    return Builder(InputElementState);
+  }
+}
 
 export class InputElement extends Element {
   interfaceName = "InputElement";
@@ -88,7 +96,15 @@ export class InputElement extends Element {
   }
 }
 
-export type SelectElementState = ElementState<string>;
+export class SelectElementState extends DataContainer {
+  interfaceName = "SelectElementState";
+
+  value: string;
+
+  static builder(): IBuilder<SelectElementState> {
+    return Builder(SelectElementState);
+  }
+}
 
 export class SelectElement extends Element {
   interfaceName = "SelectElement";
@@ -138,5 +154,27 @@ export class FormFieldElement extends Element {
 
   static builder(): IBuilder<FormFieldElement> {
     return Builder(FormFieldElement);
+  }
+}
+
+export class InfiniteScrollElementState extends DataContainer {
+  interfaceName = "InfiniteScrollElementState";
+
+  hasMore: boolean;
+  items: Element[];
+
+  static builder(): IBuilder<InfiniteScrollElementState> {
+    return Builder(InfiniteScrollElementState);
+  }
+}
+
+export class InfiniteScrollElement extends Element {
+  interfaceName = "InfiniteScrollElement";
+
+  loadMore: Method[];
+  loader: Element;
+
+  static builder(): IBuilder<InfiniteScrollElement> {
+    return Builder(InfiniteScrollElement);
   }
 }

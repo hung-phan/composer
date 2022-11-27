@@ -19,65 +19,76 @@ registerInterfaces([
   core.Response,
 ]);
 
-registerElements([
-  {
-    interfaceClass: core.StateHolderElement,
-    elementClass: components.StateHolderElementComponent,
-  },
-  {
-    interfaceClass: core.PlaceholderElement,
-    elementClass: components.PlaceholderElementComponent,
-  },
+registerElements(
+  [
+    widgets.InputElementState,
+    widgets.SelectElementState,
+    widgets.InfiniteScrollElementState,
+  ],
+  [
+    {
+      interfaceClass: core.DataContainer,
+      elementClass: components.DataContainerComponent,
+    },
+    {
+      interfaceClass: core.PlaceholderElement,
+      elementClass: components.PlaceholderElementComponent,
+    },
 
-  {
-    interfaceClass: templates.DefaultTemplate,
-    elementClass: templateComponents.DefaultTemplateElement,
-  },
-  {
-    interfaceClass: widgets.LayoutElement,
-    elementClass: components.LayoutElementComponent,
-  },
-  {
-    interfaceClass: widgets.DataElement,
-    elementClass: components.DataElementComponent,
-  },
-  {
-    interfaceClass: widgets.TextElement,
-    elementClass: components.TextElementComponent,
-  },
-  {
-    interfaceClass: widgets.LinkElement,
-    elementClass: components.LinkElementComponent,
-  },
-  {
-    interfaceClass: widgets.ImageElement,
-    elementClass: components.ImageElementComponent,
-  },
-  {
-    interfaceClass: widgets.ButtonElement,
-    elementClass: components.ButtonElementComponent,
-  },
-  {
-    interfaceClass: widgets.TableElement,
-    elementClass: components.TableElementComponent,
-  },
-  {
-    interfaceClass: widgets.InputElement,
-    elementClass: components.InputElementComponent,
-  },
-  {
-    interfaceClass: widgets.SelectElement,
-    elementClass: components.SelectElementComponent,
-  },
-  {
-    interfaceClass: widgets.FormElement,
-    elementClass: components.FormElementComponent,
-  },
-  {
-    interfaceClass: widgets.FormFieldElement,
-    elementClass: components.FormFieldElementComponent,
-  },
-]);
+    {
+      interfaceClass: templates.DefaultTemplate,
+      elementClass: templateComponents.DefaultTemplateElement,
+    },
+    {
+      interfaceClass: widgets.LayoutElement,
+      elementClass: components.LayoutElementComponent,
+    },
+    {
+      interfaceClass: widgets.DataElement,
+      elementClass: components.DataElementComponent,
+    },
+    {
+      interfaceClass: widgets.TextElement,
+      elementClass: components.TextElementComponent,
+    },
+    {
+      interfaceClass: widgets.LinkElement,
+      elementClass: components.LinkElementComponent,
+    },
+    {
+      interfaceClass: widgets.ImageElement,
+      elementClass: components.ImageElementComponent,
+    },
+    {
+      interfaceClass: widgets.ButtonElement,
+      elementClass: components.ButtonElementComponent,
+    },
+    {
+      interfaceClass: widgets.TableElement,
+      elementClass: components.TableElementComponent,
+    },
+    {
+      interfaceClass: widgets.InputElement,
+      elementClass: components.InputElementComponent,
+    },
+    {
+      interfaceClass: widgets.SelectElement,
+      elementClass: components.SelectElementComponent,
+    },
+    {
+      interfaceClass: widgets.FormElement,
+      elementClass: components.FormElementComponent,
+    },
+    {
+      interfaceClass: widgets.FormFieldElement,
+      elementClass: components.FormFieldElementComponent,
+    },
+    {
+      interfaceClass: widgets.InfiniteScrollElement,
+      elementClass: components.InfiniteScrollElementComponent,
+    },
+  ]
+);
 
 export * from "./interfaceRegistry";
 export * from "./elementRegistry";

@@ -1,8 +1,8 @@
 import { ComponentClass, FunctionComponent } from "react";
 
 import { Clazz } from "../../../../fuzzy/src/packages/webapp/@types";
-import { Element } from "../../domain/interfaces";
-import * as core from "../../domain/interfaces/core";
+import { DataContainer, Element } from "../../domain/interfaces";
+import { DataContainerComponent } from "../components";
 import { getInterfaceByName, registerInterfaces } from "./interfaceRegistry";
 
 export interface EngineComponentProps {
@@ -23,11 +23,18 @@ export type ComponentType =
 const ELEMENT_REGISTRY = new Map<Clazz<Element>, ComponentType>();
 
 export function registerElements(
+  dataContainerInterfaces: Array<Clazz<DataContainer>>,
   data: Array<{
-    interfaceClass: Clazz<core.Element>;
+    interfaceClass: Clazz<Element>;
     elementClass: ComponentType;
   }>
 ): void {
+  registerInterfaces(dataContainerInterfaces);
+
+  for (const interfaceClass of dataContainerInterfaces) {
+    ELEMENT_REGISTRY.set(interfaceClass, DataContainerComponent);
+  }
+
   for (const { interfaceClass, elementClass } of data) {
     registerInterfaces([interfaceClass]);
 

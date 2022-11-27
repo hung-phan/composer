@@ -25,7 +25,7 @@ export default function SelectElementComponent(props: EngineComponentProps) {
       }
 
       const [, patches] = produceWithPatches(elementState, (draft) => {
-        draft.data = itemValue;
+        draft.value = itemValue;
       });
 
       dispatch(

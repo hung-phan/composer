@@ -1,6 +1,6 @@
-import _ from "lodash";
-import { immerable } from "immer";
 import { Builder, IBuilder } from "builder-pattern";
+import { immerable } from "immer";
+import _ from "lodash";
 
 import getNewId from "../../library/idGenerator";
 
@@ -95,7 +95,10 @@ export class Node extends Serializable {
         return;
       } else if (_.isArray(value)) {
         for (let index = 0, len = value.length; index < len; index++) {
-          if (value[index] instanceof Element && value[index].id === oldChildId) {
+          if (
+            value[index] instanceof Element &&
+            value[index].id === oldChildId
+          ) {
             value[index] = childElement;
             return;
           }
@@ -108,7 +111,10 @@ export class Node extends Serializable {
     for (const value of Object.values(this.element)) {
       if (_.isArray(value)) {
         for (let index = 0, len = value.length; index < len; index++) {
-          if (value[index] instanceof Element && value[index].id === oldChildId) {
+          if (
+            value[index] instanceof Element &&
+            value[index].id === oldChildId
+          ) {
             value.splice(index, 1, ...childElements);
 
             return;
@@ -135,20 +141,16 @@ export class PlaceholderElement extends Element {
   }
 }
 
-export interface DataContainer<T> {
-  data: T;
+export class DataContainer extends Element {
+  interfaceName = "DataContainer";
+
+  static builder(): IBuilder<DataContainer> {
+    return Builder(DataContainer);
+  }
 }
 
-export type ElementState<T> = DataContainer<T>
-
-export class StateHolderElement<T extends ElementState<any>> extends Element {
-  interfaceName = "StateHolderElement";
-
-  elementState: T;
-
-  static builder<T extends ElementState<any>>(): IBuilder<StateHolderElement<T>> {
-    return Builder(StateHolderElement<T>);
-  }
+export interface RawDataContainer<T> {
+  data: T
 }
 
 export class Response extends Serializable {
@@ -216,7 +218,7 @@ export class UpdateInListElementMethod extends Method {
   }
 }
 
-export type RequestData<T> = DataContainer<T>
+export type RequestData<T> = RawDataContainer<T>;
 
 export class HttpMethod<T> extends Method {
   interfaceName = "HttpMethod";
@@ -235,12 +237,12 @@ export class HttpMethod<T> extends Method {
   }
 }
 
-export type ClientInfo<T> = DataContainer<T>;
+export type ClientInfo<T> = RawDataContainer<T>;
 
-export interface HttpMethodRequestBody<T, S extends ElementState<any>, G extends ClientInfo<any>> {
-  requestData?: RequestData<T>;
-  elementState?: S;
-  clientInfo?: G;
+export interface HttpMethodRequestBody<RequestDataType, ClientInfoType> {
+  elementState?: DataContainer;
+  requestData?: RequestData<RequestDataType>;
+  clientInfo?: ClientInfo<ClientInfoType>;
 }
 
 export class NavigateMethod extends Method {

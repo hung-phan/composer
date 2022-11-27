@@ -8,14 +8,7 @@ import {
 } from "immer";
 import { DefaultRootState } from "react-redux";
 
-import {
-  Element,
-  ElementState,
-  Id,
-  Method,
-  Node,
-  StateHolderElement,
-} from "../interfaces";
+import { DataContainer, Element, Id, Method, Node } from "../interfaces";
 import { engineDispatch } from "./coreEngine";
 import { ROOT_ID } from "./index";
 
@@ -55,27 +48,17 @@ export const selectors = {
 
     return parentNode.element;
   },
-  getElementState: <T extends ElementState<any>>(
+  getElementState: <T extends DataContainer>(
     state: DefaultRootState,
     id: Id
   ): T | undefined => {
-    const node: Node = state[mountPoint][id];
+    const element = selectors.getElement(state, id);
 
-    if (node === undefined) {
-      throw new Error(`Cannot find element with ${id}`);
+    if (!(element instanceof DataContainer)) {
+      throw new Error("Current element is not a DataContainer");
     }
 
-    const element = node.element;
-
-    if (element === undefined) {
-      throw new Error(`StateHolderElement is undefined for ${id}`);
-    }
-
-    if (!(element instanceof StateHolderElement)) {
-      throw new Error("Current element is not a StateHolderElement");
-    }
-
-    return element.elementState as T;
+    return element as T;
   },
 };
 
@@ -261,11 +244,11 @@ const slice = createSlice({
     ) => {
       const element = state[action.payload.stateElementId].element;
 
-      if (!(element instanceof StateHolderElement)) {
-        throw new Error("Can only update state of StateHolderElement");
+      if (!(element instanceof DataContainer)) {
+        throw new Error("Can only update state of DataContainer");
       }
 
-      applyPatches(element.elementState, action.payload.patches);
+      applyPatches(element, action.payload.patches);
     },
   },
 });

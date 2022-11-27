@@ -4,6 +4,10 @@ import _ from "lodash";
 import { getInterfaceByName } from "../../elements/registry";
 import { Serializable } from "../interfaces";
 
+function hasSerializableInterface(obj) {
+  return _.isObject(obj) && _.has(obj, "interfaceName");
+}
+
 export function convertToClass<T extends Serializable>(obj: any): T {
   if (_.isArray(obj)) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -11,12 +15,9 @@ export function convertToClass<T extends Serializable>(obj: any): T {
     return _.map(obj, convertToClass);
   }
 
-  if (_.isObject(obj) && _.has(obj, "interfaceName")) {
+  if (hasSerializableInterface(obj)) {
     for (const [key, value] of Object.entries(obj)) {
-      if (
-        _.isArray(value) ||
-        (_.isObject(value) && _.has(value, "interfaceName"))
-      ) {
+      if (_.isArray(value) || hasSerializableInterface(value)) {
         obj[key] = convertToClass(value);
       }
     }

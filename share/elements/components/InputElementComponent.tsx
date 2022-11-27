@@ -21,7 +21,7 @@ export default function InputElementComponent(props: EngineComponentProps) {
   const sendInputOnChange = useCallback(
     _.debounce((currentValue: string) => {
       const [, patches] = produceWithPatches(elementState, (draft) => {
-        draft.data = currentValue;
+        draft.value = currentValue;
       });
 
       dispatch(
@@ -40,7 +40,7 @@ export default function InputElementComponent(props: EngineComponentProps) {
   const sendInputOnEnterKeyPress = useCallback(
     _.debounce((currentValue: string) => {
       const [, patches] = produceWithPatches(elementState, (draft) => {
-        draft.data = currentValue;
+        draft.value = currentValue;
       });
 
       dispatch(

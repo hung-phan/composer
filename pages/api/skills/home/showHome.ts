@@ -6,7 +6,6 @@ import {
   HttpMethod,
   RenderElementMethod,
   Response,
-  StateHolderElement,
 } from "../../../../share/domain/interfaces";
 import {
   ButtonElement,
@@ -37,11 +36,10 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
 
   const INPUT_BOX_STATE_HOLDER = getNewId();
 
-  const searchElementStateHolderElement =
-    StateHolderElement.builder<InputElementState>()
-      .id(INPUT_BOX_STATE_HOLDER)
-      .elementState({ data: "" })
-      .build();
+  const searchInputState = InputElementState.builder()
+    .id(INPUT_BOX_STATE_HOLDER)
+    .value("")
+    .build();
 
   const formElement = FormElement.builder()
     .formId("searchForm")
@@ -71,16 +69,14 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
     .build();
 
   const formLayout = LayoutElement.builder()
-    .elements([formElement, searchElementStateHolderElement])
+    .elements([formElement, searchInputState])
     .build();
 
   const linkLayout = LayoutElement.builder()
     .elements([
       LinkElement.builder()
         .url("/lazyLoad")
-        .element(
-          TextElement.builder().message("Lazy load example").build()
-        )
+        .element(TextElement.builder().message("Lazy load example").build())
         .build(),
       LinkElement.builder()
         .url("/infiniteLoading")

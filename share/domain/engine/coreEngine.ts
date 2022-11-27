@@ -8,8 +8,8 @@ import { ThunkDispatch } from "redux-thunk";
 import fetch from "../../library/fetch";
 import {
   ClientInfo,
+  DataContainer,
   Element,
-  ElementState,
   HttpMethod,
   HttpMethodRequestBody,
   InvokeExternalMethod,
@@ -94,7 +94,7 @@ async function evalMethod(
 async function makeHttpCall(
   method: HttpMethod<any>,
   coreEngine: CoreEngine,
-  elementState?: ElementState<any>
+  elementState?: DataContainer
 ): Promise<void> {
   if (method.requestType === undefined) {
     throw new Error("requestType cannot be undefined");
@@ -111,7 +111,7 @@ async function makeHttpCall(
 
   try {
     const requestOptions: RequestInit = {};
-    const requestBody: HttpMethodRequestBody<any, any, any> = {
+    const requestBody: HttpMethodRequestBody<any, any> = {
       elementState,
       clientInfo: coreEngine.clientInfo,
       requestData: method.requestData,
