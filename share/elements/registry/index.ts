@@ -34,10 +34,13 @@ registerElements(
       interfaceClass: core.PlaceholderElement,
       elementClass: components.PlaceholderElementComponent,
     },
-
     {
       interfaceClass: templates.DefaultTemplate,
       elementClass: templateComponents.DefaultTemplateElement,
+    },
+    {
+      interfaceClass: templates.PeriodicTemplate,
+      elementClass: templateComponents.PeriodicTemplateElement,
     },
     {
       interfaceClass: widgets.LayoutElement,
