@@ -95,7 +95,7 @@ export class Node extends Serializable {
         this.element[key] = childElement;
         return;
       } else if (_.isArray(value)) {
-        for (let index = 0, len = value.length; index < len; index++) {
+        for (let index = value.length - 1; index >= 0; index--) {
           if (
             value[index] instanceof Element &&
             value[index].id === oldChildId
