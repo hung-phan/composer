@@ -1,59 +1,83 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-interface DataContainer<T> {
-  data: T;
-}
-
-interface ElementState<T> extends DataContainer
-interface RequestData<T> extends DataContainer {}
-
 abstract class Serializable {
-  interfaceName: string
+  abstract interfaceName: string;
 }
 
-class Response extends Serializable {
-  methods: Method[]
+class Method extends Serializable {
+  interfaceName = "Method";
 }
 
 class Element extends Serializable {
-  id: string;
+  interfaceName = "Element";
+
+  id: Id;
+
   class?: string;
-  stateId?: string;
+  stateId?: Id;
 
   onCreate?: Method[];
-  onUpdate?: Method[];
   onDestroy?: Method[];
 }
 
-class StateHolderElement<T> extends Element {
-  elementState: ElementState<T>
+class Node extends Serializable {
+  interfaceName = "Node";
+
+  parent?: Id;
+  childs?: { [key: Id]: boolean };
+  element?: Element;
 }
 
-class PlaceholderElement extends Element {}
+class PlaceholderElement extends Element {
+  interfaceName = "PlaceholderElement";
+}
 
-class Method extends Serializable {}
+class DataContainer extends Element {
+  interfaceName = "DataContainer";
+}
+
+interface RawDataContainer<T> {
+  data: T
+}
+
+class Response extends Serializable {
+  interfaceName = "Response";
+
+  methods: Method[];
+}
+
 
 class InvokeExternalMethod extends Method {
+  interfaceName = "InvokeExternalMethod";
+
   type: string;
-  payload: any;
+  payload: unknown;
 }
 
 class RenderElementMethod extends Method {
+  interfaceName = "RenderElementMethod";
+
   element: Element;
 }
 
 class UpdateElementMethod extends Method {
+  interfaceName = "UpdateElementMethod";
+
   id: Id;
   element: Element;
 }
 
 class UpdateInListElementMethod extends Method {
+  interfaceName = "UpdateInListElementMethod";
+
   id: Id;
   elements: Element[];
 }
 
 class HttpMethod<T> extends Method {
+  interfaceName = "HttpMethod";
+
   before?: Method[];
   after?: Method[];
   url: string;
@@ -64,8 +88,38 @@ class HttpMethod<T> extends Method {
   onSuccess?: Method[];
 }
 
+interface HttpMethodRequestBody<RequestDataType, ClientInfoType> {
+  elementState?: DataContainer;
+  requestData?: RequestData<RequestDataType>;
+  clientInfo?: ClientInfo<ClientInfoType>;
+}
+
 class NavigateMethod extends Method {
-  url: string
+  interfaceName = "NavigateMethod";
+
+  url: string;
+}
+
+class LayoutElement extends Element {
+  interfaceName = "LayoutElement";
+
+  elements: Element[];
+}
+
+class InputElementState extends DataContainer {
+  interfaceName = "InputElementState";
+
+  value: string;
+}
+
+class InputElement extends Element {
+  interfaceName = "InputElement";
+
+  name?: string;
+  defaultValue = "";
+  placeholder?: string;
+  onInputChange?: Method[];
+  onEnterKeyPressed?: Method[];
 }
 
 @enduml

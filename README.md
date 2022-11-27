@@ -52,14 +52,14 @@ When invoking this in the client side, it will send back the server side that da
 You will be able to access it in requestData
 
 ```
-HttpMethodRequestBody<T, S extends ElementState<any>> {
-  clientInfo?: ClientInfo;
-  requestData?: RequestData<T>;
-  elementState?: S;
+export interface HttpMethodRequestBody<RequestDataType, ClientInfoType> {
+  elementState?: DataContainer;
+  requestData?: RequestData<RequestDataType>;
+  clientInfo?: ClientInfo<ClientInfoType>;
 }
 ```
 
-`clientStateId` in HttpMethod will need to be associated with a StateholderElement. Its responsibility is when
+`clientStateId` in HttpMethod will need to be associated with a `DataContainer`. Its responsibility is when
 specified in the `HttpMethod` object, it will extract that `elementState` in the client and send it along
 with the request to the server side
 
@@ -68,7 +68,7 @@ that we won't be able to get it or manipulate it in the server side
 
 ### Elements
 
-* `StateHolderElement` is used to hold state and let other components update this state
+* `DataContainer` is used to hold state and let other components update this state
 * `PlaceholderElement` is used to represent a temporary component that can be later replaced when we have the
   correct component for that position. Placeholder usually has an `id` that is known to other elements
 
