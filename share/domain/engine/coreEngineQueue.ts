@@ -71,16 +71,6 @@ export class TaskQueue {
   }
 }
 
-let taskQueue: TaskQueue | null = null;
-
 export default function getTaskQueue() {
-  if (process.env.ENVIRONMENT === "client") {
-    if (taskQueue === null) {
-      taskQueue = new TaskQueue();
-    }
-
-    return taskQueue;
-  }
-
   return new TaskQueue();
 }
