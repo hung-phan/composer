@@ -12,6 +12,7 @@ registerInterfaces([
   core.InvokeExternalMethod,
   core.Element,
   core.RenderElementMethod,
+  core.BatchRenderElementMethod,
   core.UpdateElementMethod,
   core.UpdateInListElementMethod,
   core.HttpMethod,

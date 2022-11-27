@@ -196,6 +196,16 @@ export class RenderElementMethod extends Method {
   }
 }
 
+export class BatchRenderElementMethod extends Method {
+  interfaceName = "BatchRenderElementMethod";
+
+  elements: Element[];
+
+  static builder(): IBuilder<BatchRenderElementMethod> {
+    return Builder(BatchRenderElementMethod);
+  }
+}
+
 export class UpdateElementMethod extends Method {
   interfaceName = "UpdateElementMethod";
 

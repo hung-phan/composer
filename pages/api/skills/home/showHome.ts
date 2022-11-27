@@ -87,6 +87,12 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
           TextElement.builder().message("Infinite loading example").build()
         )
         .build(),
+      LinkElement.builder()
+        .url("/loadTest")
+        .element(
+          TextElement.builder().message("Load test example").build()
+        )
+        .build(),
     ])
     .build();
 

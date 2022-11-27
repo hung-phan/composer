@@ -7,6 +7,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import fetch from "../../library/fetch";
 import {
+  BatchRenderElementMethod,
   ClientInfo,
   DataContainer,
   Element,
@@ -55,6 +56,10 @@ async function evalMethod(
     }
   } else if (method instanceof RenderElementMethod) {
     await registerElement(method.element, coreEngine);
+  } else if (method instanceof BatchRenderElementMethod) {
+    await Promise.all(
+      method.elements.map((element) => registerElement(element, coreEngine))
+    );
   } else if (method instanceof UpdateElementMethod) {
     await coreEngine.dispatch(async (__, getState) => {
       const parentElement = selectors.getParentElement(getState(), method.id);
