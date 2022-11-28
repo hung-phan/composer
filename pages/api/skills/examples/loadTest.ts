@@ -9,21 +9,37 @@ import {
   Response,
 } from "../../../../share/domain/interfaces";
 import {
+  InfiniteScrollElement,
+  InfiniteScrollElementState,
   LayoutElement,
   TextElement,
 } from "../../../../share/elements/components/widgets";
 import { PeriodicTemplate } from "../../../../share/elements/templateComponents/templates";
 
 async function LoadTestSkill(_req: NextApiRequest, res: NextApiResponse) {
+  const INFINITE_SCROLL_ELEMENT_ID = "INFINITE_SCROLL_ELEMENT_ID";
+  const INFINITE_SCROLL_STATE_ID = "INFINITE_SCROLL_STATE_ID";
+
   const pageLayout = LayoutElement.builder()
-    .elements(
-      _.range(0, 500).map((val) =>
-        TextElement.builder()
-          .id(`TEXT_${val}`)
-          .message(`This is text element with ${Math.random()}`)
-          .build()
-      )
-    )
+    .elements([
+      InfiniteScrollElementState.builder()
+        .id(INFINITE_SCROLL_STATE_ID)
+        .hasMore(false)
+        .items(
+          _.range(0, 500).map((val) =>
+            TextElement.builder()
+              .id(`TEXT_${val}`)
+              .message(`This is text element with ${Math.random()}`)
+              .build()
+          )
+        )
+        .build(),
+      InfiniteScrollElement.builder()
+        .id(INFINITE_SCROLL_ELEMENT_ID)
+        .stateId(INFINITE_SCROLL_STATE_ID)
+        .loader(TextElement.builder().message("Loading ...").build())
+        .build(),
+    ])
     .build();
 
   const template = PeriodicTemplate.builder()
