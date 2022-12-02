@@ -48,8 +48,8 @@ registerElements(
       elementClass: components.LayoutElementComponent,
     },
     {
-      interfaceClass: widgets.DataElement,
-      elementClass: components.DataElementComponent,
+      interfaceClass: widgets.CloneElement,
+      elementClass: components.CloneElementComponent,
     },
     {
       interfaceClass: widgets.TextElement,

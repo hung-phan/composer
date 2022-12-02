@@ -1,5 +1,5 @@
+export { default as CloneElementComponent } from "./CloneElementComponent";
 export { default as ButtonElementComponent } from "./ButtonElementComponent";
-export { default as DataElementComponent } from "./DataElementComponent";
 export { default as TextElementComponent } from "./TextElementComponent";
 export { default as LinkElementComponent } from "./LinkElementComponent";
 export { default as ImageElementComponent } from "./ImageElementComponent";

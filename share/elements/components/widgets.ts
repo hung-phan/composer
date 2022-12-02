@@ -1,6 +1,6 @@
 import { Builder, IBuilder } from "builder-pattern";
 
-import { DataContainer, Element, Method } from "../../domain/interfaces";
+import { DataContainer, Element, Id, Method } from "../../domain/interfaces";
 
 // LAYOUT elements
 export class LayoutElement extends Element {
@@ -16,13 +16,13 @@ export class LayoutElement extends Element {
 }
 
 // CORE elements
-export class DataElement extends Element {
+export class CloneElement extends Element {
   interfaceName = "DataElement";
 
-  data: string | number;
+  cloneElementId: Id;
 
-  static builder(): IBuilder<DataElement> {
-    return Builder(DataElement);
+  static builder(): IBuilder<CloneElement> {
+    return Builder(CloneElement);
   }
 }
 
