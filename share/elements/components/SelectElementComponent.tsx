@@ -1,6 +1,6 @@
 import { produceWithPatches } from "immer";
 import _ from "lodash";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import { actions, engineDispatch } from "../../domain/engine";
@@ -17,10 +17,9 @@ export default function SelectElementComponent(props: EngineComponentProps) {
 
   const elementState = useElementState<SelectElementState>(element);
   const dispatch = useDispatch();
-  const [value, setValue] = useState(element.defaultValue);
   const handleItemSelect = useCallback(
     (itemValue: string) => {
-      if (itemValue === value) {
+      if (itemValue === elementState.value) {
         return;
       }
 
@@ -36,10 +35,8 @@ export default function SelectElementComponent(props: EngineComponentProps) {
       );
 
       engineDispatch(dispatch, element.onItemSelected);
-
-      setValue(itemValue);
     },
-    [setValue]
+    [elementState.value]
   );
 
   return (
@@ -49,7 +46,10 @@ export default function SelectElementComponent(props: EngineComponentProps) {
         element.class || ""
       }`.trim()}
     >
-      <select value={value} onChange={(e) => handleItemSelect(e.toString())}>
+      <select
+        value={elementState.value}
+        onChange={(e) => handleItemSelect(e.toString())}
+      >
         {_.zip(element.itemValues, element.itemDescriptions).map(
           ([itemValue, itemDescription], index) => (
             <option key={index} value={itemValue}>

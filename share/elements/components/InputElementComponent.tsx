@@ -1,6 +1,5 @@
 import { produceWithPatches } from "immer";
-import _ from "lodash";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import { actions, engineDispatch } from "../../domain/engine";
@@ -17,9 +16,8 @@ export default function InputElementComponent(props: EngineComponentProps) {
 
   const elementState = useElementState<InputElementState>(element);
   const dispatch = useDispatch();
-  const [value, setValue] = useState(element.defaultValue);
   const sendInputOnChange = useCallback(
-    _.debounce((currentValue: string) => {
+    (currentValue: string) => {
       const [, patches] = produceWithPatches(elementState, (draft) => {
         draft.value = currentValue;
       });
@@ -32,13 +30,11 @@ export default function InputElementComponent(props: EngineComponentProps) {
       );
 
       engineDispatch(dispatch, element.onInputChange);
-
-      setValue(currentValue);
-    }, 150),
-    []
+    },
+    [elementState.value]
   );
   const sendInputOnEnterKeyPress = useCallback(
-    _.debounce((currentValue: string) => {
+    (currentValue: string) => {
       const [, patches] = produceWithPatches(elementState, (draft) => {
         draft.value = currentValue;
       });
@@ -51,25 +47,22 @@ export default function InputElementComponent(props: EngineComponentProps) {
       );
 
       engineDispatch(dispatch, element.onEnterKeyPressed);
-
-      setValue(currentValue);
-    }, 300),
-    []
+    },
+    [elementState.value]
   );
 
   return (
     <input
       key={element.id}
-      value={value}
+      value={elementState.value}
       name={element.name}
       placeholder={element.placeholder}
       onChange={(event) => {
-        setValue(event.target.value);
         sendInputOnChange(event.target.value);
       }}
       onKeyDown={(event) => {
         if (event.key === "Enter") {
-          sendInputOnEnterKeyPress(value);
+          sendInputOnEnterKeyPress(elementState.value);
         }
       }}
     />

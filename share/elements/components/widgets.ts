@@ -88,7 +88,6 @@ export class InputElement extends Element {
   interfaceName = "InputElement";
 
   name?: string;
-  defaultValue = "";
   placeholder?: string;
   onInputChange?: Method[];
   onEnterKeyPressed?: Method[];
