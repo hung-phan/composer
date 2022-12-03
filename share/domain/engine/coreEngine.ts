@@ -34,11 +34,11 @@ class CoreEngine {
   readonly clientInfo?: ClientInfo<any>;
   actions: AnyAction[] = [];
 
-  addToQueue(action: AnyAction) {
+  addToDispatchQueue(action: AnyAction) {
     this.actions.push(action);
   }
 
-  async flush() {
+  async flushDispatchQueue() {
     await this.dispatch(actions.handleCoreEngineActions(this.actions));
 
     this.actions = [];
@@ -69,38 +69,38 @@ async function evalMethod(
     }
   } else if (method instanceof RenderElementMethod) {
     await registerElement(method.element, coreEngine);
-    await coreEngine.flush();
+    await coreEngine.flushDispatchQueue();
   } else if (method instanceof BatchRenderElementMethod) {
     await Promise.all(
       method.elements.map((element) => registerElement(element, coreEngine))
     );
-    await coreEngine.flush();
+    await coreEngine.flushDispatchQueue();
   } else if (method instanceof UpdateElementMethod) {
     await coreEngine.dispatch(async (__, getState) => {
       const parentElement = selectors.getParentElement(getState(), method.id);
 
       await registerElement(method.element, coreEngine);
 
-      coreEngine.addToQueue(
+      coreEngine.addToDispatchQueue(
         actions.replaceElement({
           parentId: parentElement.id,
           oldId: method.id,
           id: method.element.id,
         })
       );
-      await coreEngine.flush();
+      await coreEngine.flushDispatchQueue();
     });
   } else if (method instanceof UpdateInListElementMethod) {
     await Promise.all(
       method.elements.map((element) => registerElement(element, coreEngine))
     );
-    coreEngine.addToQueue(
+    coreEngine.addToDispatchQueue(
       actions.replaceElementInList({
         oldId: method.id,
         ids: method.elements.map((element) => element.id),
       })
     );
-    await coreEngine.flush();
+    await coreEngine.flushDispatchQueue();
   } else if (method instanceof NavigateMethod) {
     if (process.env.ENVIRONMENT === "client") {
       await Router.push(method.url);
@@ -209,14 +209,14 @@ async function registerElement(
     }
   }
 
-  coreEngine.addToQueue(
+  coreEngine.addToDispatchQueue(
     actions.setElement({
       element,
     })
   );
 
   if (!_.isEmpty(childElements)) {
-    coreEngine.addToQueue(
+    coreEngine.addToDispatchQueue(
       actions.registerParent({
         parentId: element.id,
         ids: childElements.map((nestedElement) => nestedElement.id),
