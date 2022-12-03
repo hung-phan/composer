@@ -2,7 +2,7 @@ import { Builder, IBuilder } from "builder-pattern";
 import { immerable } from "immer";
 import _ from "lodash";
 
-import getNewId from "../../library/idGenerator";
+import getNewId, { Id } from "../../library/idGenerator";
 import { Action } from "redux";
 
 export abstract class Serializable {
@@ -22,8 +22,6 @@ export class Method extends Serializable {
     return Builder(Method);
   }
 }
-
-export type Id = string;
 
 export class Element extends Serializable {
   interfaceName = "Element";

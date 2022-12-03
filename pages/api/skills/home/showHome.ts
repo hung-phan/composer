@@ -1,12 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { ROOT_ID } from "../../../../share/domain/engine";
-import { encode } from "../../../../share/domain/engine/serializers";
+import { ROOT_ID } from "share/domain/engine";
+import { encode } from "share/domain/engine/serializers";
 import {
   HttpMethod,
   RenderElementMethod,
   Response,
-} from "../../../../share/domain/interfaces";
+} from "share/domain/interfaces";
 import {
   ButtonElement,
   FormElement,
@@ -17,9 +16,9 @@ import {
   LayoutElement,
   LinkElement,
   TextElement,
-} from "../../../../share/elements/components/widgets";
-import { DefaultTemplate } from "../../../../share/elements/templateComponents/templates";
-import getNewId from "../../../../share/library/idGenerator";
+} from "share/elements/components/widgets";
+import { DefaultTemplate } from "share/elements/templateComponents/templates";
+import getNewId from "share/library/idGenerator";
 
 const searchInputName = "search";
 

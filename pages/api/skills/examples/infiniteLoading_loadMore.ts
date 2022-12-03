@@ -1,13 +1,12 @@
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { encode } from "../../../../share/domain/engine/serializers";
+import { encode } from "share/domain/engine/serializers";
 import {
   PlaceholderElement,
   Response,
   UpdateInListElementMethod,
-} from "../../../../share/domain/interfaces";
-import { ImageElement } from "../../../../share/elements/components/widgets";
+} from "share/domain/interfaces";
+import { ImageElement } from "share/elements/components/widgets";
 
 async function InfiniteLoadingLoadMoreSkill(
   _req: NextApiRequest,

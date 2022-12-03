@@ -1,7 +1,6 @@
+import { Clazz } from "@types";
 import * as _ from "lodash";
-
-import { Clazz } from "../../../../fuzzy/src/packages/webapp/@types";
-import { Serializable } from "../../domain/interfaces";
+import { Serializable } from "share/domain/interfaces";
 
 const INTERFACE_REGISTRY: { [key: string]: Clazz<Serializable> } = {};
 

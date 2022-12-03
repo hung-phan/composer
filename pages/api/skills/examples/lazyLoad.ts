@@ -1,22 +1,18 @@
 import { Builder } from "builder-pattern";
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { getQueryData } from "../../../../server/infrastructure/application/helpers";
-import { ROOT_ID } from "../../../../share/domain/engine";
-import { encode } from "../../../../share/domain/engine/serializers";
+import { getQueryData } from "server/infrastructure/application/helpers";
+import { ROOT_ID } from "share/domain/engine";
+import { encode } from "share/domain/engine/serializers";
 import {
   HttpMethod,
   PlaceholderElement,
   RenderElementMethod,
   RequestData,
   Response,
-} from "../../../../share/domain/interfaces";
-import {
-  ImageElement,
-  LayoutElement,
-} from "../../../../share/elements/components/widgets";
-import { DefaultTemplate } from "../../../../share/elements/templateComponents/templates";
+} from "share/domain/interfaces";
+import { ImageElement, LayoutElement } from "share/elements/components/widgets";
+import { DefaultTemplate } from "share/elements/templateComponents/templates";
 
 async function LazyLoadSkill(req: NextApiRequest, res: NextApiResponse) {
   const query = getQueryData(req, "query");

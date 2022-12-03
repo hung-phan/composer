@@ -1,7 +1,7 @@
+import { Clazz } from "@types";
 import { Builder } from "builder-pattern";
 import { useSelector } from "react-redux";
 
-import { Clazz } from "../../../fuzzy/src/packages/webapp/@types";
 import { selectors } from "../domain/engine";
 import { Element } from "../domain/interfaces";
 

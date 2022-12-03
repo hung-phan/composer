@@ -1,9 +1,6 @@
 import { Builder, IBuilder } from "builder-pattern";
 
-
-
 import { Element, Method } from "../../domain/interfaces";
-
 
 // TEMPLATE element
 export class DefaultTemplate extends Element {

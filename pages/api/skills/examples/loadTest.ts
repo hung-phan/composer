@@ -1,20 +1,19 @@
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { ROOT_ID } from "../../../../share/domain/engine";
-import { encode } from "../../../../share/domain/engine/serializers";
+import { ROOT_ID } from "share/domain/engine";
+import { encode } from "share/domain/engine/serializers";
 import {
   HttpMethod,
   RenderElementMethod,
   Response,
-} from "../../../../share/domain/interfaces";
+} from "share/domain/interfaces";
 import {
   InfiniteScrollElement,
   InfiniteScrollElementState,
   LayoutElement,
   TextElement,
-} from "../../../../share/elements/components/widgets";
-import { PeriodicTemplate } from "../../../../share/elements/templateComponents/templates";
+} from "share/elements/components/widgets";
+import { PeriodicTemplate } from "share/elements/templateComponents/templates";
 
 async function LoadTestSkill(_req: NextApiRequest, res: NextApiResponse) {
   const INFINITE_SCROLL_ELEMENT_ID = "INFINITE_SCROLL_ELEMENT_ID";

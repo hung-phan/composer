@@ -3,10 +3,9 @@ import { ParsedUrlQuery } from "querystring";
 import { DefaultRootState } from "react-redux";
 import { AnyAction, Store } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-
-import { actions } from "../../../share/domain/engine";
-import { HttpMethod } from "../../../share/domain/interfaces";
-import { RootState, wrapper } from "../../../share/store";
+import { actions } from "share/domain/engine";
+import { HttpMethod } from "share/domain/interfaces";
+import { RootState, wrapper } from "share/store";
 
 type GetServerSidePropsType = (
   store: Store<RootState>,

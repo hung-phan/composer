@@ -7,8 +7,9 @@ import {
   setAutoFreeze,
 } from "immer";
 import { DefaultRootState } from "react-redux";
+import { Id } from "share/library/idGenerator";
 
-import { DataContainer, Element, Id, Method, Node } from "../interfaces";
+import { DataContainer, Element, Method, Node } from "../interfaces";
 import { engineDispatch } from "./coreEngine";
 import { getSimplifiedElement } from "./coreEngineHelpers";
 import { ROOT_ID } from "./index";

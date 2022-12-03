@@ -1,6 +1,6 @@
+import { Clazz } from "@types";
 import { ComponentClass, FunctionComponent } from "react";
 
-import { Clazz } from "../../../../fuzzy/src/packages/webapp/@types";
 import { DataContainer, Element } from "../../domain/interfaces";
 import { DataContainerComponent } from "../components";
 import { getInterfaceByName, registerInterfaces } from "./interfaceRegistry";

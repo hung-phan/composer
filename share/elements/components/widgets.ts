@@ -1,6 +1,7 @@
 import { Builder, IBuilder } from "builder-pattern";
 
-import { DataContainer, Element, Id, Method } from "../../domain/interfaces";
+import { DataContainer, Element, Method } from "../../domain/interfaces";
+import { Id } from "../../library/idGenerator";
 
 // LAYOUT elements
 export class LayoutElement extends Element {

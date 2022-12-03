@@ -1,21 +1,20 @@
 import { Builder } from "builder-pattern";
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { encode } from "../../../../share/domain/engine/serializers";
+import { encode } from "share/domain/engine/serializers";
 import {
   HttpMethod,
   HttpMethodRequestBody,
   RenderElementMethod,
   RequestData,
   Response,
-} from "../../../../share/domain/interfaces";
+} from "share/domain/interfaces";
 import {
   ButtonElement,
   ImageElement,
   LayoutElement,
   TextElement,
-} from "../../../../share/elements/components/widgets";
+} from "share/elements/components/widgets";
 
 async function LazyLoadAsyncComponentSkill(
   req: NextApiRequest,
