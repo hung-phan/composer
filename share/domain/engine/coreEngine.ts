@@ -6,6 +6,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import fetch from "../../library/fetch";
+import { Id } from "../../library/idGenerator";
 import {
   BatchRenderElementMethod,
   ClientInfo,
@@ -27,6 +28,7 @@ import { actions, selectors } from "./coreEngineStateStore";
 import { decode } from "./serializers";
 
 class CoreEngine {
+  readonly ownerId: Id;
   readonly taskQueue: TaskQueue;
   readonly dispatch: ThunkDispatch<DefaultRootState, unknown, AnyAction>;
   readonly clientInfo?: ClientInfo<any>;
@@ -107,12 +109,7 @@ async function makeHttpCall(
   }
 
   if (method.before) {
-    await dispatchTask(
-      coreEngine.taskQueue,
-      coreEngine.dispatch,
-      method.before,
-      coreEngine.clientInfo
-    );
+    await dispatchTask(coreEngine, method.before);
   }
 
   try {
@@ -145,48 +142,23 @@ async function makeHttpCall(
       const responseObj = decode<Response>(await response.text());
 
       if (method.onSuccess) {
-        await dispatchTask(
-          coreEngine.taskQueue,
-          coreEngine.dispatch,
-          method.onSuccess,
-          coreEngine.clientInfo
-        );
+        await dispatchTask(coreEngine, method.onSuccess);
       }
 
-      await dispatchTask(
-        coreEngine.taskQueue,
-        coreEngine.dispatch,
-        responseObj.methods,
-        coreEngine.clientInfo
-      );
+      await dispatchTask(coreEngine, responseObj.methods);
     } else if (method.onError) {
-      await dispatchTask(
-        coreEngine.taskQueue,
-        coreEngine.dispatch,
-        method.onError,
-        coreEngine.clientInfo
-      );
+      await dispatchTask(coreEngine, method.onError);
     }
   } catch (e) {
     console.error(e);
 
     if (method.onError) {
-      await dispatchTask(
-        coreEngine.taskQueue,
-        coreEngine.dispatch,
-        method.onError,
-        coreEngine.clientInfo
-      );
+      await dispatchTask(coreEngine, method.onError);
     }
   }
 
   if (method.after) {
-    await dispatchTask(
-      coreEngine.taskQueue,
-      coreEngine.dispatch,
-      method.after,
-      coreEngine.clientInfo
-    );
+    await dispatchTask(coreEngine, method.after);
   }
 }
 
@@ -238,30 +210,25 @@ async function registerElement(
   }
 }
 
-async function dispatchTask(
-  taskQueue: TaskQueue,
-  dispatch: ThunkDispatch<DefaultRootState, unknown, AnyAction>,
-  methods?: Method[],
-  clientInfo?: ClientInfo<any>
-) {
+async function dispatchTask(coreEngine: CoreEngine, methods?: Method[]) {
   if (_.isEmpty(methods)) {
     return;
   }
 
-  const coreEngine = Builder(CoreEngine)
-    .taskQueue(taskQueue)
-    .dispatch(dispatch)
-    .clientInfo(clientInfo)
-    .build();
+  await coreEngine.dispatch(async (__, getState) => {
+    if (coreEngine.ownerId !== selectors.getCurrentTemplateOwnerId(getState())) {
+      return;
+    }
 
-  try {
-    await Promise.all(methods.map((method) => evalMethod(method, coreEngine)));
-  } catch (e) {
-    console.error(e);
-  }
+    try {
+      await Promise.all(methods.map((method) => evalMethod(method, coreEngine)));
+    } catch (e) {
+      console.error(e);
+    }
+  });
 }
 
-export function engineDispatch(
+export async function engineDispatch(
   dispatch: ThunkDispatch<DefaultRootState, unknown, AnyAction>,
   methods?: Method[],
   clientInfo?: ClientInfo<any>
@@ -270,5 +237,14 @@ export function engineDispatch(
     return;
   }
 
-  return dispatchTask(getTaskQueue(), dispatch, methods, clientInfo);
+  await dispatch(async (__, getState) => {
+    const coreEngine = Builder(CoreEngine)
+      .ownerId(selectors.getCurrentTemplateOwnerId(getState()))
+      .taskQueue(getTaskQueue())
+      .dispatch(dispatch)
+      .clientInfo(clientInfo)
+      .build();
+
+    return dispatchTask(coreEngine, methods);
+  });
 }

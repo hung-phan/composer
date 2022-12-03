@@ -16,12 +16,12 @@ export default function PeriodicTemplateElement(props: EngineComponentProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const timeout = setInterval(
+    const interval = setInterval(
       () => engineDispatch(dispatch, element.methods),
       element.intervalInMs
     );
 
-    return () => clearInterval(timeout);
+    return () => clearInterval(interval);
   }, []);
 
   return (

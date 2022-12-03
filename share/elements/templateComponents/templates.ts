@@ -1,9 +1,20 @@
 import { Builder, IBuilder } from "builder-pattern";
 
 import { Element, Method } from "../../domain/interfaces";
+import getNewId, { Id } from "../../library/idGenerator";
 
 // TEMPLATE element
-export class DefaultTemplate extends Element {
+export class Template extends Element {
+  interfaceName = "Template";
+
+  ownerId: Id = getNewId();
+
+  static builder(): IBuilder<Template> {
+    return Builder(Template);
+  }
+}
+
+export class DefaultTemplate extends Template {
   interfaceName = "DefaultTemplate";
 
   widgets: Element[];

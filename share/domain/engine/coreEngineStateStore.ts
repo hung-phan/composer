@@ -9,10 +9,11 @@ import {
 import { DefaultRootState } from "react-redux";
 import { Id } from "share/library/idGenerator";
 
+import { Template } from "../../elements/templateComponents/templates";
 import { DataContainer, Element, Method, Node } from "../interfaces";
 import { engineDispatch } from "./coreEngine";
 import { getSimplifiedElement } from "./coreEngineHelpers";
-import { ROOT_ID } from "./index";
+import { GLOBAL_OWNER_ID, ROOT_ID } from "./index";
 
 enableMapSet();
 enablePatches();
@@ -26,6 +27,21 @@ export const mountPoint = "templateEngine";
 
 export const selectors = {
   getState: (state: DefaultRootState): State => state[mountPoint],
+  getCurrentTemplateOwnerId: (state: DefaultRootState): Id => {
+    const node: Node = state[mountPoint][ROOT_ID];
+
+    if (node === undefined) {
+      return GLOBAL_OWNER_ID;
+    }
+
+    const element = node.element;
+
+    if (!(element instanceof Template)) {
+      throw new Error("Cannot find template at root");
+    }
+
+    return element.ownerId;
+  },
   getElement: (state: DefaultRootState, id: Id): Element | undefined => {
     const node: Node = state[mountPoint][id];
 
