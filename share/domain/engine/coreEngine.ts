@@ -80,27 +80,27 @@ async function evalMethod(
       const parentElement = selectors.getParentElement(getState(), method.id);
 
       await registerElement(method.element, coreEngine);
-      await coreEngine.flush();
 
-      coreEngine.dispatch(
+      coreEngine.addToQueue(
         actions.replaceElement({
           parentId: parentElement.id,
           oldId: method.id,
           id: method.element.id,
         })
       );
+      await coreEngine.flush();
     });
   } else if (method instanceof UpdateInListElementMethod) {
     await Promise.all(
       method.elements.map((element) => registerElement(element, coreEngine))
     );
-    await coreEngine.flush();
-    coreEngine.dispatch(
+    coreEngine.addToQueue(
       actions.replaceElementInList({
         oldId: method.id,
         ids: method.elements.map((element) => element.id),
       })
     );
+    await coreEngine.flush();
   } else if (method instanceof NavigateMethod) {
     if (process.env.ENVIRONMENT === "client") {
       await Router.push(method.url);
