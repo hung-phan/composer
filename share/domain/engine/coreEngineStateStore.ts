@@ -37,7 +37,7 @@ export const selectors = {
     const element = node.element;
 
     if (!(element instanceof Template)) {
-      return GLOBAL_OWNER_ID;
+      return element.id;
     }
 
     return element.ownerId;
