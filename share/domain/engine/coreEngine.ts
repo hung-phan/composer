@@ -39,6 +39,10 @@ class CoreEngine {
   }
 
   async flushDispatchQueue() {
+    if (_.isEmpty(this.actions)) {
+      return;
+    }
+
     await this.dispatch(actions.handleCoreEngineActions(this.actions));
 
     this.actions = [];
@@ -69,12 +73,10 @@ async function evalMethod(
     }
   } else if (method instanceof RenderElementMethod) {
     await registerElement(method.element, coreEngine);
-    await coreEngine.flushDispatchQueue();
   } else if (method instanceof BatchRenderElementMethod) {
     await Promise.all(
       method.elements.map((element) => registerElement(element, coreEngine))
     );
-    await coreEngine.flushDispatchQueue();
   } else if (method instanceof UpdateElementMethod) {
     await coreEngine.dispatch(async (__, getState) => {
       const parentElement = selectors.getParentElement(getState(), method.id);
@@ -88,7 +90,6 @@ async function evalMethod(
           id: method.element.id,
         })
       );
-      await coreEngine.flushDispatchQueue();
     });
   } else if (method instanceof UpdateInListElementMethod) {
     await Promise.all(
@@ -100,7 +101,6 @@ async function evalMethod(
         ids: method.elements.map((element) => element.id),
       })
     );
-    await coreEngine.flushDispatchQueue();
   } else if (method instanceof NavigateMethod) {
     if (process.env.ENVIRONMENT === "client") {
       await Router.push(method.url);
@@ -112,6 +112,8 @@ async function evalMethod(
   } else {
     throw new Error(`Unsupported method: ${method.interfaceName}`);
   }
+
+  await coreEngine.flushDispatchQueue();
 }
 
 async function makeHttpCall(
