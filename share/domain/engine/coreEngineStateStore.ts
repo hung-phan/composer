@@ -37,7 +37,7 @@ export const selectors = {
     const element = node.element;
 
     if (!(element instanceof Template)) {
-      throw new Error("Cannot find template at root");
+      return GLOBAL_OWNER_ID;
     }
 
     return element.ownerId;
