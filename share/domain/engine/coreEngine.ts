@@ -32,6 +32,17 @@ class CoreEngine {
   readonly taskQueue: TaskQueue;
   readonly dispatch: ThunkDispatch<DefaultRootState, unknown, AnyAction>;
   readonly clientInfo?: ClientInfo<any>;
+  actions: AnyAction[] = [];
+
+  addToQueue(action: AnyAction) {
+    this.actions.push(action);
+  }
+
+  async flush() {
+    await this.dispatch(actions.handleCoreEngineActions(this.actions));
+
+    this.actions = [];
+  }
 }
 
 async function evalMethod(
@@ -58,15 +69,18 @@ async function evalMethod(
     }
   } else if (method instanceof RenderElementMethod) {
     await registerElement(method.element, coreEngine);
+    await coreEngine.flush();
   } else if (method instanceof BatchRenderElementMethod) {
     await Promise.all(
       method.elements.map((element) => registerElement(element, coreEngine))
     );
+    await coreEngine.flush();
   } else if (method instanceof UpdateElementMethod) {
     await coreEngine.dispatch(async (__, getState) => {
       const parentElement = selectors.getParentElement(getState(), method.id);
 
       await registerElement(method.element, coreEngine);
+      await coreEngine.flush();
 
       coreEngine.dispatch(
         actions.replaceElement({
@@ -80,6 +94,7 @@ async function evalMethod(
     await Promise.all(
       method.elements.map((element) => registerElement(element, coreEngine))
     );
+    await coreEngine.flush();
     coreEngine.dispatch(
       actions.replaceElementInList({
         oldId: method.id,
@@ -194,14 +209,14 @@ async function registerElement(
     }
   }
 
-  coreEngine.dispatch(
+  coreEngine.addToQueue(
     actions.setElement({
       element,
     })
   );
 
   if (!_.isEmpty(childElements)) {
-    coreEngine.dispatch(
+    coreEngine.addToQueue(
       actions.registerParent({
         parentId: element.id,
         ids: childElements.map((nestedElement) => nestedElement.id),
@@ -216,12 +231,16 @@ async function dispatchTask(coreEngine: CoreEngine, methods?: Method[]) {
   }
 
   await coreEngine.dispatch(async (__, getState) => {
-    if (coreEngine.ownerId !== selectors.getCurrentTemplateOwnerId(getState())) {
+    if (
+      coreEngine.ownerId !== selectors.getCurrentTemplateOwnerId(getState())
+    ) {
       return;
     }
 
     try {
-      await Promise.all(methods.map((method) => evalMethod(method, coreEngine)));
+      await Promise.all(
+        methods.map((method) => evalMethod(method, coreEngine))
+      );
     } catch (e) {
       console.error(e);
     }

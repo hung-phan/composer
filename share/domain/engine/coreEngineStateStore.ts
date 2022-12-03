@@ -6,7 +6,9 @@ import {
   enablePatches,
   setAutoFreeze,
 } from "immer";
+import _ from "lodash";
 import { DefaultRootState } from "react-redux";
+import { AnyAction } from "redux";
 import { Id } from "share/library/idGenerator";
 
 import { Template } from "../../elements/templateComponents/templates";
@@ -108,6 +110,11 @@ const slice = createSlice({
   name: mountPoint,
   initialState,
   reducers: {
+    handleCoreEngineActions: (state, action: PayloadAction<AnyAction[]>) => {
+      for (const coreEngineAction of action.payload) {
+        slice.caseReducers[_.last(coreEngineAction.type.split("/")) as string](state, coreEngineAction);
+      }
+    },
     setElement: (state, action: PayloadAction<{ element: Element }>) => {
       const element = action.payload.element;
 
