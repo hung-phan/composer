@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`coreEngine should remove element with RenderElementMethod 1`] = `
-Object {
-  "templateEngine": Object {
+{
+  "templateEngine": {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Object {
+      "childs": {
         "image_element": true,
         "placeholder_element": true,
       },
       "element": LayoutElement {
-        "elements": Array [
+        "elements": [
           Element {
             "id": "image_element",
             "interfaceName": "ImageElement",
@@ -73,16 +73,16 @@ Object {
 `;
 
 exports[`coreEngine should support list replacement with same id 1`] = `
-Object {
-  "templateEngine": Object {
+{
+  "templateEngine": {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Object {
+      "childs": {
         "placeholder_element": true,
         "text_element_1": true,
         "text_element_2": true,
       },
       "element": LayoutElement {
-        "elements": Array [
+        "elements": [
           Element {
             "id": "text_element_1",
             "interfaceName": "TextElement",
@@ -141,15 +141,15 @@ Object {
 `;
 
 exports[`coreEngine should support nested element update with same id 1`] = `
-Object {
-  "templateEngine": Object {
+{
+  "templateEngine": {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Object {
+      "childs": {
         "image_element_1": true,
         "nested_layout_element": true,
       },
       "element": LayoutElement {
-        "elements": Array [
+        "elements": [
           Element {
             "id": "image_element_1",
             "interfaceName": "ImageElement",
@@ -189,12 +189,12 @@ Object {
       Symbol(immer-draftable): true,
     },
     "nested_layout_element": Node {
-      "childs": Object {
+      "childs": {
         "image_element_2": true,
         "placeholder_element": true,
       },
       "element": LayoutElement {
-        "elements": Array [
+        "elements": [
           Element {
             "id": "image_element_2",
             "interfaceName": "ImageElement",
@@ -229,15 +229,15 @@ Object {
 `;
 
 exports[`coreEngine should support override element with RenderElementMethod 1`] = `
-Object {
-  "templateEngine": Object {
+{
+  "templateEngine": {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Object {
+      "childs": {
         "image_element": true,
         "placeholder_element": true,
       },
       "element": LayoutElement {
-        "elements": Array [
+        "elements": [
           Element {
             "id": "image_element",
             "interfaceName": "ImageElement",
@@ -279,12 +279,12 @@ Object {
       Symbol(immer-draftable): true,
     },
     "placeholder_element": Node {
-      "childs": Object {
+      "childs": {
         "button_element": true,
         "text_element": true,
       },
       "element": LayoutElement {
-        "elements": Array [
+        "elements": [
           Element {
             "id": "text_element",
             "interfaceName": "TextElement",
@@ -319,10 +319,10 @@ Object {
 `;
 
 exports[`coreEngine should update the store correctly 1`] = `
-Object {
-  "templateEngine": Object {
+{
+  "templateEngine": {
     "@@ENGINE_ROOT_ID": Node {
-      "childs": Object {
+      "childs": {
         "button_element": true,
         "image_element": true,
         "placeholder_element": true,
@@ -330,7 +330,7 @@ Object {
         "text_element": true,
       },
       "element": LayoutElement {
-        "elements": Array [
+        "elements": [
           Element {
             "id": "text_element",
             "interfaceName": "TextElement",
