@@ -4,7 +4,6 @@ import { HYDRATE, MakeStore, createWrapper } from "next-redux-wrapper";
 import { AnyAction, Store, StoreEnhancer, combineReducers } from "redux";
 
 import {
-  State as TemplateEngineState,
   selectors,
   mountPoint as templateEngineMountPoint,
   reducer as templateEngineReducer,
@@ -15,13 +14,11 @@ import { Element, Node } from "./domain/interfaces";
 export const middlewares: Middleware[] = [];
 export const enhancers: StoreEnhancer[] = [];
 
-export interface RootState {
-  [templateEngineMountPoint]: TemplateEngineState;
-}
-
 const applicationReducer = combineReducers({
   [templateEngineMountPoint]: templateEngineReducer,
 });
+
+export type RootState = ReturnType<typeof applicationReducer>;
 
 export const makeStore: MakeStore<Store<RootState>> = () =>
   configureStore({

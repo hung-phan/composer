@@ -1,6 +1,5 @@
 import { GetServerSidePropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { DefaultRootState } from "react-redux";
 import { AnyAction, Store } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { actions } from "share/domain/engine";
@@ -16,7 +15,7 @@ export default function createServersidePropsForEndpoint(
   getServerSideProps: GetServerSidePropsType
 ) {
   return wrapper.getServerSideProps((store) => async (ctx) => {
-    await (store.dispatch as ThunkDispatch<DefaultRootState, any, AnyAction>)(
+    await (store.dispatch as ThunkDispatch<RootState, any, AnyAction>)(
       actions.callEndpoint(getServerSideProps(store, ctx))
     );
 

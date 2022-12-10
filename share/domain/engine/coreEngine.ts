@@ -1,12 +1,12 @@
 import { Builder } from "builder-pattern";
 import * as _ from "lodash";
 import Router from "next/router";
-import { DefaultRootState } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import fetch from "../../library/fetch";
 import { Id } from "../../library/idGenerator";
+import { RootState } from "../../store";
 import {
   BatchRenderElementMethod,
   ClientInfo,
@@ -30,7 +30,7 @@ import { decode } from "./serializers";
 class CoreEngine {
   readonly ownerId: Id;
   readonly taskQueue: TaskQueue;
-  readonly dispatch: ThunkDispatch<DefaultRootState, unknown, AnyAction>;
+  readonly dispatch: ThunkDispatch<RootState, unknown, AnyAction>;
   readonly clientInfo?: ClientInfo<any>;
   actions: AnyAction[] = [];
 
@@ -250,7 +250,7 @@ async function dispatchTask(coreEngine: CoreEngine, methods?: Method[]) {
 }
 
 export async function engineDispatch(
-  dispatch: ThunkDispatch<DefaultRootState, unknown, AnyAction>,
+  dispatch: ThunkDispatch<RootState, unknown, AnyAction>,
   methods?: Method[],
   clientInfo?: ClientInfo<any>
 ): Promise<void> {

@@ -7,11 +7,12 @@ import {
   setAutoFreeze,
 } from "immer";
 import _ from "lodash";
-import { DefaultRootState } from "react-redux";
 import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 import { Id } from "share/library/idGenerator";
 
 import { Template } from "../../elements/templateComponents/templates";
+import { RootState } from "../../store";
 import { DataContainer, Element, Method, Node } from "../interfaces";
 import { engineDispatch } from "./coreEngine";
 import { getSimplifiedElement } from "./coreEngineHelpers";
@@ -28,8 +29,8 @@ export type State = {
 export const mountPoint = "templateEngine";
 
 export const selectors = {
-  getState: (state: DefaultRootState): State => state[mountPoint],
-  getCurrentTemplateOwnerId: (state: DefaultRootState): Id => {
+  getState: (state: RootState): State => state[mountPoint],
+  getCurrentTemplateOwnerId: (state: RootState): Id => {
     const node: Node = state[mountPoint][ROOT_ID];
 
     if (node === undefined) {
@@ -44,7 +45,7 @@ export const selectors = {
 
     return element.ownerId;
   },
-  getElement: (state: DefaultRootState, id: Id): Element | undefined => {
+  getElement: (state: RootState, id: Id): Element | undefined => {
     const node: Node = state[mountPoint][id];
 
     if (node === undefined) {
@@ -53,7 +54,7 @@ export const selectors = {
 
     return node.element;
   },
-  getParentElement: (state: DefaultRootState, id: Id): Element | undefined => {
+  getParentElement: (state: RootState, id: Id): Element | undefined => {
     const childNode: Node = state[mountPoint][id];
 
     if (childNode === undefined) {
@@ -69,7 +70,7 @@ export const selectors = {
     return parentNode.element;
   },
   getElementState: <T extends DataContainer>(
-    state: DefaultRootState,
+    state: RootState,
     id: Id
   ): T | undefined => {
     const element = selectors.getElement(state, id);
@@ -112,7 +113,10 @@ const slice = createSlice({
   reducers: {
     handleCoreEngineActions: (state, action: PayloadAction<AnyAction[]>) => {
       for (const coreEngineAction of action.payload) {
-        slice.caseReducers[_.last(coreEngineAction.type.split("/")) as string](state, coreEngineAction);
+        slice.caseReducers[_.last(coreEngineAction.type.split("/")) as string](
+          state,
+          coreEngineAction
+        );
       }
     },
     setElement: (state, action: PayloadAction<{ element: Element }>) => {
@@ -267,13 +271,14 @@ const slice = createSlice({
 export const reducer = slice.reducer;
 
 export const actions = {
-  callEndpoint: createAsyncThunk(
-    "CALL_ENDPOINT",
-    async (method: Method, { dispatch, getState }) => {
-      await engineDispatch(dispatch, [method]);
+  callEndpoint: createAsyncThunk<
+    State,
+    Method,
+    { dispatch: ThunkDispatch<RootState, unknown, AnyAction>; state: RootState }
+  >("CALL_ENDPOINT", async (method: Method, thunkAPI) => {
+    await engineDispatch(thunkAPI.dispatch, [method]);
 
-      return selectors.getState(getState());
-    }
-  ),
+    return selectors.getState(thunkAPI.getState());
+  }),
   ...slice.actions,
 };
