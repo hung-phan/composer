@@ -25,8 +25,8 @@ export default function PeriodicTemplateElement(props: EngineComponentProps) {
   }, []);
 
   return (
-    <div key={element.ownerId}>
+    <>
       {element.widgets.map((widget) => renderElementInterface(widget, element))}
-    </div>
+    </>
   );
 }
