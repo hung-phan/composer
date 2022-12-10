@@ -4,12 +4,13 @@ import { useSelector } from "react-redux";
 
 import { selectors } from "../domain/engine";
 import { Element } from "../domain/interfaces";
+import { RootState } from "../store";
 
 export default function useElementData<T extends Element>(
   elementId: string,
   clazz: Clazz<T>
 ): T | undefined {
-  const element = useSelector((state) =>
+  const element = useSelector<RootState, Element>((state) =>
     selectors.getElement(state, elementId)
   );
 
