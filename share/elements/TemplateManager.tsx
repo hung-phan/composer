@@ -1,11 +1,11 @@
 import { ROOT_ID } from "../domain/engine";
-import { Element } from "../domain/interfaces";
 import renderElementInterface from "./renderElementInterface";
+import { Template } from "./templateComponents/templates";
 import useElementData from "./useElementData";
 import useElementEvent from "./useElementEvent";
 
-export default function RootElement() {
-  const element = useElementData(ROOT_ID, Element);
+export default function TemplateManager() {
+  const element = useElementData(ROOT_ID, Template);
 
   useElementEvent(element);
 

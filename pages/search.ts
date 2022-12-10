@@ -1,6 +1,6 @@
 import createServersidePropsForEndpoint from "server/infrastructure/application/serverProps";
 import { HttpMethod } from "share/domain/interfaces";
-import RootElement from "share/elements/RootElement";
+import TemplateManager from "share/elements/TemplateManager";
 import { transferQueryData } from "share/library/serverPageHelper";
 
 export const getServerSideProps = createServersidePropsForEndpoint((_, ctx) =>
@@ -10,4 +10,4 @@ export const getServerSideProps = createServersidePropsForEndpoint((_, ctx) =>
     .build()
 );
 
-export default RootElement;
+export default TemplateManager;
