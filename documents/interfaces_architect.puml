@@ -82,7 +82,7 @@ class HttpMethod<T> extends Method {
   url: string;
   requestType: RequestType;
   requestData?: RequestData<T>;
-  clientStateId?: string;
+  clientStateIds?: Id[];
   onError?: Method[];
   onSuccess?: Method[];
 }

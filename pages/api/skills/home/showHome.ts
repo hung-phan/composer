@@ -58,7 +58,7 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
               HttpMethod.builder()
                 .url("/api/skills/home/handleHomeSearch")
                 .requestType("POST")
-                .clientStateId(INPUT_BOX_STATE_HOLDER)
+                .clientStateIds([INPUT_BOX_STATE_HOLDER])
                 .build(),
             ])
             .build()

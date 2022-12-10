@@ -236,7 +236,7 @@ export class HttpMethod<T> extends Method {
   url: string;
   requestType: RequestType;
   requestData?: RequestData<T>;
-  clientStateId?: string;
+  clientStateIds?: Id[];
   onError?: Method[];
   onSuccess?: Method[];
 
@@ -248,7 +248,7 @@ export class HttpMethod<T> extends Method {
 export type ClientInfo<T> = RawDataContainer<T>;
 
 export interface HttpMethodRequestBody<RequestDataType, ClientInfoType> {
-  elementState?: DataContainer;
+  elementStates?: DataContainer[];
   requestData?: RequestData<RequestDataType>;
   clientInfo?: ClientInfo<ClientInfoType>;
 }

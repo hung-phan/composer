@@ -78,7 +78,7 @@ export class ImageElement extends Element {
 export class InputElementState extends DataContainer {
   interfaceName = "InputElementState";
 
-  value: string;
+  value: string = "";
 
   static builder(): IBuilder<InputElementState> {
     return Builder(InputElementState);

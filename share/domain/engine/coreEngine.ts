@@ -60,14 +60,18 @@ async function evalMethod(
   if (method instanceof InvokeExternalMethod) {
     coreEngine.dispatch(method.data);
   } else if (method instanceof HttpMethod) {
-    if (method.clientStateId !== undefined) {
-      await coreEngine.dispatch((__, getState) =>
-        makeHttpCall(
+    if (!_.isEmpty(method.clientStateIds)) {
+      await coreEngine.dispatch((__, getState) => {
+        const currentState = getState();
+
+        return makeHttpCall(
           method,
           coreEngine,
-          selectors.getElementState(getState(), method.clientStateId)
-        )
-      );
+          method.clientStateIds.map((clientStateId) =>
+            selectors.getElementState(currentState, clientStateId)
+          )
+        );
+      });
     } else {
       await makeHttpCall(method, coreEngine);
     }
@@ -119,7 +123,7 @@ async function evalMethod(
 async function makeHttpCall(
   method: HttpMethod<any>,
   coreEngine: CoreEngine,
-  elementState?: DataContainer
+  elementStates?: DataContainer[]
 ): Promise<void> {
   if (method.requestType === undefined) {
     throw new Error("requestType cannot be undefined");
@@ -132,7 +136,7 @@ async function makeHttpCall(
   try {
     const requestOptions: RequestInit = {};
     const requestBody: HttpMethodRequestBody<any, any> = {
-      elementState,
+      elementStates,
       clientInfo: coreEngine.clientInfo,
       requestData: method.requestData,
     };
