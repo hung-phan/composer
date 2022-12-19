@@ -18,7 +18,7 @@ export class LayoutElement extends Element {
 
 // CORE elements
 export class CloneElement extends Element {
-  interfaceName = "DataElement";
+  interfaceName = "CloneElement";
 
   cloneElementId: Id;
 
