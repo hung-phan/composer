@@ -4,28 +4,17 @@ import Router from "next/router";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+
+
 import fetch from "../../library/fetch";
 import { Id } from "../../library/idGenerator";
 import { RootState } from "../../store";
-import {
-  BatchRenderElementMethod,
-  ClientInfo,
-  DataContainer,
-  Element,
-  HttpMethod,
-  HttpMethodRequestBody,
-  InvokeExternalMethod,
-  Method,
-  NavigateMethod,
-  RenderElementMethod,
-  Response,
-  UpdateElementMethod,
-  UpdateInListElementMethod,
-} from "../interfaces";
+import { BatchRenderElementMethod, ClientInfo, DataContainer, Element, HttpMethod, HttpMethodRequestBody, InvokeExternalMethod, Method, NavigateMethod, RenderElementMethod, Response, UpdateElementMethod, UpdateInListElementMethod } from "../interfaces";
 import { getSimplifiedElement } from "./coreEngineHelpers";
 import getTaskQueue, { TaskQueue } from "./coreEngineQueue";
 import { actions, selectors } from "./coreEngineStateStore";
 import { decode } from "./serializers";
+
 
 class CoreEngine {
   readonly ownerId: Id;
@@ -60,7 +49,9 @@ async function evalMethod(
   if (method instanceof InvokeExternalMethod) {
     coreEngine.dispatch(method.data);
   } else if (method instanceof HttpMethod) {
-    if (!_.isEmpty(method.clientStateIds)) {
+    if (_.isEmpty(method.clientStateIds)) {
+      await makeHttpCall(method, coreEngine);
+    } else {
       await coreEngine.dispatch((__, getState) => {
         const currentState = getState();
 
@@ -72,8 +63,6 @@ async function evalMethod(
           )
         );
       });
-    } else {
-      await makeHttpCall(method, coreEngine);
     }
   } else if (method instanceof RenderElementMethod) {
     await registerElement(method.element, coreEngine);
