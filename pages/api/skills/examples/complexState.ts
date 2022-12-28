@@ -29,7 +29,7 @@ async function ComplexStateSkill(_: NextApiRequest, res: NextApiResponse) {
           HttpMethod.builder()
             .url("/api/skills/examples/handleComplexState")
             .requestType("POST")
-            .clientStateIds(["input_1", "input_2", "input_3"])
+            .stateIds(["input_1", "input_2", "input_3"])
             .build(),
         ])
         .build(),

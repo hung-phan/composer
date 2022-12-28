@@ -236,7 +236,7 @@ export class HttpMethod<T> extends Method {
   url: string;
   requestType: RequestType;
   requestData?: RequestData<T>;
-  clientStateIds?: Id[];
+  stateIds?: Id[];
   onError?: Method[];
   onSuccess?: Method[];
 

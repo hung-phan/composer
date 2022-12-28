@@ -59,7 +59,7 @@ export interface HttpMethodRequestBody<RequestDataType, ClientInfoType> {
 }
 ```
 
-`clientStateIds` in HttpMethod will need to be associated with a list of `DataContainer`. Its responsibility is when
+`stateIds` in HttpMethod will need to be associated with a list of `DataContainer`. Its responsibility is when
 specified in the `HttpMethod` object, it will extract that `elementState` in the client and send it along
 with the request to the server side
 
