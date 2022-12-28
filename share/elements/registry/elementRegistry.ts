@@ -1,4 +1,5 @@
 import { Clazz } from "@types";
+import _ from "lodash";
 import { ComponentClass, FunctionComponent } from "react";
 
 import { DataContainer, Element } from "../../domain/interfaces";
@@ -23,22 +24,24 @@ export type ComponentType =
 const ELEMENT_REGISTRY = new Map<Clazz<Element>, ComponentType>();
 
 export function registerElements(
-  dataContainerInterfaces: Array<Clazz<DataContainer>>,
   data: Array<{
     interfaceClass: Clazz<Element>;
+    dataContainerClass?: Clazz<DataContainer>;
     elementClass: ComponentType;
   }>
 ): void {
-  registerInterfaces(dataContainerInterfaces);
-
-  for (const interfaceClass of dataContainerInterfaces) {
-    ELEMENT_REGISTRY.set(interfaceClass, DataContainerComponent);
-  }
-
-  for (const { interfaceClass, elementClass } of data) {
-    registerInterfaces([interfaceClass]);
+  for (const { interfaceClass, elementClass, dataContainerClass } of data) {
+    registerInterfaces(
+      [interfaceClass, dataContainerClass].filter(
+        (clazz) => !_.isUndefined(clazz)
+      )
+    );
 
     ELEMENT_REGISTRY.set(interfaceClass, elementClass);
+
+    if (dataContainerClass) {
+      ELEMENT_REGISTRY.set(dataContainerClass, DataContainerComponent);
+    }
   }
 }
 
