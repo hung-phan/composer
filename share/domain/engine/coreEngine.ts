@@ -27,12 +27,12 @@ class CoreEngine {
     this.actions.push(action);
   }
 
-  async flushDispatchQueue() {
+  flushDispatchQueue() {
     if (_.isEmpty(this.actions)) {
       return;
     }
 
-    await this.dispatch(actions.handleCoreEngineActions(this.actions));
+    this.dispatch(actions.handleCoreEngineActions(this.actions));
 
     this.actions = [];
   }
@@ -105,8 +105,6 @@ async function evalMethod(
   } else {
     throw new Error(`Unsupported method: ${method.interfaceName}`);
   }
-
-  await coreEngine.flushDispatchQueue();
 }
 
 async function makeHttpCall(
@@ -236,6 +234,8 @@ async function dispatchTask(coreEngine: CoreEngine, methods?: Method[]) {
       await Promise.all(
         methods.map((method) => evalMethod(method, coreEngine))
       );
+
+      coreEngine.flushDispatchQueue();
     } catch (e) {
       console.error(e);
     }
