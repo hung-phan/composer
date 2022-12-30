@@ -28,16 +28,6 @@ exports[`coreEngine should remove element with RenderElementMethod 1`] = `
       "interfaceName": "Node",
       Symbol(immer-draftable): true,
     },
-    "button_element": Node {
-      "element": ButtonElement {
-        "id": "button_element",
-        "interfaceName": "ButtonElement",
-        "size": "lg",
-        Symbol(immer-draftable): true,
-      },
-      "interfaceName": "Node",
-      Symbol(immer-draftable): true,
-    },
     "image_element": Node {
       "element": ImageElement {
         "id": "image_element",
@@ -57,15 +47,6 @@ exports[`coreEngine should remove element with RenderElementMethod 1`] = `
       },
       "interfaceName": "Node",
       "parent": "@@ENGINE_ROOT_ID",
-      Symbol(immer-draftable): true,
-    },
-    "text_element": Node {
-      "element": TextElement {
-        "id": "text_element",
-        "interfaceName": "TextElement",
-        Symbol(immer-draftable): true,
-      },
-      "interfaceName": "Node",
       Symbol(immer-draftable): true,
     },
   },

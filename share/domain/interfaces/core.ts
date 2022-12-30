@@ -1,9 +1,9 @@
 import { Builder, IBuilder } from "builder-pattern";
 import { immerable } from "immer";
 import _ from "lodash";
+import { Action } from "redux";
 
 import getNewId, { Id } from "../../library/idGenerator";
-import { Action } from "redux";
 
 export abstract class Serializable {
   [immerable] = true;
@@ -81,6 +81,10 @@ export class Node extends Serializable {
     }
 
     delete this.childs[id];
+
+    if (_.isEmpty(this.childs)) {
+      delete this.childs;
+    }
   }
 
   removeAllChild(): void {
@@ -149,7 +153,7 @@ export class DataContainer extends Element {
 }
 
 export interface RawDataContainer<T> {
-  data: T
+  data: T;
 }
 
 export class Response extends Serializable {
@@ -173,7 +177,7 @@ export type RequestType = "GET" | "POST";
 export class InvokeExternalMethod extends Method {
   interfaceName = "InvokeExternalMethod";
 
-  data: Action;
+  action: Action;
 
   static getInterfaceName() {
     return this.builder().build().interfaceName;

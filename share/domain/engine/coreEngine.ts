@@ -58,7 +58,7 @@ async function evalMethod(
   }
 
   if (method instanceof InvokeExternalMethod) {
-    coreEngine.addToDispatchQueue(method.data);
+    coreEngine.addToDispatchQueue(method.action);
   } else if (method instanceof HttpMethod) {
     if (_.isEmpty(method.stateIds)) {
       await makeHttpCall(method, coreEngine);
@@ -216,7 +216,7 @@ async function registerElement(
   coreEngine.addToDispatchQueue(
     actions.setElement({
       element,
-      childIds: childElements.map((nestedElement) => nestedElement.id),
+      childIds: new Set(childElements.map((nestedElement) => nestedElement.id)),
     })
   );
 }
