@@ -47,7 +47,7 @@ async function evalMethod(
   }
 
   if (method instanceof InvokeExternalMethod) {
-    coreEngine.dispatch(method.data);
+    coreEngine.addToDispatchQueue(method.data);
   } else if (method instanceof HttpMethod) {
     if (_.isEmpty(method.stateIds)) {
       await makeHttpCall(method, coreEngine);
