@@ -9,7 +9,7 @@ import useElementEvent from "../useElementEvent";
 import useElementState from "../useElementState";
 import { InputElement, InputElementState } from "./widgets";
 
-export default function InputElementComponent(props: EngineComponentProps) {
+export default function InputComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, InputElement);
 
   useElementEvent(element);

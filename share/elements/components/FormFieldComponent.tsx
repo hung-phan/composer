@@ -4,7 +4,7 @@ import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import { FormFieldElement } from "./widgets";
 
-export default function FormElementComponent(props: EngineComponentProps) {
+export default function FormFieldComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, FormFieldElement);
 
   useElementEvent(element);

@@ -6,7 +6,7 @@ import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import { LinkElement } from "./widgets";
 
-export default function TextElementComponent(props: EngineComponentProps) {
+export default function LinkComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, LinkElement);
 
   useElementEvent(element);

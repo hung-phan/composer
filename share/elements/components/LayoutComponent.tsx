@@ -5,7 +5,7 @@ import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import { LayoutElement } from "./widgets";
 
-export default function LayoutElementComponent(props: EngineComponentProps) {
+export default function LayoutComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, LayoutElement);
 
   useElementEvent(element);

@@ -3,7 +3,7 @@ import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import { ImageElement } from "./widgets";
 
-export default function ImageElementComponent(props: EngineComponentProps) {
+export default function ImageComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, ImageElement);
 
   useElementEvent(element);

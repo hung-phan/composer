@@ -3,7 +3,7 @@ import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import { TableElement } from "./widgets";
 
-export default function TableElementComponent(props: EngineComponentProps) {
+export default function TableComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, TableElement);
 
   useElementEvent(element);

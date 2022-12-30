@@ -5,7 +5,7 @@ import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import { CloneElement } from "./widgets";
 
-export default function CloneElementComponent(props: EngineComponentProps) {
+export default function CloneComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, CloneElement);
 
   useElementEvent(element);

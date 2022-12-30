@@ -6,7 +6,7 @@ import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import { ButtonElement } from "./widgets";
 
-export default function ButtonElementComponent(props: EngineComponentProps) {
+export default function ButtonComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, ButtonElement);
 
   useElementEvent(element);

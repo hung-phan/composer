@@ -10,7 +10,7 @@ import useElementEvent from "../useElementEvent";
 import useElementState from "../useElementState";
 import { SelectElement, SelectElementState } from "./widgets";
 
-export default function SelectElementComponent(props: EngineComponentProps) {
+export default function SelectComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, SelectElement);
 
   useElementEvent(element);

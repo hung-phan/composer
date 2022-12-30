@@ -3,7 +3,7 @@ import { EngineComponentProps } from "../registry";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 
-export default function PlaceholderElementComponent(
+export default function PlaceholderComponent(
   props: EngineComponentProps
 ) {
   const element = useElementData(props.elementId, PlaceholderElement);

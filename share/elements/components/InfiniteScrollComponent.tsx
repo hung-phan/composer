@@ -12,7 +12,7 @@ import useElementEvent from "../useElementEvent";
 import useElementState from "../useElementState";
 import { InfiniteScrollElement, InfiniteScrollElementState } from "./widgets";
 
-export default function InfiniteScrollElementComponent(
+export default function InfiniteScrollComponent(
   props: EngineComponentProps
 ) {
   const element = useElementData(props.elementId, InfiniteScrollElement);

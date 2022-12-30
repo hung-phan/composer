@@ -3,7 +3,7 @@ import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import { TextElement } from "./widgets";
 
-export default function TextElementComponent(props: EngineComponentProps) {
+export default function TextComponent(props: EngineComponentProps) {
   const element = useElementData(props.elementId, TextElement);
 
   useElementEvent(element);
