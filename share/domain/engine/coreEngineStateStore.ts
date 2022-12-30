@@ -1,4 +1,9 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  Draft,
+  PayloadAction,
+  createAsyncThunk,
+  createSlice,
+} from "@reduxjs/toolkit";
 import {
   Patch,
   applyPatches,
@@ -111,7 +116,10 @@ const slice = createSlice({
   name: mountPoint,
   initialState,
   reducers: {
-    handleCoreEngineActions: (state, action: PayloadAction<AnyAction[]>) => {
+    handleCoreEngineActions: (
+      state: Draft<State>,
+      action: PayloadAction<AnyAction[]>
+    ) => {
       for (const coreEngineAction of action.payload) {
         slice.caseReducers[_.last(coreEngineAction.type.split("/")) as string](
           state,
@@ -119,7 +127,10 @@ const slice = createSlice({
         );
       }
     },
-    setElement: (state, action: PayloadAction<{ element: Element }>) => {
+    setElement: (
+      state: Draft<State>,
+      action: PayloadAction<{ element: Element }>
+    ) => {
       const element = action.payload.element;
 
       createNodeIfNotExist(state, element.id);
@@ -144,7 +155,7 @@ const slice = createSlice({
       }
     },
     delElement: (
-      state: State,
+      state: Draft<State>,
       action: PayloadAction<{ id: Id; interfaceName: string }>
     ) => {
       if (
@@ -173,7 +184,7 @@ const slice = createSlice({
       }
     },
     registerParent: (
-      state: State,
+      state: Draft<State>,
       action: PayloadAction<{ ids: Id[]; parentId: Id }>
     ) => {
       createNodeIfNotExist(state, action.payload.parentId);
@@ -188,7 +199,7 @@ const slice = createSlice({
       }
     },
     replaceElement: (
-      state: State,
+      state: Draft<State>,
       action: PayloadAction<{
         parentId: Id;
         oldId: Id;
@@ -218,7 +229,7 @@ const slice = createSlice({
     },
 
     replaceElementInList: (
-      state: State,
+      state: Draft<State>,
       action: PayloadAction<{
         oldId: Id;
         ids: Id[];
@@ -251,7 +262,7 @@ const slice = createSlice({
     },
 
     updateStateElement: (
-      state: State,
+      state: Draft<State>,
       action: PayloadAction<{
         stateElementId: string;
         patches: Patch[];
