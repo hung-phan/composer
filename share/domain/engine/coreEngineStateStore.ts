@@ -149,7 +149,6 @@ const slice = createSlice({
       if (state[element.id].childs !== undefined) {
         for (const child of Object.keys(state[element.id].childs)) {
           state[child].setParent(undefined);
-          delete state[child];
         }
 
         state[element.id].removeAllChild();
