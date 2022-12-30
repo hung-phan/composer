@@ -136,11 +136,11 @@ export class Node extends Serializable {
   }
 }
 
-export class PlaceholderElement extends Element {
-  interfaceName = "PlaceholderElement";
+export class Placeholder extends Element {
+  interfaceName = "Placeholder";
 
-  static builder(): IBuilder<PlaceholderElement> {
-    return Builder(PlaceholderElement);
+  static builder(): IBuilder<Placeholder> {
+    return Builder(Placeholder);
   }
 }
 

@@ -8,14 +8,14 @@ import { EngineComponentProps } from "../registry";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import useElementState from "../useElementState";
-import { SelectElement, SelectElementState } from "./widgets";
+import { Select, SelectState } from "./widgets";
 
 export default function SelectComponent(props: EngineComponentProps) {
-  const element = useElementData(props.elementId, SelectElement);
+  const element = useElementData(props.elementId, Select);
 
   useElementEvent(element);
 
-  const elementState = useElementState<SelectElementState>(element);
+  const elementState = useElementState<SelectState>(element);
   const dispatch = useDispatch();
   const handleItemSelect = useCallback(
     (itemValue: string) => {

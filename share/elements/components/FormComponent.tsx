@@ -4,10 +4,10 @@ import { EngineComponentProps } from "../registry";
 import renderElementInterface from "../renderElementInterface";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
-import { FormElement } from "./widgets";
+import { Form } from "./widgets";
 
 export default function FormComponent(props: EngineComponentProps) {
-  const element = useElementData(props.elementId, FormElement);
+  const element = useElementData(props.elementId, Form);
 
   useElementEvent(element);
 

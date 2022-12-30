@@ -1,19 +1,19 @@
-import Link from "next/link";
+import NextLink from "next/link";
 
 import { EngineComponentProps } from "../registry";
 import renderElementInterface from "../renderElementInterface";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
-import { LinkElement } from "./widgets";
+import { Link } from "./widgets";
 
 export default function LinkComponent(props: EngineComponentProps) {
-  const element = useElementData(props.elementId, LinkElement);
+  const element = useElementData(props.elementId, Link);
 
   useElementEvent(element);
 
   return (
-    <Link href={element.url}>
+    <NextLink href={element.url}>
       <a>{renderElementInterface(element.element, element)}</a>
-    </Link>
+    </NextLink>
   );
 }

@@ -4,10 +4,10 @@ import { engineDispatch } from "../../domain/engine";
 import { EngineComponentProps } from "../registry";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
-import { ButtonElement } from "./widgets";
+import { Button } from "./widgets";
 
 export default function ButtonComponent(props: EngineComponentProps) {
-  const element = useElementData(props.elementId, ButtonElement);
+  const element = useElementData(props.elementId, Button);
 
   useElementEvent(element);
 

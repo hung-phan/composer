@@ -6,7 +6,7 @@ import {
   RenderElementMethod,
   Response,
 } from "share/domain/interfaces";
-import { ImageElement } from "share/elements/components/widgets";
+import { Image } from "share/elements/components/widgets";
 
 async function LazyLoadUpdateImageSkill(
   req: NextApiRequest,
@@ -20,7 +20,7 @@ async function LazyLoadUpdateImageSkill(
         .methods([
           RenderElementMethod.builder()
             .element(
-              ImageElement.builder()
+              Image.builder()
                 .id(requestData.data)
                 .src(
                   `https://picsum.photos/400?random=${_.random(0, 1000, false)}`

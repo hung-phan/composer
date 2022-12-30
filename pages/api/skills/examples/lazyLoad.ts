@@ -6,12 +6,12 @@ import { ROOT_ID } from "share/domain/engine";
 import { encode } from "share/domain/engine/serializers";
 import {
   HttpMethod,
-  PlaceholderElement,
+  Placeholder,
   RenderElementMethod,
   RequestData,
   Response,
 } from "share/domain/interfaces";
-import { ImageElement, LayoutElement } from "share/elements/components/widgets";
+import { Image, Layout } from "share/elements/components/widgets";
 import { DefaultTemplate } from "share/elements/templateComponents/templates";
 
 async function LazyLoadSkill(req: NextApiRequest, res: NextApiResponse) {
@@ -21,14 +21,14 @@ async function LazyLoadSkill(req: NextApiRequest, res: NextApiResponse) {
 
   const COMPONENT_IDS = _.range(0, 10).map((val) => "COMPONENT_" + val);
 
-  const pageLayout = LayoutElement.builder()
+  const pageLayout = Layout.builder()
     .elements([
-      ImageElement.builder()
+      Image.builder()
         .src("https://picsum.photos/200/300")
         .class("w-48")
         .build(),
       ...COMPONENT_IDS.map((id) =>
-        PlaceholderElement.builder()
+        Placeholder.builder()
           .id(id)
           .onCreate([
             HttpMethod.builder()

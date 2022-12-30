@@ -1,10 +1,10 @@
 import { EngineComponentProps } from "../registry";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
-import { TextElement } from "./widgets";
+import { Text } from "./widgets";
 
 export default function TextComponent(props: EngineComponentProps) {
-  const element = useElementData(props.elementId, TextElement);
+  const element = useElementData(props.elementId, Text);
 
   useElementEvent(element);
 

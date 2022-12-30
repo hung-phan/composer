@@ -3,10 +3,10 @@ import { EngineComponentProps } from "../registry";
 import renderElementInterface from "../renderElementInterface";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
-import { LayoutElement } from "./widgets";
+import { Layout } from "./widgets";
 
 export default function LayoutComponent(props: EngineComponentProps) {
-  const element = useElementData(props.elementId, LayoutElement);
+  const element = useElementData(props.elementId, Layout);
 
   useElementEvent(element);
 

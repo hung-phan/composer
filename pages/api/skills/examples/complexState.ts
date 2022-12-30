@@ -7,23 +7,23 @@ import {
   Response,
 } from "share/domain/interfaces";
 import {
-  ButtonElement,
-  InputElement,
-  InputElementState,
-  LayoutElement,
+  Button,
+  Input,
+  InputState,
+  Layout,
 } from "share/elements/components/widgets";
 import { DefaultTemplate } from "share/elements/templateComponents/templates";
 
 async function ComplexStateSkill(_: NextApiRequest, res: NextApiResponse) {
-  const pageLayout = LayoutElement.builder()
+  const pageLayout = Layout.builder()
     .elements([
-      InputElementState.builder().id("input_1").build(),
-      InputElementState.builder().id("input_2").build(),
-      InputElementState.builder().id("input_3").build(),
-      InputElement.builder().stateId("input_1").placeholder("Input 1").build(),
-      InputElement.builder().stateId("input_2").placeholder("Input 2").build(),
-      InputElement.builder().stateId("input_3").placeholder("Input 3").build(),
-      ButtonElement.builder()
+      InputState.builder().id("input_1").build(),
+      InputState.builder().id("input_2").build(),
+      InputState.builder().id("input_3").build(),
+      Input.builder().stateId("input_1").placeholder("Input 1").build(),
+      Input.builder().stateId("input_2").placeholder("Input 2").build(),
+      Input.builder().stateId("input_3").placeholder("Input 3").build(),
+      Button.builder()
         .label("Submit")
         .onSelected([
           HttpMethod.builder()

@@ -169,7 +169,7 @@ const slice = createSlice({
       if (
         action.payload.id in state &&
         action.payload.interfaceName ===
-        state[action.payload.id].element.interfaceName
+          state[action.payload.id].element.interfaceName
       ) {
         let id = action.payload.id;
         let pointer = state[id];

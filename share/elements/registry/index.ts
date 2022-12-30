@@ -26,7 +26,7 @@ registerElements([
     elementClass: components.DataContainerComponent,
   },
   {
-    interfaceClass: core.PlaceholderElement,
+    interfaceClass: core.Placeholder,
     elementClass: components.PlaceholderComponent,
   },
   {
@@ -38,54 +38,54 @@ registerElements([
     elementClass: templateComponents.PeriodicTemplateElement,
   },
   {
-    interfaceClass: widgets.LayoutElement,
+    interfaceClass: widgets.Layout,
     elementClass: components.LayoutComponent,
   },
   {
-    interfaceClass: widgets.CloneElement,
+    interfaceClass: widgets.Clone,
     elementClass: components.CloneComponent,
   },
   {
-    interfaceClass: widgets.TextElement,
+    interfaceClass: widgets.Text,
     elementClass: components.TextComponent,
   },
   {
-    interfaceClass: widgets.LinkElement,
+    interfaceClass: widgets.Link,
     elementClass: components.LinkComponent,
   },
   {
-    interfaceClass: widgets.ImageElement,
+    interfaceClass: widgets.Image,
     elementClass: components.ImageComponent,
   },
   {
-    interfaceClass: widgets.ButtonElement,
+    interfaceClass: widgets.Button,
     elementClass: components.ButtonComponent,
   },
   {
-    interfaceClass: widgets.TableElement,
+    interfaceClass: widgets.Table,
     elementClass: components.TableComponent,
   },
   {
-    interfaceClass: widgets.InputElement,
-    dataContainerClass: widgets.InputElementState,
+    interfaceClass: widgets.Input,
+    dataContainerClass: widgets.InputState,
     elementClass: components.InputComponent,
   },
   {
-    interfaceClass: widgets.SelectElement,
-    dataContainerClass: widgets.SelectElementState,
+    interfaceClass: widgets.Select,
+    dataContainerClass: widgets.SelectState,
     elementClass: components.SelectComponent,
   },
   {
-    interfaceClass: widgets.FormElement,
+    interfaceClass: widgets.Form,
     elementClass: components.FormComponent,
   },
   {
-    interfaceClass: widgets.FormFieldElement,
+    interfaceClass: widgets.FormField,
     elementClass: components.FormFieldComponent,
   },
   {
-    interfaceClass: widgets.InfiniteScrollElement,
-    dataContainerClass: widgets.InfiniteScrollElementState,
+    interfaceClass: widgets.InfiniteScroll,
+    dataContainerClass: widgets.InfiniteScrollState,
     elementClass: components.InfiniteScrollComponent,
   },
 ]);

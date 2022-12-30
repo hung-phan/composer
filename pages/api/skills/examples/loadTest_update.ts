@@ -2,7 +2,7 @@ import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { encode } from "share/domain/engine/serializers";
 import { BatchRenderElementMethod, Response } from "share/domain/interfaces";
-import { TextElement } from "share/elements/components/widgets";
+import { Text } from "share/elements/components/widgets";
 
 async function LoadTestSkill(_req: NextApiRequest, res: NextApiResponse) {
   res.status(200).send(
@@ -12,7 +12,7 @@ async function LoadTestSkill(_req: NextApiRequest, res: NextApiResponse) {
           BatchRenderElementMethod.builder()
             .elements(
               _.range(0, 500).map((val) =>
-                TextElement.builder()
+                Text.builder()
                   .id(`TEXT_${val}`)
                   .message(`This is text element with ${Math.random()}`)
                   .build()

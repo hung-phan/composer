@@ -2,11 +2,11 @@ import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { encode } from "share/domain/engine/serializers";
 import {
-  PlaceholderElement,
+  Placeholder,
   Response,
   UpdateInListElementMethod,
 } from "share/domain/interfaces";
-import { ImageElement } from "share/elements/components/widgets";
+import { Image } from "share/elements/components/widgets";
 
 async function InfiniteLoadingLoadMoreSkill(
   _req: NextApiRequest,
@@ -27,7 +27,7 @@ async function InfiniteLoadingLoadMoreSkill(
             .id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID)
             .elements([
               ..._.range(0, 5).map(() =>
-                ImageElement.builder()
+                Image.builder()
                   .src(
                     `https://picsum.photos/400?random=${_.random(
                       0,
@@ -38,7 +38,7 @@ async function InfiniteLoadingLoadMoreSkill(
                   .class("w-48")
                   .build()
               ),
-              PlaceholderElement.builder()
+              Placeholder.builder()
                 .id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID)
                 .build(),
             ])

@@ -3,15 +3,15 @@ import { ROOT_ID } from "share/domain/engine";
 import { encode } from "share/domain/engine/serializers";
 import {
   HttpMethod,
-  PlaceholderElement,
+  Placeholder,
   RenderElementMethod,
   Response,
 } from "share/domain/interfaces";
 import {
-  InfiniteScrollElement,
-  InfiniteScrollElementState,
-  LayoutElement,
-  TextElement,
+  InfiniteScroll,
+  InfiniteScrollState,
+  Layout,
+  Text,
 } from "share/elements/components/widgets";
 import { DefaultTemplate } from "share/elements/templateComponents/templates";
 
@@ -21,21 +21,19 @@ async function InfiniteLoadingSkill(_: NextApiRequest, res: NextApiResponse) {
   const INFINITE_SCROLL_ITEM_PLACEHOLDER_ID =
     "INFINITE_SCROLL_ITEM_PLACEHOLDER_ID";
 
-  const pageLayout = LayoutElement.builder()
+  const pageLayout = Layout.builder()
     .elements([
-      InfiniteScrollElementState.builder()
+      InfiniteScrollState.builder()
         .id(INFINITE_SCROLL_STATE_ID)
         .hasMore(true)
         .items([
-          PlaceholderElement.builder()
-            .id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID)
-            .build(),
+          Placeholder.builder().id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID).build(),
         ])
         .build(),
-      InfiniteScrollElement.builder()
+      InfiniteScroll.builder()
         .id(INFINITE_SCROLL_ELEMENT_ID)
         .stateId(INFINITE_SCROLL_STATE_ID)
-        .loader(TextElement.builder().message("Loading ...").build())
+        .loader(Text.builder().message("Loading ...").build())
         .loadMore([
           HttpMethod.builder()
             .url("/api/skills/examples/infiniteLoading_loadMore")

@@ -30,7 +30,7 @@ class Node extends Serializable {
 }
 
 class PlaceholderElement extends Element {
-  interfaceName = "PlaceholderElement";
+  interfaceName = "Placeholder";
 }
 
 class DataContainer extends Element {
@@ -100,7 +100,7 @@ class NavigateMethod extends Method {
 }
 
 class LayoutElement extends Element {
-  interfaceName = "LayoutElement";
+  interfaceName = "Layout";
 
   elements: Element[];
 }
@@ -112,7 +112,7 @@ class InputElementState extends DataContainer {
 }
 
 class InputElement extends Element {
-  interfaceName = "InputElement";
+  interfaceName = "Input";
 
   name?: string;
   defaultValue = "";

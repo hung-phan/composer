@@ -7,14 +7,14 @@ import { EngineComponentProps } from "../registry";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
 import useElementState from "../useElementState";
-import { InputElement, InputElementState } from "./widgets";
+import { Input, InputState } from "./widgets";
 
 export default function InputComponent(props: EngineComponentProps) {
-  const element = useElementData(props.elementId, InputElement);
+  const element = useElementData(props.elementId, Input);
 
   useElementEvent(element);
 
-  const elementState = useElementState<InputElementState>(element);
+  const elementState = useElementState<InputState>(element);
   const dispatch = useDispatch();
   const sendInputOnChange = useCallback(
     (currentValue: string) => {

@@ -3,10 +3,10 @@ import { EngineComponentProps } from "../registry";
 import renderElementInterface from "../renderElementInterface";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
-import { CloneElement } from "./widgets";
+import { Clone } from "./widgets";
 
 export default function CloneComponent(props: EngineComponentProps) {
-  const element = useElementData(props.elementId, CloneElement);
+  const element = useElementData(props.elementId, Clone);
 
   useElementEvent(element);
 

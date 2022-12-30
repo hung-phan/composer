@@ -8,10 +8,10 @@ import {
   Response,
 } from "share/domain/interfaces";
 import {
-  InfiniteScrollElement,
-  InfiniteScrollElementState,
-  LayoutElement,
-  TextElement,
+  InfiniteScroll,
+  InfiniteScrollState,
+  Layout,
+  Text,
 } from "share/elements/components/widgets";
 import { PeriodicTemplate } from "share/elements/templateComponents/templates";
 
@@ -19,24 +19,24 @@ async function LoadTestSkill(_req: NextApiRequest, res: NextApiResponse) {
   const INFINITE_SCROLL_ELEMENT_ID = "INFINITE_SCROLL_ELEMENT_ID";
   const INFINITE_SCROLL_STATE_ID = "INFINITE_SCROLL_STATE_ID";
 
-  const pageLayout = LayoutElement.builder()
+  const pageLayout = Layout.builder()
     .elements([
-      InfiniteScrollElementState.builder()
+      InfiniteScrollState.builder()
         .id(INFINITE_SCROLL_STATE_ID)
         .hasMore(false)
         .items(
           _.range(0, 500).map((val) =>
-            TextElement.builder()
+            Text.builder()
               .id(`TEXT_${val}`)
               .message(`This is text element with ${Math.random()}`)
               .build()
           )
         )
         .build(),
-      InfiniteScrollElement.builder()
+      InfiniteScroll.builder()
         .id(INFINITE_SCROLL_ELEMENT_ID)
         .stateId(INFINITE_SCROLL_STATE_ID)
-        .loader(TextElement.builder().message("Loading ...").build())
+        .loader(Text.builder().message("Loading ...").build())
         .build(),
     ])
     .build();

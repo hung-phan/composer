@@ -9,12 +9,7 @@ import {
   RequestData,
   Response,
 } from "share/domain/interfaces";
-import {
-  ButtonElement,
-  ImageElement,
-  LayoutElement,
-  TextElement,
-} from "share/elements/components/widgets";
+import { Button, Image, Layout, Text } from "share/elements/components/widgets";
 
 async function LazyLoadAsyncComponentSkill(
   req: NextApiRequest,
@@ -22,18 +17,16 @@ async function LazyLoadAsyncComponentSkill(
 ) {
   const { requestData }: HttpMethodRequestBody<string, any> = req.body;
 
-  const layoutElement = LayoutElement.builder()
+  const layoutElement = Layout.builder()
     .id(requestData.data)
     .elements([
-      TextElement.builder()
-        .message(`This is image for ${requestData.data}`)
-        .build(),
-      ImageElement.builder()
+      Text.builder().message(`This is image for ${requestData.data}`).build(),
+      Image.builder()
         .id(`${requestData.data}_IMAGE`)
         .src(`https://picsum.photos/400?random=${_.random(0, 1000, false)}`)
         .class("w-48")
         .build(),
-      ButtonElement.builder()
+      Button.builder()
         .label("Click me")
         .onSelected([
           HttpMethod.builder()

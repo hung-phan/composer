@@ -1,13 +1,13 @@
 import {
-  ButtonElement,
-  ImageElement,
-  InputElementState,
-  LayoutElement,
-  TextElement,
+  Button,
+  Image,
+  InputState,
+  Layout,
+  Text,
 } from "../../elements/components/widgets";
 import { makeStore } from "../../store";
 import {
-  PlaceholderElement,
+  Placeholder,
   RenderElementMethod,
   UpdateElementMethod,
   UpdateInListElementMethod,
@@ -22,17 +22,17 @@ describe("coreEngine", () => {
     await engineDispatch(store.dispatch, [
       RenderElementMethod.builder()
         .element(
-          LayoutElement.builder()
+          Layout.builder()
             .id(ROOT_ID)
             .elements([
-              TextElement.builder().id("text_element").build(),
-              ImageElement.builder()
+              Text.builder().id("text_element").build(),
+              Image.builder()
                 .id("image_element")
                 .src("https://google.com")
                 .build(),
-              ButtonElement.builder().id("button_element").build(),
-              PlaceholderElement.builder().id("placeholder_element").build(),
-              InputElementState.builder()
+              Button.builder().id("button_element").build(),
+              Placeholder.builder().id("placeholder_element").build(),
+              InputState.builder()
                 .id("stateholder_element")
                 .value("string_data")
                 .build(),
@@ -51,14 +51,14 @@ describe("coreEngine", () => {
     await engineDispatch(store.dispatch, [
       RenderElementMethod.builder()
         .element(
-          LayoutElement.builder()
+          Layout.builder()
             .id(ROOT_ID)
             .elements([
-              ImageElement.builder()
+              Image.builder()
                 .id("image_element")
                 .src("https://google.com")
                 .build(),
-              PlaceholderElement.builder().id("placeholder_element").build(),
+              Placeholder.builder().id("placeholder_element").build(),
             ])
             .build()
         )
@@ -68,11 +68,11 @@ describe("coreEngine", () => {
     await engineDispatch(store.dispatch, [
       RenderElementMethod.builder()
         .element(
-          LayoutElement.builder()
+          Layout.builder()
             .id("placeholder_element")
             .elements([
-              TextElement.builder().id("text_element").build(),
-              ButtonElement.builder().id("button_element").build(),
+              Text.builder().id("text_element").build(),
+              Button.builder().id("button_element").build(),
             ])
             .build()
         )
@@ -88,18 +88,18 @@ describe("coreEngine", () => {
     await engineDispatch(store.dispatch, [
       RenderElementMethod.builder()
         .element(
-          LayoutElement.builder()
+          Layout.builder()
             .id(ROOT_ID)
             .elements([
-              ImageElement.builder()
+              Image.builder()
                 .id("image_element")
                 .src("https://google.com")
                 .build(),
-              LayoutElement.builder()
+              Layout.builder()
                 .id("placeholder_element")
                 .elements([
-                  TextElement.builder().id("text_element").build(),
-                  ButtonElement.builder().id("button_element").build(),
+                  Text.builder().id("text_element").build(),
+                  Button.builder().id("button_element").build(),
                 ])
                 .build(),
             ])
@@ -110,7 +110,7 @@ describe("coreEngine", () => {
 
     await engineDispatch(store.dispatch, [
       RenderElementMethod.builder()
-        .element(PlaceholderElement.builder().id("placeholder_element").build())
+        .element(Placeholder.builder().id("placeholder_element").build())
         .build(),
     ]);
 
@@ -123,11 +123,11 @@ describe("coreEngine", () => {
     await engineDispatch(store.dispatch, [
       RenderElementMethod.builder()
         .element(
-          LayoutElement.builder()
+          Layout.builder()
             .id(ROOT_ID)
             .elements([
-              TextElement.builder().id("text_element_1").build(),
-              PlaceholderElement.builder().id("placeholder_element").build(),
+              Text.builder().id("text_element_1").build(),
+              Placeholder.builder().id("placeholder_element").build(),
             ])
             .build()
         )
@@ -138,8 +138,8 @@ describe("coreEngine", () => {
       UpdateInListElementMethod.builder()
         .id("placeholder_element")
         .elements([
-          TextElement.builder().id("text_element_2").build(),
-          PlaceholderElement.builder().id("placeholder_element").build(),
+          Text.builder().id("text_element_2").build(),
+          Placeholder.builder().id("placeholder_element").build(),
         ])
         .build(),
     ]);
@@ -153,11 +153,11 @@ describe("coreEngine", () => {
     await engineDispatch(store.dispatch, [
       RenderElementMethod.builder()
         .element(
-          LayoutElement.builder()
+          Layout.builder()
             .id(ROOT_ID)
             .elements([
-              ImageElement.builder().id("image_element_1").build(),
-              PlaceholderElement.builder().id("placeholder_element").build(),
+              Image.builder().id("image_element_1").build(),
+              Placeholder.builder().id("placeholder_element").build(),
             ])
             .build()
         )
@@ -168,11 +168,11 @@ describe("coreEngine", () => {
       UpdateElementMethod.builder()
         .id("placeholder_element")
         .element(
-          LayoutElement.builder()
+          Layout.builder()
             .id("nested_layout_element")
             .elements([
-              ImageElement.builder().id("image_element_2").build(),
-              PlaceholderElement.builder().id("placeholder_element").build(),
+              Image.builder().id("image_element_2").build(),
+              Placeholder.builder().id("placeholder_element").build(),
             ])
             .build()
         )

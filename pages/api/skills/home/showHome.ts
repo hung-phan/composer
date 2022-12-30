@@ -7,15 +7,15 @@ import {
   Response,
 } from "share/domain/interfaces";
 import {
-  ButtonElement,
-  FormElement,
-  FormFieldElement,
-  ImageElement,
-  InputElement,
-  InputElementState,
-  LayoutElement,
-  LinkElement,
-  TextElement,
+  Button,
+  Form,
+  FormField,
+  Image,
+  Input,
+  InputState,
+  Layout,
+  Link,
+  Text,
 } from "share/elements/components/widgets";
 import { DefaultTemplate } from "share/elements/templateComponents/templates";
 import getNewId from "share/library/idGenerator";
@@ -27,9 +27,9 @@ export interface SearchFormInput {
 }
 
 async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
-  const imageLayout = LayoutElement.builder()
+  const imageLayout = Layout.builder()
     .elements([
-      ImageElement.builder()
+      Image.builder()
         .src("https://picsum.photos/200/300")
         .class("w-48")
         .build(),
@@ -38,19 +38,19 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
 
   const INPUT_BOX_STATE_HOLDER = getNewId();
 
-  const searchInputState = InputElementState.builder()
+  const searchInputState = InputState.builder()
     .id(INPUT_BOX_STATE_HOLDER)
     .value("")
     .build();
 
-  const formElement = FormElement.builder()
+  const formElement = Form.builder()
     .formId("searchForm")
     .action("/api/skills/home/handleHomeSearch")
     .method("post")
     .fields([
-      FormFieldElement.builder()
+      FormField.builder()
         .fieldElement(
-          InputElement.builder()
+          Input.builder()
             .stateId(INPUT_BOX_STATE_HOLDER)
             .name(searchInputName)
             .placeholder("Search any music here")
@@ -65,39 +65,35 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
         )
         .build(),
     ])
-    .submitButton(
-      ButtonElement.builder().type("submit").label("Search").build()
-    )
+    .submitButton(Button.builder().type("submit").label("Search").build())
     .build();
 
-  const formLayout = LayoutElement.builder()
+  const formLayout = Layout.builder()
     .elements([formElement, searchInputState])
     .build();
 
-  const linkLayout = LayoutElement.builder()
+  const linkLayout = Layout.builder()
     .elements([
-      LinkElement.builder()
+      Link.builder()
         .url("/lazyLoad")
-        .element(TextElement.builder().message("Lazy load example").build())
+        .element(Text.builder().message("Lazy load example").build())
         .build(),
-      LinkElement.builder()
+      Link.builder()
         .url("/infiniteLoading")
-        .element(
-          TextElement.builder().message("Infinite loading example").build()
-        )
+        .element(Text.builder().message("Infinite loading example").build())
         .build(),
-      LinkElement.builder()
+      Link.builder()
         .url("/loadTest")
-        .element(TextElement.builder().message("Load test example").build())
+        .element(Text.builder().message("Load test example").build())
         .build(),
-      LinkElement.builder()
+      Link.builder()
         .url("/complexState")
-        .element(TextElement.builder().message("Complex state example").build())
+        .element(Text.builder().message("Complex state example").build())
         .build(),
     ])
     .build();
 
-  const pageLayout = LayoutElement.builder()
+  const pageLayout = Layout.builder()
     .elements([imageLayout, formLayout, linkLayout])
     .build();
 

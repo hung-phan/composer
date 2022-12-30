@@ -2,10 +2,10 @@ import { EngineComponentProps } from "../registry";
 import renderElementInterface from "../renderElementInterface";
 import useElementData from "../useElementData";
 import useElementEvent from "../useElementEvent";
-import { FormFieldElement } from "./widgets";
+import { FormField } from "./widgets";
 
 export default function FormFieldComponent(props: EngineComponentProps) {
-  const element = useElementData(props.elementId, FormFieldElement);
+  const element = useElementData(props.elementId, FormField);
 
   useElementEvent(element);
 
