@@ -4,17 +4,28 @@ import Router from "next/router";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-
-
 import fetch from "../../library/fetch";
 import { Id } from "../../library/idGenerator";
 import { RootState } from "../../store";
-import { BatchRenderElementMethod, ClientInfo, DataContainer, Element, HttpMethod, HttpMethodRequestBody, InvokeExternalMethod, Method, NavigateMethod, RenderElementMethod, Response, UpdateElementMethod, UpdateInListElementMethod } from "../interfaces";
+import {
+  BatchRenderElementMethod,
+  ClientInfo,
+  DataContainer,
+  Element,
+  HttpMethod,
+  HttpMethodRequestBody,
+  InvokeExternalMethod,
+  Method,
+  NavigateMethod,
+  RenderElementMethod,
+  Response,
+  UpdateElementMethod,
+  UpdateInListElementMethod,
+} from "../interfaces";
 import { getSimplifiedElement } from "./coreEngineHelpers";
 import getTaskQueue, { TaskQueue } from "./coreEngineQueue";
 import { actions, selectors } from "./coreEngineStateStore";
 import { decode } from "./serializers";
-
 
 class CoreEngine {
   readonly ownerId: Id;
@@ -205,17 +216,9 @@ async function registerElement(
   coreEngine.addToDispatchQueue(
     actions.setElement({
       element,
+      childIds: childElements.map((nestedElement) => nestedElement.id),
     })
   );
-
-  if (!_.isEmpty(childElements)) {
-    coreEngine.addToDispatchQueue(
-      actions.registerParent({
-        parentId: element.id,
-        ids: childElements.map((nestedElement) => nestedElement.id),
-      })
-    );
-  }
 }
 
 async function dispatchTask(coreEngine: CoreEngine, methods?: Method[]) {

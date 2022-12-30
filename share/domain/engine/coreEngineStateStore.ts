@@ -116,10 +116,7 @@ const slice = createSlice({
   name: mountPoint,
   initialState,
   reducers: {
-    handleCoreEngineActions: (
-      state: Draft<State>,
-      action: PayloadAction<AnyAction[]>
-    ) => {
+    handleCoreEngineActions: (state, action: PayloadAction<AnyAction[]>) => {
       for (const coreEngineAction of action.payload) {
         slice.caseReducers[_.last(coreEngineAction.type.split("/")) as string](
           state,
@@ -129,9 +126,10 @@ const slice = createSlice({
     },
     setElement: (
       state: Draft<State>,
-      action: PayloadAction<{ element: Element }>
+      action: PayloadAction<{ element: Element; childIds: Id[] }>
     ) => {
       const element = action.payload.element;
+      const childIds: Set<string> = new Set(action.payload.childIds);
 
       createNodeIfNotExist(state, element.id);
 
@@ -139,19 +137,30 @@ const slice = createSlice({
 
       const parentNode = state[state[element.id]?.parent];
 
-      if (parentNode === undefined) {
-        return;
+      if (parentNode) {
+        // do inplace update and convert the current child interface to element interface
+        parentNode.replaceChildElement(
+          element.id,
+          getSimplifiedElement(element)
+        );
       }
 
-      // do inplace update and convert the current child interface to element interface
-      parentNode.replaceChildElement(element.id, getSimplifiedElement(element));
-
+      // remove previous childs
       if (state[element.id].childs !== undefined) {
-        for (const child of Object.keys(state[element.id].childs)) {
-          state[child].setParent(undefined);
+        for (const childId of Object.keys(state[element.id].childs)) {
+          if (!childIds.has(childId)) {
+            state[element.id].removeChild(childId);
+            delete state[childId];
+          }
         }
+      }
 
-        state[element.id].removeAllChild();
+      // register parent-child relationship
+      for (const childId of childIds) {
+        createNodeIfNotExist(state, childId);
+
+        state[childId].setParent(element.id);
+        state[element.id].addChild(childId);
       }
     },
     delElement: (
@@ -161,7 +170,7 @@ const slice = createSlice({
       if (
         action.payload.id in state &&
         action.payload.interfaceName ===
-          state[action.payload.id].element.interfaceName
+        state[action.payload.id].element.interfaceName
       ) {
         let id = action.payload.id;
         let pointer = state[id];
@@ -180,21 +189,6 @@ const slice = createSlice({
 
         if (id !== ROOT_ID) {
           delete state[action.payload.id];
-        }
-      }
-    },
-    registerParent: (
-      state: Draft<State>,
-      action: PayloadAction<{ ids: Id[]; parentId: Id }>
-    ) => {
-      createNodeIfNotExist(state, action.payload.parentId);
-
-      for (const id of action.payload.ids) {
-        if (!state[action.payload.parentId].hasChild(id)) {
-          createNodeIfNotExist(state, id);
-
-          state[id].setParent(action.payload.parentId);
-          state[action.payload.parentId].addChild(id);
         }
       }
     },
