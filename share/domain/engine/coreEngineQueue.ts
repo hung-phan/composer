@@ -1,11 +1,9 @@
-import { Builder } from "builder-pattern";
-
 const scheduleImmediately =
   process.env.ENVIRONMENT === "client"
     ? (cb) => setTimeout(cb, 0)
     : setImmediate;
 
-class Task<T> {
+interface Task<T> {
   func: (...args: any[]) => T;
   args: any[];
   resolve: (value: any) => void;
@@ -15,21 +13,19 @@ class Task<T> {
 export class TaskQueue {
   static BATCH_SIZE = 32;
 
-  readonly tasks: Task<unknown>[] = [];
+  readonly tasks: Task<any>[] = [];
 
   running = false;
   queued = false;
 
-  run<T>(func: (...args: any[]) => T, ...args: any): Promise<any> {
+  run<T>(func: (...args: any[]) => T, ...args: any): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.tasks.push(
-        Builder(Task)
-          .func(func)
-          .args(args)
-          .resolve(resolve)
-          .reject(reject)
-          .build()
-      );
+      this.tasks.push({
+        func,
+        args,
+        resolve,
+        reject,
+      });
 
       this.queueDispatcher();
     });
