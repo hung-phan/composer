@@ -88,18 +88,25 @@ export const selectors = {
   },
 };
 
-function deleteAllChildElements(state: State, id: Id): void {
+function* yieldElementAndChildIds(
+  state: State,
+  id: Id
+): Generator<string, any, any> {
+  yield id;
+
   const childs = state[id]?.childs;
 
-  if (childs === undefined) {
-    return;
+  if (childs !== undefined) {
+    for (const child of Object.keys(childs)) {
+      yield* yieldElementAndChildIds(state, child);
+    }
   }
+}
 
-  for (const child of Object.keys(childs)) {
-    deleteAllChildElements(state, child);
+function deleteElement(state: State, currentId: Id): void {
+  for (const id of yieldElementAndChildIds(state, currentId)) {
+    delete state[id];
   }
-
-  delete state[id];
 }
 
 function createNodeIfNotExist(state: State, id: Id) {
@@ -149,7 +156,7 @@ const slice = createSlice({
         for (const childId of Object.keys(state[element.id].childs)) {
           if (!childIds.has(childId)) {
             state[element.id].removeChild(childId);
-            delete state[childId];
+            deleteElement(state, childId);
           }
         }
       }
@@ -181,7 +188,7 @@ const slice = createSlice({
           pointer = state[id];
 
           if (!pointer.hasChild(childId)) {
-            deleteAllChildElements(state, childId);
+            deleteElement(state, childId);
             return;
           }
         }
