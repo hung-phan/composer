@@ -21,6 +21,7 @@ import {
   Response,
   UpdateElementMethod,
   UpdateInListElementMethod,
+  UpdateStateMethod,
 } from "../interfaces";
 import { getSimplifiedElement } from "./coreEngineHelpers";
 import getTaskQueue, { TaskQueue } from "./coreEngineQueue";
@@ -59,6 +60,13 @@ async function evalMethod(
 
   if (method instanceof InvokeExternalMethod) {
     coreEngine.addToDispatchQueue(method.action);
+  } else if (method instanceof UpdateStateMethod) {
+    coreEngine.addToDispatchQueue(
+      actions.updateStateElement({
+        stateElementId: method.stateElementId,
+        patches: method.patches,
+      })
+    );
   } else if (method instanceof HttpMethod) {
     if (_.isEmpty(method.stateIds)) {
       await makeHttpCall(method, coreEngine);

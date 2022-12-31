@@ -1,5 +1,5 @@
 import { Builder, IBuilder } from "builder-pattern";
-import { immerable } from "immer";
+import { Patch, immerable } from "immer";
 import _ from "lodash";
 import { Action } from "redux";
 
@@ -179,12 +179,19 @@ export class InvokeExternalMethod extends Method {
 
   action: Action;
 
-  static getInterfaceName() {
-    return this.builder().build().interfaceName;
-  }
-
   static builder(): IBuilder<InvokeExternalMethod> {
     return Builder(InvokeExternalMethod);
+  }
+}
+
+export class UpdateStateMethod extends Method {
+  interfaceName = "UpdateStateMethod";
+
+  stateElementId: Id;
+  patches: Patch[];
+
+  static builder(): IBuilder<UpdateStateMethod> {
+    return Builder(UpdateStateMethod);
   }
 }
 

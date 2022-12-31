@@ -9,8 +9,9 @@ import { registerInterfaces } from "./interfaceRegistry";
 registerInterfaces([
   core.Method,
   core.Node,
-  core.InvokeExternalMethod,
   core.Element,
+  core.InvokeExternalMethod,
+  core.UpdateStateMethod,
   core.RenderElementMethod,
   core.BatchRenderElementMethod,
   core.UpdateElementMethod,
