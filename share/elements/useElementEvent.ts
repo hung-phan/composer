@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { actions, engineDispatch } from "../domain/engine";
+import { engineDispatch } from "../domain/engine";
 import { Element } from "../domain/interfaces";
 
 export default function useElementEvent(element: Element): void {
@@ -15,13 +15,6 @@ export default function useElementEvent(element: Element): void {
     return () => {
       if (element) {
         engineDispatch(dispatch, element.onDestroy);
-
-        dispatch(
-          actions.delElement({
-            id: element.id,
-            interfaceName: element.interfaceName,
-          })
-        );
       }
     };
     // DO NOT modify deps array, it is there to prevent update
