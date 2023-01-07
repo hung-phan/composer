@@ -92,8 +92,6 @@ function* yieldElementAndChildIds(
   state: State,
   id: Id
 ): Generator<string, any, any> {
-  yield id;
-
   const childs = state[id]?.childs;
 
   if (childs !== undefined) {
@@ -101,6 +99,8 @@ function* yieldElementAndChildIds(
       yield* yieldElementAndChildIds(state, child);
     }
   }
+
+  yield id;
 }
 
 function deleteElement(state: State, currentId: Id): void {
