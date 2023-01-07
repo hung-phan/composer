@@ -169,35 +169,6 @@ const slice = createSlice({
         state[element.id].addChild(childId);
       }
     },
-    delElement: (
-      state: Draft<State>,
-      action: PayloadAction<{ id: Id; interfaceName: string }>
-    ) => {
-      if (
-        action.payload.id in state &&
-        action.payload.interfaceName ===
-          state[action.payload.id].element.interfaceName
-      ) {
-        let id = action.payload.id;
-        let pointer = state[id];
-
-        while (pointer.parent !== undefined) {
-          const childId = id;
-
-          id = pointer.parent;
-          pointer = state[id];
-
-          if (!pointer.hasChild(childId)) {
-            deleteElement(state, childId);
-            return;
-          }
-        }
-
-        if (id !== ROOT_ID) {
-          delete state[action.payload.id];
-        }
-      }
-    },
     replaceElement: (
       state: Draft<State>,
       action: PayloadAction<{
