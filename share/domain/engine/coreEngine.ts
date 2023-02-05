@@ -144,27 +144,26 @@ async function makeHttpCall(
     await dispatchTask(coreEngine, method.before);
   }
 
+  const requestOptions: RequestInit = {};
+  const requestBody: HttpMethodRequestBody<any, any> = {
+    elementStates,
+    clientInfo: coreEngine.clientInfo,
+    requestData: method.requestData,
+  };
+  let serverUrl = method.url;
+
+  if (method.requestType === "GET") {
+    serverUrl += `?${Object.entries(requestBody)
+      .filter(([, value]) => value !== undefined)
+      .map(
+        ([key, value]) => `${key}=${encodeURIComponent(JSON.stringify(value))}`
+      )
+      .join("&")}`;
+  } else if (method.requestType === "POST") {
+    requestOptions.body = JSON.stringify(requestBody);
+  }
+
   try {
-    const requestOptions: RequestInit = {};
-    const requestBody: HttpMethodRequestBody<any, any> = {
-      elementStates,
-      clientInfo: coreEngine.clientInfo,
-      requestData: method.requestData,
-    };
-    let serverUrl = method.url;
-
-    if (method.requestType === "GET") {
-      serverUrl += `?${Object.entries(requestBody)
-        .filter(([, value]) => value !== undefined)
-        .map(
-          ([key, value]) =>
-            `${key}=${encodeURIComponent(JSON.stringify(value))}`
-        )
-        .join("&")}`;
-    } else if (method.requestType === "POST") {
-      requestOptions.body = JSON.stringify(requestBody);
-    }
-
     const response = await fetch(serverUrl, {
       ...requestOptions,
       method: method.requestType,
