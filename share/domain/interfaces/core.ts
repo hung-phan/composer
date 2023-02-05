@@ -127,6 +127,10 @@ export class Node extends Serializable {
     }
   }
 
+  deleteChildElementInList(childId: Id) {
+    this.replaceChildElementInList(childId, []);
+  }
+
   static getInterfaceName() {
     return this.builder().build().interfaceName;
   }
@@ -234,6 +238,16 @@ export class UpdateInListElementMethod extends Method {
 
   static builder(): IBuilder<UpdateInListElementMethod> {
     return Builder(UpdateInListElementMethod);
+  }
+}
+
+export class DeleteInListElementMethod extends Method {
+  interfaceName = "DeleteInListElementMethod";
+
+  ids: Id[];
+
+  static builder(): IBuilder<DeleteInListElementMethod> {
+    return Builder(DeleteInListElementMethod);
   }
 }
 

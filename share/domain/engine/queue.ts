@@ -11,12 +11,13 @@ interface Task<T> {
 }
 
 export class TaskQueue {
-  static BATCH_SIZE = 32;
+  static DEFAULT_BATCH_SIZE = 32;
 
-  readonly tasks: Task<any>[] = [];
+  batchSize: number = TaskQueue.DEFAULT_BATCH_SIZE;
 
-  running = false;
-  queued = false;
+  private tasks: Task<any>[] = [];
+  private running = false;
+  private queued = false;
 
   run<T>(func: (...args: any[]) => T, ...args: any): Promise<T> {
     return new Promise((resolve, reject) => {
@@ -45,7 +46,7 @@ export class TaskQueue {
         this.running = true;
         this.queued = false;
 
-        while (this.tasks.length > 0 && count < TaskQueue.BATCH_SIZE) {
+        while (this.tasks.length > 0 && count < this.batchSize) {
           const task: Task<unknown> = this.tasks.pop();
 
           try {

@@ -11,6 +11,7 @@ import {
   BatchRenderElementMethod,
   ClientInfo,
   DataContainer,
+  DeleteInListElementMethod,
   Element,
   HttpMethod,
   HttpMethodRequestBody,
@@ -24,8 +25,8 @@ import {
   UpdateStateMethod,
 } from "../interfaces";
 import { getSimplifiedElement } from "./coreEngineHelpers";
-import getTaskQueue, { TaskQueue } from "./coreEngineQueue";
 import { actions, selectors } from "./coreEngineStateStore";
+import getTaskQueue, { TaskQueue } from "./queue";
 import { decode } from "./serializers";
 
 class CoreEngine {
@@ -113,6 +114,10 @@ async function evalMethod(
         ids: method.elements.map((element) => element.id),
       })
     );
+  } else if (method instanceof DeleteInListElementMethod) {
+    coreEngine.addToDispatchQueue(
+      actions.deleteElementInList({ ids: method.ids })
+    );
   } else if (method instanceof NavigateMethod) {
     if (process.env.ENVIRONMENT === "client") {
       await Router.push(method.url);
@@ -194,32 +199,41 @@ async function registerElement(
   coreEngine: CoreEngine
 ): Promise<void> {
   const childElements: Element[] = [];
+  const taskPromises: Promise<void>[] = [];
 
   for (const [key, value] of Object.entries(element)) {
     if (value instanceof Element) {
-      await coreEngine.taskQueue.run(registerElement, value, coreEngine);
+      taskPromises.push(
+        coreEngine.taskQueue
+          .run(registerElement, value, coreEngine)
+          .then(() => {
+            element[key] = getSimplifiedElement(value);
 
-      element[key] = getSimplifiedElement(value);
-
-      childElements.push(element[key]);
+            childElements.push(element[key]);
+          })
+      );
     }
 
     if (
       _.isArray(value) &&
       _.every(value, (nestedElement) => nestedElement instanceof Element)
     ) {
-      await Promise.all(
-        value.map((nestedElement) =>
-          coreEngine.taskQueue.run(registerElement, nestedElement, coreEngine)
-        )
+      taskPromises.push(
+        Promise.all(
+          value.map((nestedElement) =>
+            coreEngine.taskQueue.run(registerElement, nestedElement, coreEngine)
+          )
+        ).then(() => {
+          element[key] = value.map((nestedElement) =>
+            getSimplifiedElement(nestedElement)
+          );
+          childElements.push(...element[key]);
+        })
       );
-
-      element[key] = value.map((nestedElement) =>
-        getSimplifiedElement(nestedElement)
-      );
-      childElements.push(...element[key]);
     }
   }
+
+  await Promise.all(taskPromises);
 
   coreEngine.addToDispatchQueue(
     actions.setElement({
@@ -253,10 +267,10 @@ async function dispatchTask(coreEngine: CoreEngine, methods?: Method[]) {
   });
 }
 
-export async function engineDispatch(
+export async function engineDispatch<T>(
   dispatch: ThunkDispatch<RootState, unknown, AnyAction>,
   methods?: Method[],
-  clientInfo?: ClientInfo<any>
+  clientInfo?: ClientInfo<T>
 ): Promise<void> {
   if (_.isEmpty(methods)) {
     return;

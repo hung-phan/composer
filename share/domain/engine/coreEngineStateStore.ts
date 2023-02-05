@@ -232,6 +232,29 @@ const slice = createSlice({
       }
     },
 
+    deleteElementInList: (
+      state: Draft<State>,
+      action: PayloadAction<{ ids: Id[] }>
+    ) => {
+      for (const id of action.payload.ids) {
+        const node = state[id];
+
+        if (!node) {
+          continue;
+        }
+
+        const parent = state[node.parent];
+
+        if (!parent) {
+          continue;
+        }
+
+        parent.deleteChildElementInList(id);
+        parent.removeChild(id);
+        deleteElement(state, id);
+      }
+    },
+
     updateStateElement: (
       state: Draft<State>,
       action: PayloadAction<{

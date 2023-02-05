@@ -24,7 +24,7 @@ describe("coreEngine", () => {
         .element(
           Layout.builder()
             .id(ROOT_ID)
-            .elements([
+            .items([
               Text.builder().id("text_element").build(),
               Image.builder()
                 .id("image_element")
@@ -53,7 +53,7 @@ describe("coreEngine", () => {
         .element(
           Layout.builder()
             .id(ROOT_ID)
-            .elements([
+            .items([
               Image.builder()
                 .id("image_element")
                 .src("https://google.com")
@@ -70,7 +70,7 @@ describe("coreEngine", () => {
         .element(
           Layout.builder()
             .id("placeholder_element")
-            .elements([
+            .items([
               Text.builder().id("text_element").build(),
               Button.builder().id("button_element").build(),
             ])
@@ -90,14 +90,14 @@ describe("coreEngine", () => {
         .element(
           Layout.builder()
             .id(ROOT_ID)
-            .elements([
+            .items([
               Image.builder()
                 .id("image_element")
                 .src("https://google.com")
                 .build(),
               Layout.builder()
                 .id("placeholder_element")
-                .elements([
+                .items([
                   Text.builder().id("text_element").build(),
                   Button.builder().id("button_element").build(),
                 ])
@@ -125,7 +125,7 @@ describe("coreEngine", () => {
         .element(
           Layout.builder()
             .id(ROOT_ID)
-            .elements([
+            .items([
               Text.builder().id("text_element_1").build(),
               Placeholder.builder().id("placeholder_element").build(),
             ])
@@ -155,7 +155,7 @@ describe("coreEngine", () => {
         .element(
           Layout.builder()
             .id(ROOT_ID)
-            .elements([
+            .items([
               Image.builder().id("image_element_1").build(),
               Placeholder.builder().id("placeholder_element").build(),
             ])
@@ -170,7 +170,7 @@ describe("coreEngine", () => {
         .element(
           Layout.builder()
             .id("nested_layout_element")
-            .elements([
+            .items([
               Image.builder().id("image_element_2").build(),
               Placeholder.builder().id("placeholder_element").build(),
             ])

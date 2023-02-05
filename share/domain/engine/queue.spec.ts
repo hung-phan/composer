@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import getTaskQueue from "./coreEngineQueue";
+import getTaskQueue from "./queue";
 
 describe("coreEngineQueue", () => {
   test("should queue the task and resolve it correctly", async () => {
