@@ -8,6 +8,7 @@ import fetch from "../../library/fetch";
 import { Id } from "../../library/idGenerator";
 import { RootState } from "../../store";
 import {
+  AddInListElementMethod,
   BatchRenderElementMethod,
   ClientInfo,
   DataContainer,
@@ -104,12 +105,22 @@ async function evalMethod(
         })
       );
     });
+  } else if (method instanceof AddInListElementMethod) {
+    await Promise.all(
+      method.elements.map((element) => registerElement(element, coreEngine))
+    );
+    coreEngine.addToDispatchQueue(
+      actions.addElementInList({
+        oldId: method.id,
+        ids: method.elements.map((element) => element.id),
+      })
+    );
   } else if (method instanceof UpdateInListElementMethod) {
     await Promise.all(
       method.elements.map((element) => registerElement(element, coreEngine))
     );
     coreEngine.addToDispatchQueue(
-      actions.replaceElementInList({
+      actions.updateElementInList({
         oldId: method.id,
         ids: method.elements.map((element) => element.id),
       })

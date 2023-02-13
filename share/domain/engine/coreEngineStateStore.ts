@@ -198,8 +198,33 @@ const slice = createSlice({
       parentNode.removeChild(action.payload.oldId);
       parentNode.addChild(newNode.element.id);
     },
+    addElementInList: (
+      state: Draft<State>,
+      action: PayloadAction<{
+        oldId: Id;
+        ids: Id[];
+      }>
+    ) => {
+      const oldNode = state[action.payload.oldId];
+      const parentNode = state[oldNode?.parent];
 
-    replaceElementInList: (
+      if (parentNode === undefined) {
+        return;
+      }
+
+      const newNodes = action.payload.ids.map((id) => state[id]);
+
+      parentNode.addChildElementInList(
+        action.payload.oldId,
+        newNodes.map((newNode) => getSimplifiedElement(newNode.element))
+      );
+
+      for (const newNode of newNodes) {
+        parentNode.addChild(newNode.element.id);
+        newNode.setParent(parentNode.element.id);
+      }
+    },
+    updateElementInList: (
       state: Draft<State>,
       action: PayloadAction<{
         oldId: Id;
@@ -231,7 +256,6 @@ const slice = createSlice({
         newNode.setParent(parentNode.element.id);
       }
     },
-
     deleteElementInList: (
       state: Draft<State>,
       action: PayloadAction<{ ids: Id[] }>
@@ -239,22 +263,22 @@ const slice = createSlice({
       for (const id of action.payload.ids) {
         const node = state[id];
 
-        if (!node) {
+        if (node === undefined) {
           continue;
         }
 
+        deleteElement(state, id);
+
         const parent = state[node.parent];
 
-        if (!parent) {
+        if (parent === undefined) {
           continue;
         }
 
         parent.deleteChildElementInList(id);
         parent.removeChild(id);
-        deleteElement(state, id);
       }
     },
-
     updateStateElement: (
       state: Draft<State>,
       action: PayloadAction<{

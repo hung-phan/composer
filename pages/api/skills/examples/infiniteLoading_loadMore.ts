@@ -1,11 +1,7 @@
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { encode } from "share/domain/engine/serializers";
-import {
-  Placeholder,
-  Response,
-  UpdateInListElementMethod,
-} from "share/domain/interfaces";
+import { AddInListElementMethod, Response } from "share/domain/interfaces";
 import { Image } from "share/elements/components/widgets";
 
 async function InfiniteLoadingLoadMoreSkill(
@@ -23,7 +19,7 @@ async function InfiniteLoadingLoadMoreSkill(
     encode(
       Response.builder()
         .methods([
-          UpdateInListElementMethod.builder()
+          AddInListElementMethod.builder()
             .id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID)
             .elements([
               ..._.range(0, 5).map(() =>
@@ -38,9 +34,6 @@ async function InfiniteLoadingLoadMoreSkill(
                   .class("w-48")
                   .build()
               ),
-              Placeholder.builder()
-                .id(INFINITE_SCROLL_ITEM_PLACEHOLDER_ID)
-                .build(),
             ])
             .build(),
         ])

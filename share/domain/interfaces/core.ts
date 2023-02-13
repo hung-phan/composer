@@ -110,15 +110,15 @@ export class Node extends Serializable {
     }
   }
 
-  replaceChildElementInList(oldChildId: Id, childElements: Element[]) {
+  operateElementInList(
+    childId: Id,
+    func: (index: number, arr: Element[]) => void
+  ) {
     for (const value of Object.values(this.element)) {
       if (_.isArray(value)) {
         for (let index = value.length - 1; index >= 0; index--) {
-          if (
-            value[index] instanceof Element &&
-            value[index].id === oldChildId
-          ) {
-            value.splice(index, 1, ...childElements);
+          if (value[index] instanceof Element && value[index].id === childId) {
+            func(index, value);
 
             return;
           }
@@ -127,8 +127,22 @@ export class Node extends Serializable {
     }
   }
 
+  addChildElementInList(childId: Id, childElements: Element[]) {
+    this.operateElementInList(childId, (__: number, arr: Element[]) => {
+      arr.push(...childElements);
+    });
+  }
+
+  replaceChildElementInList(childId: Id, childElements: Element[]) {
+    this.operateElementInList(childId, (index: number, arr: Element[]) => {
+      arr.splice(index, 1, ...childElements);
+    });
+  }
+
   deleteChildElementInList(childId: Id) {
-    this.replaceChildElementInList(childId, []);
+    this.operateElementInList(childId, (index: number, arr: Element[]) => {
+      arr.splice(index, 1);
+    });
   }
 
   static getInterfaceName() {
@@ -248,6 +262,17 @@ export class DeleteInListElementMethod extends Method {
 
   static builder(): IBuilder<DeleteInListElementMethod> {
     return Builder(DeleteInListElementMethod);
+  }
+}
+
+export class AddInListElementMethod extends Method {
+  interfaceName = "AddInListElementMethod";
+
+  id: Id;
+  elements: Element[];
+
+  static builder(): IBuilder<AddInListElementMethod> {
+    return Builder(AddInListElementMethod);
   }
 }
 
