@@ -2,9 +2,11 @@ import { Element } from "share/domain/interfaces";
 
 import { getComponentClass } from "./registry";
 
-export default function renderElementInterface<
-  T extends Record<string, unknown>
->(element: Element, parentElement?: Element, parentProps?: T) {
+export default function renderElementInterface<T>(
+  element: Element,
+  parentElement?: Element,
+  parentProps?: T
+) {
   const Component = getComponentClass(element);
 
   return (

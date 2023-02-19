@@ -31,9 +31,9 @@ export type State = {
   [key: Id]: Node;
 };
 
-export const mountPoint = "templateEngine";
+export var mountPoint = "templateEngine";
 
-export const selectors = {
+export var selectors = {
   getState: (state: RootState): State => state[mountPoint],
   getCurrentTemplateOwnerId: (state: RootState): Id => {
     const node: Node = state[mountPoint][ROOT_ID];
@@ -297,9 +297,9 @@ const slice = createSlice({
   },
 });
 
-export const reducer = slice.reducer;
+export var reducer = slice.reducer;
 
-export const actions = {
+export var actions = {
   callEndpoint: createAsyncThunk<
     State,
     Method,

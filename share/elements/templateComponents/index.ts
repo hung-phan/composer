@@ -1,2 +1,2 @@
-export { default as DefaultTemplateElement } from "./DefaultTemplateElement";
-export { default as PeriodicTemplateElement } from "./PeriodicTemplateElement";
+export { default as DefaultTemplateComponent } from "./DefaultTemplateElement";
+export { default as PeriodicTemplateComponent } from "./PeriodicTemplateElement";

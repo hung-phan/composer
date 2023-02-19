@@ -34,11 +34,11 @@ registerElements([
   },
   {
     interfaceClass: templates.DefaultTemplate,
-    elementClass: templateComponents.DefaultTemplateElement,
+    elementClass: templateComponents.DefaultTemplateComponent,
   },
   {
     interfaceClass: templates.PeriodicTemplate,
-    elementClass: templateComponents.PeriodicTemplateElement,
+    elementClass: templateComponents.PeriodicTemplateComponent,
   },
   {
     interfaceClass: widgets.Layout,

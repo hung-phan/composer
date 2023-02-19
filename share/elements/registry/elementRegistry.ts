@@ -11,15 +11,16 @@ export interface EngineComponentProps {
   parentElementId?: string;
 }
 
-export interface FuzzyComponentPassedByProps<T> extends EngineComponentProps {
+export interface EngineComponentWithParentProps<T>
+  extends EngineComponentProps {
   parentProps: T;
 }
 
 export type ComponentType =
   | ComponentClass<EngineComponentProps>
   | FunctionComponent<EngineComponentProps>
-  | ComponentClass<FuzzyComponentPassedByProps<unknown>>
-  | FunctionComponent<FuzzyComponentPassedByProps<unknown>>;
+  | ComponentClass<EngineComponentWithParentProps<unknown>>
+  | FunctionComponent<EngineComponentWithParentProps<unknown>>;
 
 const ELEMENT_REGISTRY = new Map<Clazz<Element>, ComponentType>();
 

@@ -9,7 +9,9 @@ exports[`coreEngine should remove element with RenderElementMethod 1`] = `
         "placeholder_element": true,
       },
       "element": Layout {
-        "elements": [
+        "id": "@@ENGINE_ROOT_ID",
+        "interfaceName": "Layout",
+        "items": [
           Element {
             "id": "image_element",
             "interfaceName": "Image",
@@ -21,8 +23,6 @@ exports[`coreEngine should remove element with RenderElementMethod 1`] = `
             Symbol(immer-draftable): true,
           },
         ],
-        "id": "@@ENGINE_ROOT_ID",
-        "interfaceName": "Layout",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -63,7 +63,9 @@ exports[`coreEngine should support list replacement with same id 1`] = `
         "text_element_2": true,
       },
       "element": Layout {
-        "elements": [
+        "id": "@@ENGINE_ROOT_ID",
+        "interfaceName": "Layout",
+        "items": [
           Element {
             "id": "text_element_1",
             "interfaceName": "Text",
@@ -80,8 +82,6 @@ exports[`coreEngine should support list replacement with same id 1`] = `
             Symbol(immer-draftable): true,
           },
         ],
-        "id": "@@ENGINE_ROOT_ID",
-        "interfaceName": "Layout",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -130,7 +130,9 @@ exports[`coreEngine should support nested element update with same id 1`] = `
         "nested_layout_element": true,
       },
       "element": Layout {
-        "elements": [
+        "id": "@@ENGINE_ROOT_ID",
+        "interfaceName": "Layout",
+        "items": [
           Element {
             "id": "image_element_1",
             "interfaceName": "Image",
@@ -142,8 +144,6 @@ exports[`coreEngine should support nested element update with same id 1`] = `
             Symbol(immer-draftable): true,
           },
         ],
-        "id": "@@ENGINE_ROOT_ID",
-        "interfaceName": "Layout",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -175,7 +175,9 @@ exports[`coreEngine should support nested element update with same id 1`] = `
         "placeholder_element": true,
       },
       "element": Layout {
-        "elements": [
+        "id": "nested_layout_element",
+        "interfaceName": "Layout",
+        "items": [
           Element {
             "id": "image_element_2",
             "interfaceName": "Image",
@@ -187,8 +189,6 @@ exports[`coreEngine should support nested element update with same id 1`] = `
             Symbol(immer-draftable): true,
           },
         ],
-        "id": "nested_layout_element",
-        "interfaceName": "Layout",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -218,7 +218,9 @@ exports[`coreEngine should support override element with RenderElementMethod 1`]
         "placeholder_element": true,
       },
       "element": Layout {
-        "elements": [
+        "id": "@@ENGINE_ROOT_ID",
+        "interfaceName": "Layout",
+        "items": [
           Element {
             "id": "image_element",
             "interfaceName": "Image",
@@ -230,8 +232,6 @@ exports[`coreEngine should support override element with RenderElementMethod 1`]
             Symbol(immer-draftable): true,
           },
         ],
-        "id": "@@ENGINE_ROOT_ID",
-        "interfaceName": "Layout",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -242,6 +242,7 @@ exports[`coreEngine should support override element with RenderElementMethod 1`]
         "id": "button_element",
         "interfaceName": "Button",
         "size": "lg",
+        "style": "default",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -265,7 +266,9 @@ exports[`coreEngine should support override element with RenderElementMethod 1`]
         "text_element": true,
       },
       "element": Layout {
-        "elements": [
+        "id": "placeholder_element",
+        "interfaceName": "Layout",
+        "items": [
           Element {
             "id": "text_element",
             "interfaceName": "Text",
@@ -277,8 +280,6 @@ exports[`coreEngine should support override element with RenderElementMethod 1`]
             Symbol(immer-draftable): true,
           },
         ],
-        "id": "placeholder_element",
-        "interfaceName": "Layout",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -311,7 +312,9 @@ exports[`coreEngine should update the store correctly 1`] = `
         "text_element": true,
       },
       "element": Layout {
-        "elements": [
+        "id": "@@ENGINE_ROOT_ID",
+        "interfaceName": "Layout",
+        "items": [
           Element {
             "id": "text_element",
             "interfaceName": "Text",
@@ -334,12 +337,10 @@ exports[`coreEngine should update the store correctly 1`] = `
           },
           Element {
             "id": "stateholder_element",
-            "interfaceName": "InputElementState",
+            "interfaceName": "InputState",
             Symbol(immer-draftable): true,
           },
         ],
-        "id": "@@ENGINE_ROOT_ID",
-        "interfaceName": "Layout",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -350,6 +351,7 @@ exports[`coreEngine should update the store correctly 1`] = `
         "id": "button_element",
         "interfaceName": "Button",
         "size": "lg",
+        "style": "default",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -380,7 +382,7 @@ exports[`coreEngine should update the store correctly 1`] = `
     "stateholder_element": Node {
       "element": InputState {
         "id": "stateholder_element",
-        "interfaceName": "InputElementState",
+        "interfaceName": "InputState",
         "value": "string_data",
         Symbol(immer-draftable): true,
       },
