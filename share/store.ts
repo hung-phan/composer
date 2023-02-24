@@ -9,7 +9,7 @@ import {
   reducer as templateEngineReducer,
 } from "./domain/engine/coreEngineStateStore";
 import { convertToClass, encode } from "./domain/engine/serializers";
-import { Element, Node } from "./domain/interfaces";
+import { Node } from "./domain/interfaces";
 
 export const middlewares: Middleware[] = [];
 export const enhancers: StoreEnhancer[] = [];
@@ -51,7 +51,6 @@ export const wrapper = createWrapper<Store<RootState>>(makeStore, {
     const templateEngineState = selectors.getState(state);
 
     for (const [key, value] of Object.entries(templateEngineState)) {
-      templateEngineState[key].element = convertToClass<Element>(value.element);
       templateEngineState[key] = convertToClass<Node>(value);
     }
 
