@@ -248,7 +248,7 @@ async function registerElement(
   coreEngine.addToDispatchQueue(
     actions.setElement({
       element,
-      childIds: new Set(childElements.map((nestedElement) => nestedElement.id)),
+      childIds: childElements.map((nestedElement) => nestedElement.id),
     })
   );
 }

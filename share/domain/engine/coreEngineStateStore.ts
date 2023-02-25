@@ -133,9 +133,12 @@ const slice = createSlice({
     },
     setElement: (
       state: Draft<State>,
-      action: PayloadAction<{ element: Element; childIds: Set<Id> }>
+      action: PayloadAction<{ element: Element; childIds: Id[] }>
     ) => {
-      const { element, childIds } = action.payload;
+      const [element, childIds] = [
+        action.payload.element,
+        new Set(action.payload.childIds),
+      ];
 
       createNodeIfNotExist(state, element.id);
 
