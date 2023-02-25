@@ -227,6 +227,8 @@ export class HttpMethod<T> extends Method {
   onSuccess?: Method[];
 }
 
+export type HttpMethodBuilder<T> = IBuilder<HttpMethod<T>>;
+
 export type ClientInfo<T> = RawDataContainer<T>;
 
 export interface HttpMethodRequestBody<RequestDataType, ClientInfoType> {

@@ -1,9 +1,9 @@
-import { IBuilder } from "builder-pattern";
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { encode } from "share/domain/engine/serializers";
 import {
   HttpMethod,
+  HttpMethodBuilder,
   HttpMethodRequestBody,
   RenderElementMethod,
   Response,
@@ -28,7 +28,7 @@ async function LazyLoadAsyncComponentSkill(
       Button.builder()
         .label("Click me")
         .onSelected([
-          (HttpMethod.builder() as IBuilder<HttpMethod<string>>)
+          (HttpMethod.builder() as HttpMethodBuilder<string>)
             .url("/api/skills/examples/lazyLoad_updateImage")
             .requestType("POST")
             .requestData({
