@@ -86,10 +86,6 @@ async function ShowHomeSkill(_: NextApiRequest, res: NextApiResponse) {
         .url("/loadTest")
         .element(Text.builder().message("Load test example").build())
         .build(),
-      Link.builder()
-        .url("/complexState")
-        .element(Text.builder().message("Complex state example").build())
-        .build(),
     ])
     .build();
 

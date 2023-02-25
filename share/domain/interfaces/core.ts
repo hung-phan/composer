@@ -9,18 +9,18 @@ export abstract class Serializable {
   [immerable] = true;
 
   abstract interfaceName: string;
+
+  static getInterfaceName<T extends Serializable>(this: new () => T): string {
+    return Builder(this).build().interfaceName;
+  }
+
+  static builder<T extends Serializable>(this: new () => T): IBuilder<T> {
+    return Builder(this) as IBuilder<T>;
+  }
 }
 
 export class Method extends Serializable {
   interfaceName = "Method";
-
-  static getInterfaceName() {
-    return this.builder().build().interfaceName;
-  }
-
-  static builder(): IBuilder<Method> {
-    return Builder(Method);
-  }
 }
 
 export class Element extends Serializable {
@@ -33,14 +33,6 @@ export class Element extends Serializable {
 
   onCreate?: Method[];
   onDestroy?: Method[];
-
-  static getInterfaceName() {
-    return this.builder().build().interfaceName;
-  }
-
-  static builder(): IBuilder<Element> {
-    return Builder(Element);
-  }
 }
 
 export class Node extends Serializable {
@@ -144,30 +136,14 @@ export class Node extends Serializable {
       arr.splice(index, 1);
     });
   }
-
-  static getInterfaceName() {
-    return this.builder().build().interfaceName;
-  }
-
-  static builder(): IBuilder<Node> {
-    return Builder(Node);
-  }
 }
 
 export class Placeholder extends Element {
   interfaceName = "Placeholder";
-
-  static builder(): IBuilder<Placeholder> {
-    return Builder(Placeholder);
-  }
 }
 
 export class DataContainer extends Element {
   interfaceName = "DataContainer";
-
-  static builder(): IBuilder<DataContainer> {
-    return Builder(DataContainer);
-  }
 }
 
 export interface RawDataContainer<T> {
@@ -179,14 +155,6 @@ export class Response extends Serializable {
 
   methods: Method[];
 
-  static getInterfaceName() {
-    return this.builder().build().interfaceName;
-  }
-
-  static builder(): IBuilder<Response> {
-    return Builder(Response);
-  }
-
   static readonly EMPTY = Response.builder().methods([]).build();
 }
 
@@ -196,10 +164,6 @@ export class InvokeExternalMethod extends Method {
   interfaceName = "InvokeExternalMethod";
 
   action: Action;
-
-  static builder(): IBuilder<InvokeExternalMethod> {
-    return Builder(InvokeExternalMethod);
-  }
 }
 
 export class UpdateStateMethod extends Method {
@@ -207,30 +171,18 @@ export class UpdateStateMethod extends Method {
 
   stateElementId: Id;
   patches: Patch[];
-
-  static builder(): IBuilder<UpdateStateMethod> {
-    return Builder(UpdateStateMethod);
-  }
 }
 
 export class RenderElementMethod extends Method {
   interfaceName = "RenderElementMethod";
 
   element: Element;
-
-  static builder(): IBuilder<RenderElementMethod> {
-    return Builder(RenderElementMethod);
-  }
 }
 
 export class BatchRenderElementMethod extends Method {
   interfaceName = "BatchRenderElementMethod";
 
   elements: Element[];
-
-  static builder(): IBuilder<BatchRenderElementMethod> {
-    return Builder(BatchRenderElementMethod);
-  }
 }
 
 export class UpdateElementMethod extends Method {
@@ -238,10 +190,6 @@ export class UpdateElementMethod extends Method {
 
   id: Id;
   element: Element;
-
-  static builder(): IBuilder<UpdateElementMethod> {
-    return Builder(UpdateElementMethod);
-  }
 }
 
 export class UpdateInListElementMethod extends Method {
@@ -249,20 +197,12 @@ export class UpdateInListElementMethod extends Method {
 
   id: Id;
   elements: Element[];
-
-  static builder(): IBuilder<UpdateInListElementMethod> {
-    return Builder(UpdateInListElementMethod);
-  }
 }
 
 export class DeleteInListElementMethod extends Method {
   interfaceName = "DeleteInListElementMethod";
 
   ids: Id[];
-
-  static builder(): IBuilder<DeleteInListElementMethod> {
-    return Builder(DeleteInListElementMethod);
-  }
 }
 
 export class AddInListElementMethod extends Method {
@@ -270,10 +210,6 @@ export class AddInListElementMethod extends Method {
 
   id: Id;
   elements: Element[];
-
-  static builder(): IBuilder<AddInListElementMethod> {
-    return Builder(AddInListElementMethod);
-  }
 }
 
 export type RequestData<T> = RawDataContainer<T>;
@@ -289,10 +225,6 @@ export class HttpMethod<T> extends Method {
   stateIds?: Id[];
   onError?: Method[];
   onSuccess?: Method[];
-
-  static builder<T>(): IBuilder<HttpMethod<T>> {
-    return Builder(HttpMethod<T>);
-  }
 }
 
 export type ClientInfo<T> = RawDataContainer<T>;
@@ -307,8 +239,4 @@ export class NavigateMethod extends Method {
   interfaceName = "NavigateMethod";
 
   url: string;
-
-  static builder(): IBuilder<NavigateMethod> {
-    return Builder(NavigateMethod);
-  }
 }

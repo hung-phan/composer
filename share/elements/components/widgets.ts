@@ -1,5 +1,3 @@
-import { Builder, IBuilder } from "builder-pattern";
-
 import { DataContainer, Element, Method } from "../../domain/interfaces";
 import { Id } from "../../library/idGenerator";
 
@@ -10,10 +8,6 @@ export class Layout extends Element {
   direction?: "vertical" | "horizontal";
 
   elements: Element[];
-
-  static builder(): IBuilder<Layout> {
-    return Builder(Layout);
-  }
 }
 
 // CORE elements
@@ -21,10 +15,6 @@ export class Clone extends Element {
   interfaceName = "Clone";
 
   cloneElementId: Id;
-
-  static builder(): IBuilder<Clone> {
-    return Builder(Clone);
-  }
 }
 
 export class Text extends Element {
@@ -32,10 +22,6 @@ export class Text extends Element {
 
   type?: string;
   message: string;
-
-  static builder(): IBuilder<Text> {
-    return Builder(Text);
-  }
 }
 
 export class Link extends Element {
@@ -43,10 +29,6 @@ export class Link extends Element {
 
   url: string;
   element: Element;
-
-  static builder(): IBuilder<Link> {
-    return Builder(Link);
-  }
 }
 
 export class Button extends Element {
@@ -58,10 +40,6 @@ export class Button extends Element {
 
   label?: string;
   onSelected?: Method[];
-
-  static builder(): IBuilder<Button> {
-    return Builder<Button>(Button);
-  }
 }
 
 export class Image extends Element {
@@ -69,20 +47,12 @@ export class Image extends Element {
 
   src: string;
   alt?: string;
-
-  static builder(): IBuilder<Image> {
-    return Builder(Image);
-  }
 }
 
 export class InputState extends DataContainer {
   interfaceName = "InputElementState";
 
   value: string = "";
-
-  static builder(): IBuilder<InputState> {
-    return Builder(InputState);
-  }
 }
 
 export class Input extends Element {
@@ -92,20 +62,12 @@ export class Input extends Element {
   placeholder?: string;
   onInputChange?: Method[];
   onEnterKeyPressed?: Method[];
-
-  static builder(): IBuilder<Input> {
-    return Builder(Input);
-  }
 }
 
 export class SelectState extends DataContainer {
   interfaceName = "SelectElementState";
 
   value: string;
-
-  static builder(): IBuilder<SelectState> {
-    return Builder(SelectState);
-  }
 }
 
 export class Select extends Element {
@@ -115,10 +77,6 @@ export class Select extends Element {
   itemDescriptions: string[];
   itemValues: string[];
   onItemSelected: Method[];
-
-  static builder(): IBuilder<Select> {
-    return Builder(Select);
-  }
 }
 
 export type SimpleTableRow = (string | number)[];
@@ -128,10 +86,6 @@ export class Table extends Element {
 
   headers: SimpleTableRow;
   rows: SimpleTableRow[];
-
-  static builder(): IBuilder<Table> {
-    return Builder(Table);
-  }
 }
 
 export class Form extends Element {
@@ -142,10 +96,6 @@ export class Form extends Element {
   method?: "get" | "post";
   fields: FormField[];
   submitButton: Button;
-
-  static builder(): IBuilder<Form> {
-    return Builder(Form);
-  }
 }
 
 export class FormField extends Element {
@@ -153,10 +103,6 @@ export class FormField extends Element {
 
   fieldName: string;
   fieldElement: Input;
-
-  static builder(): IBuilder<FormField> {
-    return Builder(FormField);
-  }
 }
 
 export class InfiniteScrollState extends DataContainer {
@@ -164,10 +110,6 @@ export class InfiniteScrollState extends DataContainer {
 
   hasMore: boolean;
   items: Element[];
-
-  static builder(): IBuilder<InfiniteScrollState> {
-    return Builder(InfiniteScrollState);
-  }
 }
 
 export class InfiniteScroll extends Element {
@@ -175,8 +117,4 @@ export class InfiniteScroll extends Element {
 
   loadMore: Method[];
   loader: Element;
-
-  static builder(): IBuilder<InfiniteScroll> {
-    return Builder(InfiniteScroll);
-  }
 }

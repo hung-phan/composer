@@ -1,4 +1,4 @@
-import { Builder } from "builder-pattern";
+import { IBuilder } from "builder-pattern";
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getQueryData } from "server/infrastructure/application/helpers";
@@ -8,7 +8,6 @@ import {
   HttpMethod,
   Placeholder,
   RenderElementMethod,
-  RequestData,
   Response,
 } from "share/domain/interfaces";
 import { Image, Layout } from "share/elements/components/widgets";
@@ -31,10 +30,10 @@ async function LazyLoadSkill(req: NextApiRequest, res: NextApiResponse) {
         Placeholder.builder()
           .id(id)
           .onCreate([
-            HttpMethod.builder()
+            (HttpMethod.builder() as IBuilder<HttpMethod<string>>)
               .url("/api/skills/examples/lazyLoad_asyncComponent")
               .requestType("POST")
-              .requestData(Builder<RequestData<string>>().data(id).build())
+              .requestData({ data: id })
               .build(),
           ])
           .build()
