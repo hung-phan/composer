@@ -14,9 +14,7 @@ export function extractClientInfoFromProps(
   };
 
   if (props?.indexInCollection) {
-    clientInfo.data = {
-      indexInCollection: props.indexInCollection,
-    };
+    clientInfo.data["indexInCollection"] = props.indexInCollection;
   }
 
   if (_.isEmpty(clientInfo.data)) {
