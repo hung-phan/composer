@@ -158,7 +158,7 @@ async function makeHttpCall(
   const requestOptions: RequestInit = {};
   const requestBody: HttpMethodRequestBody<any, any> = {
     elementStates,
-    clientInfo: coreEngine.clientInfo,
+    clientInfo: _.merge(coreEngine.clientInfo, method.forwardedClientInfo),
     requestData: method.requestData,
   };
   let serverUrl = method.url;

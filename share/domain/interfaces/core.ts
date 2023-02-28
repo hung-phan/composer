@@ -222,6 +222,7 @@ export class HttpMethod<T> extends Method {
   url: string;
   requestType: RequestType;
   requestData?: RequestData<T>;
+  forwardedClientInfo?: ClientInfo<any>;
   stateIds?: Id[];
   onError?: Method[];
   onSuccess?: Method[];
