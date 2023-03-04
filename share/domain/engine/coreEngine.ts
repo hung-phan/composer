@@ -269,12 +269,12 @@ async function dispatchTask(coreEngine: CoreEngine, methods?: Method[]) {
       return;
     }
 
-    for (const method of methods) {
-      try {
-        await evalMethod(method, coreEngine);
-      } catch (e) {
-        console.error("Fail to evalMethod", e);
-      }
+    try {
+      await Promise.all(
+        methods.map((method) => evalMethod(method, coreEngine))
+      );
+    } catch (e) {
+      console.error("Fail to evalMethod", e);
     }
 
     try {
