@@ -269,14 +269,18 @@ async function dispatchTask(coreEngine: CoreEngine, methods?: Method[]) {
       return;
     }
 
-    try {
-      await Promise.all(
-        methods.map((method) => evalMethod(method, coreEngine))
-      );
+    for (const method of methods) {
+      try {
+        await evalMethod(method, coreEngine);
+      } catch (e) {
+        console.error("Fail to evalMethod", e);
+      }
+    }
 
+    try {
       coreEngine.flushDispatchQueue();
     } catch (e) {
-      console.error(e);
+      console.error("Fail to dispatch method", e);
     }
   });
 }
