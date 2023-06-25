@@ -1,5 +1,5 @@
 import { Middleware, configureStore } from "@reduxjs/toolkit";
-import produce from "immer";
+import { produce } from "immer";
 import { HYDRATE, MakeStore, createWrapper } from "next-redux-wrapper";
 import { AnyAction, Store, StoreEnhancer, combineReducers } from "redux";
 

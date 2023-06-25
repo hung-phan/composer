@@ -13,7 +13,7 @@ export default function LinkComponent(props: EngineComponentProps) {
 
   return (
     <NextLink href={element.url}>
-      <a>{renderElementInterface(element.element, element)}</a>
+      {renderElementInterface(element.element, element)}
     </NextLink>
   );
 }
