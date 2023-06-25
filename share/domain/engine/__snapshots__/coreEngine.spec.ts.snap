@@ -242,7 +242,6 @@ exports[`coreEngine should support override element with RenderElementMethod 1`]
         "id": "button_element",
         "interfaceName": "Button",
         "size": "lg",
-        "style": "default",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -337,7 +336,7 @@ exports[`coreEngine should update the store correctly 1`] = `
           },
           Element {
             "id": "stateholder_element",
-            "interfaceName": "InputState",
+            "interfaceName": "InputElementState",
             Symbol(immer-draftable): true,
           },
         ],
@@ -351,7 +350,6 @@ exports[`coreEngine should update the store correctly 1`] = `
         "id": "button_element",
         "interfaceName": "Button",
         "size": "lg",
-        "style": "default",
         Symbol(immer-draftable): true,
       },
       "interfaceName": "Node",
@@ -382,7 +380,7 @@ exports[`coreEngine should update the store correctly 1`] = `
     "stateholder_element": Node {
       "element": InputState {
         "id": "stateholder_element",
-        "interfaceName": "InputState",
+        "interfaceName": "InputElementState",
         "value": "string_data",
         Symbol(immer-draftable): true,
       },
