@@ -65,7 +65,7 @@
     "clean": "./scripts/clean.sh",
     "dev": "./scripts/dev.sh",
     "export": "next export",
-    "lint": "tslint -c tslint.json 'server/**/*.ts' 'pages/**/*.ts'",
+    "lint": "tslint -c tslint.json 'server/**/*.ts' 'share/**/*.ts' 'app/**/*.ts'",
     "start": "./scripts/start.sh",
     "test": "env-cmd --no-override -f ./scripts/env/test jest"
   }
