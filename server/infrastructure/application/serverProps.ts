@@ -8,7 +8,7 @@ import { RootState, wrapper } from "share/store";
 
 type GetServerSidePropsType = (
   store: Store<RootState>,
-  ctx: GetServerSidePropsContext<ParsedUrlQuery, string | false | object>
+  ctx: GetServerSidePropsContext<ParsedUrlQuery, string | false | object | undefined>
 ) => HttpMethod<any>;
 
 export default function createServersidePropsForEndpoint(

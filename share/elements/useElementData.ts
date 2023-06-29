@@ -9,14 +9,10 @@ import { RootState } from "../store";
 export default function useElementData<T extends Element>(
   elementId: string,
   clazz: Clazz<T>
-): T | undefined {
+): T {
   const element = useSelector<RootState, Element>((state) =>
     selectors.getElement(state, elementId)
   );
-
-  if (element === undefined) {
-    return undefined;
-  }
 
   if (!(element instanceof clazz)) {
     throw new Error(

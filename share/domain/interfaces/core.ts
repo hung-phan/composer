@@ -40,7 +40,7 @@ export class Node extends Serializable {
 
   parent?: Id;
   childs?: { [key: Id]: boolean };
-  element?: Element;
+  element: Element;
 
   setParent(id?: Id): void {
     if (id === undefined) {

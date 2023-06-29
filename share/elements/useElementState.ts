@@ -6,7 +6,7 @@ import { RootState } from "../store";
 
 export default function useElementState<T extends DataContainer>(
   element: Element
-): T | undefined {
+): T {
   return useSelector<RootState, Element>((state) =>
     selectors.getElementState(state, element.stateId)
   ) as T;

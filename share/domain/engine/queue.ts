@@ -47,7 +47,7 @@ export class TaskQueue {
         this.queued = false;
 
         while (this.tasks.length > 0 && count < this.batchSize) {
-          const task: Task<unknown> = this.tasks.pop();
+          const task: Task<any> = this.tasks.pop()!;
 
           try {
             task.resolve(task.func.call(null, ...task.args));

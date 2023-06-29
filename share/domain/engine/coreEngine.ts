@@ -79,7 +79,7 @@ async function evalMethod(
         return makeHttpCall(
           method,
           coreEngine,
-          method.stateIds.map((clientStateId) =>
+          method.stateIds!.map((clientStateId) =>
             selectors.getElementState(currentState, clientStateId)
           )
         );
@@ -271,7 +271,7 @@ async function dispatchTask(coreEngine: CoreEngine, methods?: Method[]) {
 
     try {
       await Promise.all(
-        methods.map((method) => evalMethod(method, coreEngine))
+        methods!.map((method) => evalMethod(method, coreEngine))
       );
     } catch (e) {
       console.error("Fail to evalMethod", e);

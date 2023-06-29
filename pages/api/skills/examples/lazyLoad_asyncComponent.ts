@@ -16,6 +16,11 @@ async function LazyLoadAsyncComponentSkill(
 ) {
   const { requestData }: HttpMethodRequestBody<string, any> = req.body;
 
+  if (requestData === undefined) {
+    res.status(400).end('Missing requestData');
+    return;
+  }
+
   const layoutElement = Layout.builder()
     .id(requestData.data)
     .elements([

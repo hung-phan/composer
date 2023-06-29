@@ -50,7 +50,11 @@ export var selectors = {
 
     return element.ownerId;
   },
-  getElement: (state: RootState, id: Id): Element | undefined => {
+  getElement: (state: RootState, id: Id | undefined): Element => {
+    if (id === undefined) {
+      throw new Error("Get 'undefined' id");
+    }
+
     const node: Node = state[mountPoint][id];
 
     if (node === undefined) {
@@ -59,25 +63,31 @@ export var selectors = {
 
     return node.element;
   },
-  getParentElement: (state: RootState, id: Id): Element | undefined => {
+  getParentElement: (state: RootState, id: Id): Element => {
     const childNode: Node = state[mountPoint][id];
 
     if (childNode === undefined) {
       throw new Error(`Cannot find element with ${id}`);
     }
 
-    const parentNode: Node = state[mountPoint][childNode.parent];
+    const parentId = childNode.parent;
+
+    if (parentId === undefined) {
+      throw new Error(`Cannot find parent of element ${id}`);
+    }
+
+    const parentNode = state[mountPoint][parentId];
 
     if (parentNode === undefined) {
-      throw new Error(`Cannot find parent element of ${id}`);
+      throw new Error(`Find undefined parent for id ${parentId}`);
     }
 
     return parentNode.element;
   },
   getElementState: <T extends DataContainer>(
     state: RootState,
-    id: Id
-  ): T | undefined => {
+    id: Id | undefined
+  ): T => {
     const element = selectors.getElement(state, id);
 
     if (!(element instanceof DataContainer)) {
@@ -94,7 +104,7 @@ function* yieldElementAndChildIds(
 ): Generator<string, any, any> {
   const childs = state[id]?.childs;
 
-  if (childs !== undefined) {
+  if (childs) {
     for (const child of Object.keys(childs)) {
       yield* yieldElementAndChildIds(state, child);
     }
@@ -144,19 +154,21 @@ const slice = createSlice({
 
       state[element.id].element = element;
 
-      const parentNode = state[state[element.id]?.parent];
+      const parentId = state[element.id]?.parent;
 
-      if (parentNode) {
+      if (parentId) {
         // do inplace update and convert the current child interface to element interface
-        parentNode.replaceChildElement(
+        state[parentId].replaceChildElement(
           element.id,
           getSimplifiedElement(element)
         );
       }
 
       // remove previous childs
-      if (state[element.id].childs !== undefined) {
-        for (const childId of Object.keys(state[element.id].childs)) {
+      const childs = state[element.id].childs;
+
+      if (childs) {
+        for (const childId of Object.keys(childs)) {
           if (!childIds.has(childId)) {
             state[element.id].removeChild(childId);
             deleteElement(state, childId);
@@ -209,12 +221,14 @@ const slice = createSlice({
       }>
     ) => {
       const oldNode = state[action.payload.oldId];
-      const parentNode = state[oldNode?.parent];
-
-      if (parentNode === undefined) {
+      if (
+        oldNode?.parent === undefined ||
+        state[oldNode?.parent] === undefined
+      ) {
         return;
       }
 
+      const parentNode = state[oldNode?.parent];
       const newNodes = action.payload.ids.map((id) => state[id]);
 
       parentNode.addChildElementInList(
@@ -235,12 +249,15 @@ const slice = createSlice({
       }>
     ) => {
       const oldNode = state[action.payload.oldId];
-      const parentNode = state[oldNode?.parent];
 
-      if (parentNode === undefined) {
+      if (
+        oldNode?.parent === undefined ||
+        state[oldNode?.parent] === undefined
+      ) {
         return;
       }
 
+      const parentNode = state[oldNode?.parent];
       const newNodes = action.payload.ids.map((id) => state[id]);
 
       if (oldNode.parent === parentNode.element.id) {
@@ -272,11 +289,11 @@ const slice = createSlice({
 
         deleteElement(state, id);
 
-        const parent = state[node.parent];
-
-        if (parent === undefined) {
+        if (node.parent === undefined || state[node.parent] === undefined) {
           continue;
         }
+
+        const parent = state[node.parent];
 
         parent.deleteChildElementInList(id);
         parent.removeChild(id);
@@ -285,11 +302,17 @@ const slice = createSlice({
     updateStateElement: (
       state: Draft<State>,
       action: PayloadAction<{
-        stateElementId: string;
+        stateElementId?: string;
         patches: Patch[];
       }>
     ) => {
-      const element = state[action.payload.stateElementId].element;
+      const stateElementId = action.payload.stateElementId;
+
+      if (stateElementId === undefined) {
+        throw new Error("Cannot update element with undefined state id");
+      }
+
+      const element = state[stateElementId].element;
 
       if (!(element instanceof DataContainer)) {
         throw new Error("Can only update state of DataContainer");

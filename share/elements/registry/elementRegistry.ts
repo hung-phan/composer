@@ -32,11 +32,11 @@ export function registerElements(
   }>
 ): void {
   for (const { interfaceClass, elementClass, dataContainerClass } of data) {
-    registerInterfaces(
-      [interfaceClass, dataContainerClass].filter(
-        (clazz) => !_.isUndefined(clazz)
-      )
-    );
+    registerInterfaces([interfaceClass]);
+
+    if (dataContainerClass !== undefined) {
+      registerInterfaces([dataContainerClass]);
+    }
 
     ELEMENT_REGISTRY.set(interfaceClass, elementClass);
 

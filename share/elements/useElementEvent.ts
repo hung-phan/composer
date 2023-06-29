@@ -5,7 +5,7 @@ import { engineDispatch } from "../domain/engine";
 import { Element } from "../domain/interfaces";
 import useEffectOnce from "./useEffectOnce";
 
-export default function useElementEvent(element: Element): void {
+export default function useElementEvent(element?: Element): void {
   const dispatch = useDispatch();
 
   function lifeCycleFunc() {
